@@ -1,0 +1,32 @@
+[
+  {
+    "ownerId": "nick",
+    "kind": "conversation",
+    "title": "Conversation title",
+    "occurredAt": "2026-06-21T12:00:00.000Z",
+    "sourceUri": "optional-original-file-or-url",
+    "participants": ["Nick", "ChatGPT"],
+    "segments": [
+      {
+        "id": "stable-segment-id-1",
+        "speaker": "Nick",
+        "words": "Exact words go here.",
+        "occurredAt": "2026-06-21T12:00:00.000Z"
+      }
+    ],
+    "exactText": "Nick: Exact words go here.",
+    "language": "en",
+    "purposes": [
+      "adam_reflection",
+      "eve_reflection",
+      "values",
+      "communication",
+      "history",
+      "legacy"
+    ],
+    "consentToAnalyze": true,
+    "consentToQuote": false,
+    "sensitivity": "sacred",
+    "notes": "Optional context that should not be confused with the original words."
+  }
+]

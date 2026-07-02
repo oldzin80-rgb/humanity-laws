@@ -1,0 +1,10 @@
+import fs from "node:fs";
+import { upsertEvidence, writeBundle, readBundle } from "./evidence-utils.js";
+import { generateEvidenceMarkdownReport } from "../src/core/index.js";
+const required = ["package.json", "tsconfig.json", "src/core/index.ts", "src/bootstrap/index.ts", "src/foundation/index.ts", "src/infrastructure/index.ts", "src/member/index.ts", "src/billing/index.ts", "src/experiences/index.ts", "src/application/index.ts", "src/admin/index.ts", "src/deployment/index.ts", "src/runtime/index.ts"];
+const present = required.every((file) => fs.existsSync(file));
+upsertEvidence("REPOSITORY_INSPECTION", true, "Repository inspected by evidence collector.", "scripts/collect-evidence.ts");
+const bundle = upsertEvidence("RUNTIME_CODE_INTEGRATED", present, "Required Launch V1 runtime files are present.", "scripts/collect-evidence.ts");
+fs.writeFileSync("logs/evidence-report.md", generateEvidenceMarkdownReport(bundle));
+writeBundle(readBundle());
+console.log(JSON.stringify(bundle, null, 2));

@@ -1,0 +1,2 @@
+export interface ManualReview { reviewId: string; reviewer: string; approved: boolean; notes: string; createdAt: string }
+export class ManualReviewService { private readonly reviews: ManualReview[] = []; record(reviewer: string, approved: boolean, notes: string): ManualReview { const review = { reviewId: `review_${Date.now()}`, reviewer, approved, notes, createdAt: new Date().toISOString() }; this.reviews.push(review); return review; } latest(): ManualReview | null { return this.reviews.at(-1) ?? null; } }

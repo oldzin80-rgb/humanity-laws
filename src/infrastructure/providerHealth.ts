@@ -1,0 +1,2 @@
+import type { ProviderAdapter, ProviderHealth } from "./types.js";
+export class ProviderRegistry { private readonly providers = new Map<string, ProviderAdapter>(); register(provider: ProviderAdapter): void { if (this.providers.has(provider.providerId)) throw new Error(`Provider already registered: ${provider.providerId}`); this.providers.set(provider.providerId, provider); } list(): ProviderAdapter[] { return [...this.providers.values()]; } async healthChecks(): Promise<ProviderHealth[]> { return Promise.all(this.list().map((p) => p.healthCheck())); } }

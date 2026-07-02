@@ -1,0 +1,27 @@
+{
+  "name": "humanity-laws-launch-v1",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "build:staging": "tsx scripts/build-static-site.ts",
+    "test": "node --test --import tsx tests/*.test.ts",
+    "smoke": "tsx scripts/run-smoke-test.ts",
+    "evidence": "tsx scripts/collect-evidence.ts",
+    "evidence:build": "tsx scripts/collect-build-evidence.ts",
+    "evidence:test": "tsx scripts/collect-test-evidence.ts",
+    "evidence:smoke": "tsx scripts/collect-smoke-evidence.ts",
+    "evidence:deployment": "tsx scripts/collect-deployment-evidence.ts",
+    "launch:report": "tsx scripts/generate-launch-report.ts",
+    "deployment:verify": "tsx scripts/verify-deployment.ts",
+    "verify:launch-v1": "tsx scripts/verify-launch-v1.ts",
+    "verify:all": "npm run build && npm test && npm run smoke && npm run evidence && npm run evidence:build && npm run evidence:test && npm run evidence:smoke && npm run launch:report && npm run deployment:verify && npm run evidence:deployment && npm run verify:launch-v1"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "latest",
+    "tsx": "latest",
+    "typescript": "latest"
+  }
+}

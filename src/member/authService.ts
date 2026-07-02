@@ -1,0 +1,4 @@
+import type { MemberRepository } from "./memberService.js";
+import { createMemberProfile } from "./memberService.js";
+import { SessionService } from "./sessionService.js";
+export class AuthService { constructor(private readonly members: MemberRepository, private readonly sessions = new SessionService()) {} async signUp(email: string, displayName: string) { const existing = await this.members.findByEmail(email); const member = existing ?? await this.members.save(createMemberProfile({ memberId: `member_${Date.now()}`, email, displayName })); return { member, session: this.sessions.createSession(member) }; } async signIn(email: string) { const member = await this.members.findByEmail(email); if (!member) return { success: false as const, error: "No member exists for this email." }; return { success: true as const, member, session: this.sessions.createSession(member) }; } }

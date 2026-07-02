@@ -1,0 +1,28 @@
+{
+  "archiveName": "humanity-laws-master-archive",
+  "version": "1.2",
+  "createdAt": "2026-07-01T18:28:52.875407+00:00",
+  "source": {
+    "originalPath": "/Users/nickbenedetti/Downloads/humanity-laws (1).pdf",
+    "archivedPath": "01-book-source/humanity-laws (1).pdf",
+    "sha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b",
+    "sizeBytes": 386009,
+    "sourceModifiedAtUtc": "2026-05-30T16:05:50.180526+00:00",
+    "pageCount": 84
+  },
+  "artifacts": {
+    "extractedText": "02-book-extracted-text/humanity-laws-full-text.md",
+    "pagesJson": "02-book-extracted-text/humanity-laws-pages.json",
+    "chapterIndex": "03-book-index/chapter-index.json",
+    "lawIndex": "03-book-index/law-index.json",
+    "quoteLibrary": "04-quote-library/quote-library.json",
+    "conceptMap": "05-concept-map/concept-map.json",
+    "typescriptRegistry": "06-typescript-registry/humanity-laws-source-registry.ts"
+  },
+  "rules": [
+    "Do not paraphrase or rewrite source text.",
+    "All quotes must trace back to exact extracted page text.",
+    "The original PDF must remain unchanged.",
+    "Interpretation must be distinguished from source text."
+  ]
+}

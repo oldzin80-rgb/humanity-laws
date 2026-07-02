@@ -1,0 +1,280 @@
+{
+  "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b",
+  "generatedAt": "2026-07-01T18:28:52.875407+00:00",
+  "method": "Conservative heading detection from extracted PDF text. Entries are source lines, not paraphrases.",
+  "chapters": [
+    {
+      "id": "p2-l3",
+      "title": "Law 1 — The Law of Truth ......................................................................................................... 6",
+      "page": 2,
+      "line": 3,
+      "sourceText": "Law 1 — The Law of Truth ......................................................................................................... 6"
+    },
+    {
+      "id": "p2-l4",
+      "title": "Law 2 — The Law of Responsibility ......................................................................................... 11",
+      "page": 2,
+      "line": 4,
+      "sourceText": "Law 2 — The Law of Responsibility ......................................................................................... 11"
+    },
+    {
+      "id": "p2-l5",
+      "title": "Law 3 — The Law of Human Value .......................................................................................... 16",
+      "page": 2,
+      "line": 5,
+      "sourceText": "Law 3 — The Law of Human Value .......................................................................................... 16"
+    },
+    {
+      "id": "p2-l6",
+      "title": "Law 4 — The Law of Unity ....................................................................................................... 21",
+      "page": 2,
+      "line": 6,
+      "sourceText": "Law 4 — The Law of Unity ....................................................................................................... 21"
+    },
+    {
+      "id": "p2-l7",
+      "title": "Law 5 — The Law of Discipline ............................................................................................... 27",
+      "page": 2,
+      "line": 7,
+      "sourceText": "Law 5 — The Law of Discipline ............................................................................................... 27"
+    },
+    {
+      "id": "p2-l8",
+      "title": "Law 6 — The Law of Creation .................................................................................................. 31",
+      "page": 2,
+      "line": 8,
+      "sourceText": "Law 6 — The Law of Creation .................................................................................................. 31"
+    },
+    {
+      "id": "p2-l9",
+      "title": "Law 7 — The Law of Balance ................................................................................................... 39",
+      "page": 2,
+      "line": 9,
+      "sourceText": "Law 7 — The Law of Balance ................................................................................................... 39"
+    },
+    {
+      "id": "p2-l10",
+      "title": "Law 8 — The Law of Protection ................................................................................................ 45",
+      "page": 2,
+      "line": 10,
+      "sourceText": "Law 8 — The Law of Protection ................................................................................................ 45"
+    },
+    {
+      "id": "p2-l11",
+      "title": "Law 9 — The Law of Growth .................................................................................................... 52",
+      "page": 2,
+      "line": 11,
+      "sourceText": "Law 9 — The Law of Growth .................................................................................................... 52"
+    },
+    {
+      "id": "p2-l12",
+      "title": "Law 10 — The Law of Contribution ......................................................................................... 58",
+      "page": 2,
+      "line": 12,
+      "sourceText": "Law 10 — The Law of Contribution ......................................................................................... 58"
+    },
+    {
+      "id": "p2-l13",
+      "title": "Law 11 — The Law of Consciousness ...................................................................................... 65",
+      "page": 2,
+      "line": 13,
+      "sourceText": "Law 11 — The Law of Consciousness ...................................................................................... 65"
+    },
+    {
+      "id": "p2-l14",
+      "title": "Law 12 — The Law of Legacy .................................................................................................. 70",
+      "page": 2,
+      "line": 14,
+      "sourceText": "Law 12 — The Law of Legacy .................................................................................................. 70"
+    },
+    {
+      "id": "p3-l2",
+      "title": "INTRODUCTION",
+      "page": 3,
+      "line": 2,
+      "sourceText": "INTRODUCTION"
+    },
+    {
+      "id": "p6-l1",
+      "title": "Law 1 — The Law of Truth",
+      "page": 6,
+      "line": 1,
+      "sourceText": "Law 1 — The Law of Truth"
+    },
+    {
+      "id": "p6-l2",
+      "title": "LAW 1",
+      "page": 6,
+      "line": 2,
+      "sourceText": "LAW 1"
+    },
+    {
+      "id": "p11-l1",
+      "title": "Law 2 — The Law of Responsibility",
+      "page": 11,
+      "line": 1,
+      "sourceText": "Law 2 — The Law of Responsibility"
+    },
+    {
+      "id": "p11-l2",
+      "title": "LAW 2",
+      "page": 11,
+      "line": 2,
+      "sourceText": "LAW 2"
+    },
+    {
+      "id": "p16-l1",
+      "title": "Law 3 — The Law of Human Value",
+      "page": 16,
+      "line": 1,
+      "sourceText": "Law 3 — The Law of Human Value"
+    },
+    {
+      "id": "p16-l2",
+      "title": "LAW 3",
+      "page": 16,
+      "line": 2,
+      "sourceText": "LAW 3"
+    },
+    {
+      "id": "p21-l1",
+      "title": "Law 4 — The Law of Unity",
+      "page": 21,
+      "line": 1,
+      "sourceText": "Law 4 — The Law of Unity"
+    },
+    {
+      "id": "p21-l2",
+      "title": "LAW 4",
+      "page": 21,
+      "line": 2,
+      "sourceText": "LAW 4"
+    },
+    {
+      "id": "p27-l1",
+      "title": "Law 5 — The Law of Discipline",
+      "page": 27,
+      "line": 1,
+      "sourceText": "Law 5 — The Law of Discipline"
+    },
+    {
+      "id": "p27-l2",
+      "title": "LAW 5",
+      "page": 27,
+      "line": 2,
+      "sourceText": "LAW 5"
+    },
+    {
+      "id": "p31-l1",
+      "title": "Law 6 — The Law of Creation",
+      "page": 31,
+      "line": 1,
+      "sourceText": "Law 6 — The Law of Creation"
+    },
+    {
+      "id": "p31-l2",
+      "title": "LAW 6",
+      "page": 31,
+      "line": 2,
+      "sourceText": "LAW 6"
+    },
+    {
+      "id": "p39-l1",
+      "title": "Law 7 — The Law of Balance",
+      "page": 39,
+      "line": 1,
+      "sourceText": "Law 7 — The Law of Balance"
+    },
+    {
+      "id": "p39-l2",
+      "title": "LAW 7",
+      "page": 39,
+      "line": 2,
+      "sourceText": "LAW 7"
+    },
+    {
+      "id": "p45-l1",
+      "title": "Law 8 — The Law of Protection",
+      "page": 45,
+      "line": 1,
+      "sourceText": "Law 8 — The Law of Protection"
+    },
+    {
+      "id": "p45-l2",
+      "title": "LAW 8",
+      "page": 45,
+      "line": 2,
+      "sourceText": "LAW 8"
+    },
+    {
+      "id": "p52-l1",
+      "title": "Law 9 — The Law of Growth",
+      "page": 52,
+      "line": 1,
+      "sourceText": "Law 9 — The Law of Growth"
+    },
+    {
+      "id": "p52-l2",
+      "title": "LAW 9",
+      "page": 52,
+      "line": 2,
+      "sourceText": "LAW 9"
+    },
+    {
+      "id": "p58-l1",
+      "title": "Law 10 — The Law of Contribution",
+      "page": 58,
+      "line": 1,
+      "sourceText": "Law 10 — The Law of Contribution"
+    },
+    {
+      "id": "p58-l2",
+      "title": "LAW 10",
+      "page": 58,
+      "line": 2,
+      "sourceText": "LAW 10"
+    },
+    {
+      "id": "p65-l1",
+      "title": "Law 11 — The Law of Consciousness",
+      "page": 65,
+      "line": 1,
+      "sourceText": "Law 11 — The Law of Consciousness"
+    },
+    {
+      "id": "p65-l2",
+      "title": "LAW 11",
+      "page": 65,
+      "line": 2,
+      "sourceText": "LAW 11"
+    },
+    {
+      "id": "p70-l1",
+      "title": "Law 12 — The Law of Legacy",
+      "page": 70,
+      "line": 1,
+      "sourceText": "Law 12 — The Law of Legacy"
+    },
+    {
+      "id": "p70-l2",
+      "title": "LAW 12",
+      "page": 70,
+      "line": 2,
+      "sourceText": "LAW 12"
+    },
+    {
+      "id": "p77-l2",
+      "title": "THE SYMBOL",
+      "page": 77,
+      "line": 2,
+      "sourceText": "THE SYMBOL"
+    },
+    {
+      "id": "p82-l2",
+      "title": "CLOSING",
+      "page": 82,
+      "line": 2,
+      "sourceText": "CLOSING"
+    }
+  ]
+}

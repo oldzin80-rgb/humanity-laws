@@ -1,0 +1,2 @@
+export interface Logger { info(message: string, metadata?: Record<string, unknown>): void; warn(message: string, metadata?: Record<string, unknown>): void; error(message: string, metadata?: Record<string, unknown>): void }
+export class ConsoleLogger implements Logger { info(m: string, md?: Record<string, unknown>) { console.info(m, md ?? {}); } warn(m: string, md?: Record<string, unknown>) { console.warn(m, md ?? {}); } error(m: string, md?: Record<string, unknown>) { console.error(m, md ?? {}); } }

@@ -1,0 +1,822 @@
+{
+  "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b",
+  "generatedAt": "2026-07-01T18:28:52.875407+00:00",
+  "rule": "Every quote is an exact extracted line from humanity-laws-pages.json. No paraphrases are included.",
+  "quotes": [
+    {
+      "id": "q001",
+      "page": 3,
+      "line": 5,
+      "quote": "There comes a moment in every civilization when humanity must decide whether it will continue",
+      "themes": [
+        "humanity"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q002",
+      "page": 3,
+      "line": 10,
+      "quote": "Humanity Laws were not created to control people.",
+      "themes": [
+        "humanity",
+        "law"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q003",
+      "page": 3,
+      "line": 15,
+      "quote": "And within humanity existed something eternal.",
+      "themes": [
+        "humanity"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q004",
+      "page": 3,
+      "line": 16,
+      "quote": "A wisdom older than any institution. A truth deeper than any ideology. A divine intelligence woven",
+      "themes": [
+        "truth",
+        "wisdom"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q005",
+      "page": 4,
+      "line": 2,
+      "quote": "These truths live within us.",
+      "themes": [
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q006",
+      "page": 4,
+      "line": 3,
+      "quote": "Yet somewhere along the way, humanity became distracted.",
+      "themes": [
+        "humanity"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q007",
+      "page": 4,
+      "line": 4,
+      "quote": "We became consumed by status instead of character. Attention instead of wisdom. Possessions",
+      "themes": [
+        "wisdom"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q008",
+      "page": 4,
+      "line": 6,
+      "quote": "The modern world has given humanity incredible power, but power without direction can become",
+      "themes": [
+        "humanity"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q009",
+      "page": 4,
+      "line": 9,
+      "quote": "disconnected. We have access to endless information, yet struggle to find wisdom. We have built",
+      "themes": [
+        "wisdom"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q010",
+      "page": 4,
+      "line": 11,
+      "quote": "Humanity Laws are not about perfection.",
+      "themes": [
+        "humanity",
+        "law"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q011",
+      "page": 4,
+      "line": 14,
+      "quote": "Alignment between freedom and consciousness. Alignment between knowledge and wisdom.",
+      "themes": [
+        "freedom",
+        "wisdom"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q012",
+      "page": 4,
+      "line": 15,
+      "quote": "Alignment between humanity and creation itself.",
+      "themes": [
+        "humanity"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q013",
+      "page": 4,
+      "line": 16,
+      "quote": "These laws are not rules imposed upon humanity. They are principles discovered within it.",
+      "themes": [
+        "humanity",
+        "law"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q014",
+      "page": 4,
+      "line": 28,
+      "quote": "The world may divide humanity into countless categories, but the soul recognizes no such divisions.",
+      "themes": [
+        "humanity"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q015",
+      "page": 4,
+      "line": 32,
+      "quote": "Humanity Laws are a return to what is real. Not through fear. Not through force. Not through guilt.",
+      "themes": [
+        "humanity",
+        "law"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q016",
+      "page": 5,
+      "line": 4,
+      "quote": "Because the future of humanity will not be decided by technology alone. It will not be decided by",
+      "themes": [
+        "humanity"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q017",
+      "page": 5,
+      "line": 10,
+      "quote": "value we defend, every truth we uphold, and every life we influence.",
+      "themes": [
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q018",
+      "page": 5,
+      "line": 11,
+      "quote": "If humanity forgets its soul, no amount of advancement will save it.",
+      "themes": [
+        "humanity"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q019",
+      "page": 5,
+      "line": 12,
+      "quote": "But if humanity remembers who it truly is… there is no challenge it cannot overcome. There is no",
+      "themes": [
+        "humanity"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q020",
+      "page": 5,
+      "line": 14,
+      "quote": "The laws that follow are not commands. They are reminders. A return to what the soul already",
+      "themes": [
+        "law"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q021",
+      "page": 5,
+      "line": 15,
+      "quote": "knows. A return to humanity itself.",
+      "themes": [
+        "humanity"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q022",
+      "page": 6,
+      "line": 5,
+      "quote": "Truth is the foundation of all existence.",
+      "themes": [
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q023",
+      "page": 6,
+      "line": 13,
+      "quote": "Truth is the foundation upon which character, relationships, families, communities, and civilizations",
+      "themes": [
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q024",
+      "page": 6,
+      "line": 15,
+      "quote": "The moment humanity disconnects from truth, it begins disconnecting from reality itself.",
+      "themes": [
+        "humanity",
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q025",
+      "page": 6,
+      "line": 17,
+      "quote": "History has shown this lesson again and again. Nations do not collapse because truth is spoken. They",
+      "themes": [
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q026",
+      "page": 6,
+      "line": 18,
+      "quote": "collapse because truth is ignored. Families do not break apart because honesty exists. They break",
+      "themes": [
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q027",
+      "page": 6,
+      "line": 21,
+      "quote": "Truth is not always comfortable.",
+      "themes": [
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q028",
+      "page": 6,
+      "line": 24,
+      "quote": "But because truth demands something from us.",
+      "themes": [
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q029",
+      "page": 6,
+      "line": 25,
+      "quote": "Truth demands responsibility.",
+      "themes": [
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q030",
+      "page": 7,
+      "line": 3,
+      "quote": "Truth may be difficult in the beginning, but it creates freedom in the end.",
+      "themes": [
+        "freedom",
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q031",
+      "page": 7,
+      "line": 5,
+      "quote": "Truth transforms the soul permanently.",
+      "themes": [
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q032",
+      "page": 7,
+      "line": 6,
+      "quote": "Because truth brings us back to reality.",
+      "themes": [
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q033",
+      "page": 7,
+      "line": 12,
+      "quote": "Long before a person reads a book, studies philosophy, or learns the laws of society, conscience",
+      "themes": [
+        "law"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q034",
+      "page": 7,
+      "line": 24,
+      "quote": "The problem is not that humanity cannot hear the truth.",
+      "themes": [
+        "humanity",
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q035",
+      "page": 7,
+      "line": 25,
+      "quote": "The problem is that humanity has become addicted to noise.",
+      "themes": [
+        "humanity"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q036",
+      "page": 8,
+      "line": 8,
+      "quote": "Truth concerns itself with what is real.",
+      "themes": [
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q037",
+      "page": 8,
+      "line": 10,
+      "quote": "Because truth is not only heard with the mind.",
+      "themes": [
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q038",
+      "page": 8,
+      "line": 12,
+      "quote": "When a person becomes quiet enough, honest enough, and courageous enough, truth begins revealing",
+      "themes": [
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q039",
+      "page": 8,
+      "line": 18,
+      "quote": "The strongest humans are those capable of standing in truth even when it costs them comfort, status,",
+      "themes": [
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q040",
+      "page": 8,
+      "line": 20,
+      "quote": "Because standing in truth often requires sacrifice.",
+      "themes": [
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q041",
+      "page": 8,
+      "line": 25,
+      "quote": "They were willing to stand for truth when it would have been easier not to.",
+      "themes": [
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q042",
+      "page": 9,
+      "line": 4,
+      "quote": "Without truth, love becomes manipulation.",
+      "themes": [
+        "love",
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q043",
+      "page": 9,
+      "line": 5,
+      "quote": "Without truth, leadership becomes corruption.",
+      "themes": [
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q044",
+      "page": 9,
+      "line": 6,
+      "quote": "Without truth, freedom becomes chaos.",
+      "themes": [
+        "freedom",
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q045",
+      "page": 9,
+      "line": 7,
+      "quote": "Without truth, justice becomes impossible.",
+      "themes": [
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q046",
+      "page": 9,
+      "line": 8,
+      "quote": "Without truth, humanity loses its direction.",
+      "themes": [
+        "humanity",
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q047",
+      "page": 9,
+      "line": 9,
+      "quote": "Humanity cannot heal while lying to itself.",
+      "themes": [
+        "humanity"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q048",
+      "page": 9,
+      "line": 10,
+      "quote": "And the first truth every human must face is themselves.",
+      "themes": [
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q049",
+      "page": 10,
+      "line": 3,
+      "quote": "And healing begins the moment truth is no longer avoided.",
+      "themes": [
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q050",
+      "page": 11,
+      "line": 1,
+      "quote": "Law 2 — The Law of Responsibility",
+      "themes": [
+        "law"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q051",
+      "page": 11,
+      "line": 15,
+      "quote": "And while pain is real… responsibility is still divine law.",
+      "themes": [
+        "law"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q052",
+      "page": 12,
+      "line": 1,
+      "quote": "Law 2 — The Law of Responsibility",
+      "themes": [
+        "law"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q053",
+      "page": 12,
+      "line": 23,
+      "quote": "This does not mean humanity should lack compassion.",
+      "themes": [
+        "humanity"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q054",
+      "page": 13,
+      "line": 1,
+      "quote": "Law 2 — The Law of Responsibility",
+      "themes": [
+        "law"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q055",
+      "page": 13,
+      "line": 6,
+      "quote": "Because freedom without responsibility becomes destruction.",
+      "themes": [
+        "freedom"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q056",
+      "page": 14,
+      "line": 1,
+      "quote": "Law 2 — The Law of Responsibility",
+      "themes": [
+        "law"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q057",
+      "page": 14,
+      "line": 7,
+      "quote": "\"What am I feeding humanity through my existence?\"",
+      "themes": [
+        "humanity"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q058",
+      "page": 14,
+      "line": 20,
+      "quote": "And one of the greatest lies modern humanity was ever sold is the belief that individual actions do",
+      "themes": [
+        "humanity"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q059",
+      "page": 15,
+      "line": 1,
+      "quote": "Law 2 — The Law of Responsibility",
+      "themes": [
+        "law"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q060",
+      "page": 15,
+      "line": 14,
+      "quote": "Humanity itself begins to change.",
+      "themes": [
+        "humanity"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q061",
+      "page": 16,
+      "line": 1,
+      "quote": "Law 3 — The Law of Human Value",
+      "themes": [
+        "law"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q062",
+      "page": 16,
+      "line": 10,
+      "quote": "The world has conditioned humanity to measure human worth through status, money, beauty,",
+      "themes": [
+        "humanity"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q063",
+      "page": 17,
+      "line": 1,
+      "quote": "Law 3 — The Law of Human Value",
+      "themes": [
+        "law"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q064",
+      "page": 17,
+      "line": 4,
+      "quote": "Every human being knows what it feels like to love.",
+      "themes": [
+        "love"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q065",
+      "page": 17,
+      "line": 6,
+      "quote": "No matter where a person comes from, these experiences connect humanity together.",
+      "themes": [
+        "humanity"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q066",
+      "page": 17,
+      "line": 8,
+      "quote": "And the moment humanity forgets the sacredness of human life, civilization begins normalizing",
+      "themes": [
+        "humanity"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q067",
+      "page": 17,
+      "line": 23,
+      "quote": "Every great darkness in history began when humans disconnected from the humanity of other",
+      "themes": [
+        "humanity"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q068",
+      "page": 18,
+      "line": 1,
+      "quote": "Law 3 — The Law of Human Value",
+      "themes": [
+        "law"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q069",
+      "page": 18,
+      "line": 2,
+      "quote": "\"What I do to another soul… I ultimately do to humanity itself.\"",
+      "themes": [
+        "humanity"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q070",
+      "page": 18,
+      "line": 3,
+      "quote": "Every act of kindness strengthens humanity.",
+      "themes": [
+        "humanity"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q071",
+      "page": 18,
+      "line": 8,
+      "quote": "It does not mean truth should be ignored.",
+      "themes": [
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q072",
+      "page": 19,
+      "line": 1,
+      "quote": "Law 3 — The Law of Human Value",
+      "themes": [
+        "law"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q073",
+      "page": 19,
+      "line": 16,
+      "quote": "The kind capable of offering dignity even when disagreement exists.",
+      "themes": [
+        "dignity"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q074",
+      "page": 19,
+      "line": 17,
+      "quote": "Sometimes a single moment of genuine humanity changes the direction of an entire life.",
+      "themes": [
+        "humanity"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q075",
+      "page": 19,
+      "line": 24,
+      "quote": "Humanity does not heal through humiliation.",
+      "themes": [
+        "humanity"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q076",
+      "page": 19,
+      "line": 25,
+      "quote": "It heals through truth guided by love.",
+      "themes": [
+        "love",
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q077",
+      "page": 19,
+      "line": 26,
+      "quote": "Truth without love becomes harshness.",
+      "themes": [
+        "love",
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q078",
+      "page": 19,
+      "line": 27,
+      "quote": "Love without truth becomes weakness.",
+      "themes": [
+        "love",
+        "truth"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q079",
+      "page": 20,
+      "line": 1,
+      "quote": "Law 3 — The Law of Human Value",
+      "themes": [
+        "law"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    },
+    {
+      "id": "q080",
+      "page": 20,
+      "line": 4,
+      "quote": "Because once human beings become disposable, humanity begins losing its soul.",
+      "themes": [
+        "humanity"
+      ],
+      "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b"
+    }
+  ]
+}

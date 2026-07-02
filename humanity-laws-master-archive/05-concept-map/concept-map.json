@@ -1,0 +1,280 @@
+{
+  "sourceSha256": "46fe10120c2927e3f5659ea56dc3460691dbe0d78b70c3174efb5c2b6db62c1b",
+  "generatedAt": "2026-07-01T18:28:52.875407+00:00",
+  "method": "Keyword occurrence map against extracted text; interpretive relationships must be reviewed by a human.",
+  "concepts": [
+    {
+      "concept": "truth",
+      "keywords": [
+        "truth",
+        "honest",
+        "honesty"
+      ],
+      "occurrences": 104,
+      "pages": [
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        18,
+        19,
+        28,
+        30,
+        37,
+        39,
+        45,
+        50,
+        53,
+        58,
+        66,
+        67,
+        69,
+        71,
+        74,
+        75
+      ]
+    },
+    {
+      "concept": "love",
+      "keywords": [
+        "love",
+        "compassion",
+        "mercy"
+      ],
+      "occurrences": 74,
+      "pages": [
+        3,
+        4,
+        9,
+        12,
+        13,
+        17,
+        18,
+        19,
+        20,
+        21,
+        25,
+        33,
+        35,
+        38,
+        45,
+        46,
+        48,
+        49,
+        50,
+        52,
+        53,
+        54,
+        57,
+        59,
+        61
+      ]
+    },
+    {
+      "concept": "faithfulness",
+      "keywords": [
+        "faith",
+        "faithful",
+        "faithfulness"
+      ],
+      "occurrences": 3,
+      "pages": [
+        28,
+        78
+      ]
+    },
+    {
+      "concept": "stewardship",
+      "keywords": [
+        "steward",
+        "earth",
+        "creation"
+      ],
+      "occurrences": 45,
+      "pages": [
+        2,
+        4,
+        12,
+        14,
+        29,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        45,
+        49,
+        73,
+        76,
+        78,
+        79
+      ]
+    },
+    {
+      "concept": "human dignity",
+      "keywords": [
+        "dignity",
+        "humanity",
+        "human"
+      ],
+      "occurrences": 582,
+      "pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        24,
+        25,
+        26
+      ]
+    },
+    {
+      "concept": "freedom",
+      "keywords": [
+        "freedom",
+        "free",
+        "choice"
+      ],
+      "occurrences": 59,
+      "pages": [
+        4,
+        5,
+        7,
+        9,
+        12,
+        13,
+        14,
+        15,
+        18,
+        27,
+        28,
+        30,
+        41,
+        43,
+        45,
+        50,
+        53,
+        59,
+        66,
+        70,
+        72,
+        79,
+        83
+      ]
+    },
+    {
+      "concept": "wisdom",
+      "keywords": [
+        "wisdom",
+        "understanding",
+        "discern"
+      ],
+      "occurrences": 66,
+      "pages": [
+        3,
+        4,
+        12,
+        14,
+        17,
+        20,
+        21,
+        23,
+        25,
+        35,
+        36,
+        42,
+        44,
+        45,
+        46,
+        47,
+        51,
+        52,
+        53,
+        54,
+        55,
+        56,
+        57,
+        59,
+        60
+      ]
+    },
+    {
+      "concept": "forgiveness",
+      "keywords": [
+        "forgive",
+        "forgiveness"
+      ],
+      "occurrences": 0,
+      "pages": []
+    },
+    {
+      "concept": "service",
+      "keywords": [
+        "serve",
+        "service"
+      ],
+      "occurrences": 26,
+      "pages": [
+        12,
+        18,
+        28,
+        36,
+        37,
+        45,
+        47,
+        50,
+        51,
+        59,
+        61,
+        62,
+        65,
+        66,
+        67,
+        69,
+        75,
+        77
+      ]
+    },
+    {
+      "concept": "humility",
+      "keywords": [
+        "humility",
+        "humble"
+      ],
+      "occurrences": 6,
+      "pages": [
+        54,
+        55,
+        56,
+        78,
+        83
+      ]
+    }
+  ]
+}

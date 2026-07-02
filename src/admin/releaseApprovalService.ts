@@ -1,0 +1,2 @@
+export interface ReleaseApproval { approvalId: string; approver: string; approved: boolean; notes: string; createdAt: string }
+export class ReleaseApprovalService { private readonly approvals: ReleaseApproval[] = []; record(approver: string, approved: boolean, notes: string): ReleaseApproval { const approval = { approvalId: `approval_${Date.now()}`, approver, approved, notes, createdAt: new Date().toISOString() }; this.approvals.push(approval); return approval; } latest(): ReleaseApproval | null { return this.approvals.at(-1) ?? null; } }

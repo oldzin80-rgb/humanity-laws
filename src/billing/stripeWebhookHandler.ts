@@ -1,0 +1,3 @@
+import { StripeClientBoundary } from "../infrastructure/index.js";
+export interface StripeSubscriptionEvent { memberId: string; providerSubscriptionId: string; status: "active" | "past_due" | "canceled" }
+export class StripeWebhookHandler { constructor(private readonly stripe: StripeClientBoundary) {} parse(payload: string, signature: string): { verified: boolean; event?: StripeSubscriptionEvent; error?: string } { if (!this.stripe.verifyWebhook(payload, signature)) return { verified: false, error: "Stripe webhook signature verification failed." }; const parsed = JSON.parse(payload) as StripeSubscriptionEvent; return { verified: true, event: parsed }; } }

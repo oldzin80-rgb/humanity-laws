@@ -1,0 +1,16 @@
+{
+  "name": "@humanity/adam-eve-os",
+  "version": "1.0.0-foundation",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./index.ts"
+  },
+  "scripts": {
+    "check": "node --experimental-strip-types --check index.ts",
+    "test": "node --experimental-strip-types integration.test.ts",
+    "stream:init": "node --experimental-strip-types stream-cli.ts init ../nick-stream/stream.config.json",
+    "stream:scan": "node --experimental-strip-types stream-cli.ts scan ../nick-stream/stream.config.json",
+    "stream:watch": "node --experimental-strip-types stream-cli.ts watch ../nick-stream/stream.config.json"
+  }
+}
