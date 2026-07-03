@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc --noEmit",
-    "build:staging": "tsx scripts/build-static-site.ts",
+    "build:staging": "npm run build && tsx scripts/build-static-site.ts",
     "test": "node --test --import tsx tests/*.test.ts",
     "smoke": "tsx scripts/run-smoke-test.ts",
     "evidence": "tsx scripts/collect-evidence.ts",

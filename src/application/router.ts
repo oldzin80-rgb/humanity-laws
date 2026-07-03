@@ -11,6 +11,7 @@ import { createTablePage } from "./pages/tablePage.js";
 import { createLibraryPage } from "./pages/libraryPage.js";
 import { createFounderPage } from "./pages/founderPage.js";
 import { createLoginPage } from "./pages/loginPage.js";
+import { createSignupPage } from "./pages/signupPage.js";
 import { createAdminPage } from "./pages/adminPage.js";
 import { createLaunchStatusPage } from "./pages/launchStatusPage.js";
 import { createReleaseReadinessReport, type EvidenceBundle } from "../core/index.js";
@@ -19,8 +20,10 @@ export const LaunchRoutes: RouteDefinition[] = [
   { path: "/", label: "Home", pageId: "home", requiresAuth: false, requiresAdmin: false },
   { path: "/book", label: "Book", pageId: "book", requiresAuth: false, requiresAdmin: false },
   { path: "/join", label: "Join", pageId: "join", requiresAuth: false, requiresAdmin: false },
+  { path: "/membership", label: "Membership", pageId: "join", requiresAuth: false, requiresAdmin: false },
   { path: "/pricing", label: "Pricing", pageId: "join", requiresAuth: false, requiresAdmin: false },
   { path: "/login", label: "Login", pageId: "login", requiresAuth: false, requiresAdmin: false },
+  { path: "/signup", label: "Signup", pageId: "signup", requiresAuth: false, requiresAdmin: false },
   { path: "/dashboard", label: "Dashboard", pageId: "dashboard", requiresAuth: true, requiresAdmin: false },
   { path: "/spark", label: "Spark", pageId: "spark", requiresAuth: true, requiresAdmin: false },
   { path: "/adam", label: "Adam", pageId: "adam", requiresAuth: true, requiresAdmin: false },
@@ -34,9 +37,10 @@ export const LaunchRoutes: RouteDefinition[] = [
 ];
 
 export function routePage(path: string, bundle?: EvidenceBundle): PageModel {
-  if (path === "/join" || path === "/pricing") return createJoinPage();
+  if (path === "/join" || path === "/membership" || path === "/pricing") return createJoinPage();
   if (path === "/book") return createBookPage();
   if (path === "/login") return createLoginPage();
+  if (path === "/signup") return createSignupPage();
   if (path === "/dashboard") return createDashboardPage("member");
   if (path === "/spark") return createSparkPage({ sparkId: "spark_demo", memberId: "member", pillar: "Truth", prompt: "What is one truthful next step?", createdAt: new Date().toISOString() });
   if (path === "/adam") return createAdamPage();
