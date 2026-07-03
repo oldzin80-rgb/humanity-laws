@@ -6,6 +6,7 @@ export * from "./pages/joinPage.js";
 export * from "./pages/bookPage.js";
 export * from "./pages/loginPage.js";
 export * from "./pages/signupPage.js";
+export * from "./pages/checkoutPage.js";
 export * from "./pages/dashboardPage.js";
 export * from "./pages/sparkPage.js";
 export * from "./pages/adamPage.js";

@@ -1,7 +1,7 @@
 import { ServiceContainer } from "../bootstrap/index.js";
 import { ProviderRegistry, SupabaseClientBoundary, StripeClientBoundary } from "../infrastructure/index.js";
 import { InMemoryMemberRepository, AuthService, SubscriptionStatusService } from "../member/index.js";
-import { CheckoutService } from "../billing/index.js";
+import { CheckoutFlowService, CheckoutService } from "../billing/index.js";
 import { SparkNoRepeatService, CouncilConversationService, MemoryPersistenceService } from "../experiences/index.js";
 export { createMergedHumanityLawsRuntime } from "./mergedHumanityLaws.js";
 export function createLaunchRuntime(env: Record<string, string | undefined> = process.env) {
@@ -14,8 +14,9 @@ export function createLaunchRuntime(env: Record<string, string | undefined> = pr
   const auth = new AuthService(members);
   const subscriptionStatus = new SubscriptionStatusService(members);
   const checkout = new CheckoutService(stripe);
+  const checkoutFlow = new CheckoutFlowService(checkout, subscriptionStatus);
   const spark = new SparkNoRepeatService();
   const memory = new MemoryPersistenceService();
   const council = new CouncilConversationService(undefined, memory);
-  return { container, providers, supabase, stripe, members, auth, subscriptionStatus, checkout, spark, memory, council };
+  return { container, providers, supabase, stripe, members, auth, subscriptionStatus, checkout, checkoutFlow, spark, memory, council };
 }
