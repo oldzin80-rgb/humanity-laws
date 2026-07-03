@@ -3,6 +3,7 @@ import { createHomePage } from "./pages/homePage.js";
 import { createJoinPage } from "./pages/joinPage.js";
 import { createBookPage } from "./pages/bookPage.js";
 import { createDashboardPage } from "./pages/dashboardPage.js";
+import { createMemberRoomPage } from "./pages/memberRoomPage.js";
 import { createSparkPage } from "./pages/sparkPage.js";
 import { createCouncilPage } from "./pages/councilPage.js";
 import { createAdamPage } from "./pages/adamPage.js";
@@ -10,6 +11,7 @@ import { createEvePage } from "./pages/evePage.js";
 import { createTablePage } from "./pages/tablePage.js";
 import { createLibraryPage } from "./pages/libraryPage.js";
 import { createFounderPage } from "./pages/founderPage.js";
+import { createWellnessPage } from "./pages/wellnessPage.js";
 import { createLoginPage } from "./pages/loginPage.js";
 import { createSignupPage } from "./pages/signupPage.js";
 import { createCheckoutPage } from "./pages/checkoutPage.js";
@@ -19,7 +21,7 @@ import { createReleaseReadinessReport, type EvidenceBundle } from "../core/index
 
 export const LaunchRoutes: RouteDefinition[] = [
   { path: "/", label: "Home", pageId: "home", requiresAuth: false, requiresAdmin: false },
-  { path: "/book", label: "Book", pageId: "book", requiresAuth: false, requiresAdmin: false },
+  { path: "/book", label: "Book", pageId: "book", requiresAuth: true, requiresAdmin: false },
   { path: "/join", label: "Join", pageId: "join", requiresAuth: false, requiresAdmin: false },
   { path: "/membership", label: "Membership", pageId: "join", requiresAuth: false, requiresAdmin: false },
   { path: "/pricing", label: "Pricing", pageId: "join", requiresAuth: false, requiresAdmin: false },
@@ -30,13 +32,15 @@ export const LaunchRoutes: RouteDefinition[] = [
   { path: "/checkout/success", label: "Checkout Success", pageId: "checkout-success", requiresAuth: true, requiresAdmin: false },
   { path: "/checkout/cancel", label: "Checkout Cancel", pageId: "checkout-cancel", requiresAuth: false, requiresAdmin: false },
   { path: "/dashboard", label: "Dashboard", pageId: "dashboard", requiresAuth: true, requiresAdmin: false },
+  { path: "/member-room", label: "Member Room", pageId: "member-room", requiresAuth: true, requiresAdmin: false },
   { path: "/spark", label: "Spark", pageId: "spark", requiresAuth: true, requiresAdmin: false },
   { path: "/adam", label: "Adam", pageId: "adam", requiresAuth: true, requiresAdmin: false },
   { path: "/eve", label: "Eve", pageId: "eve", requiresAuth: true, requiresAdmin: false },
   { path: "/council", label: "Council", pageId: "council", requiresAuth: true, requiresAdmin: false },
   { path: "/table", label: "The Table", pageId: "table", requiresAuth: true, requiresAdmin: false },
   { path: "/library", label: "Living Library", pageId: "library", requiresAuth: true, requiresAdmin: false },
-  { path: "/founder", label: "Founder", pageId: "founder", requiresAuth: false, requiresAdmin: false },
+  { path: "/founder", label: "Founder", pageId: "founder", requiresAuth: true, requiresAdmin: false },
+  { path: "/wellness", label: "Wellness", pageId: "wellness", requiresAuth: true, requiresAdmin: false },
   { path: "/admin", label: "Admin", pageId: "admin", requiresAuth: true, requiresAdmin: true },
   { path: "/launch-status", label: "Launch Status", pageId: "launch-status", requiresAuth: false, requiresAdmin: false },
 ];
@@ -51,6 +55,7 @@ export function routePage(path: string, bundle?: EvidenceBundle): PageModel {
   if (path === "/checkout/success") return createCheckoutPage("success");
   if (path === "/checkout/cancel") return createCheckoutPage("cancel");
   if (path === "/dashboard") return createDashboardPage("member");
+  if (path === "/member-room") return createMemberRoomPage();
   if (path === "/spark") return createSparkPage({ sparkId: "spark_demo", memberId: "member", pillar: "Truth", prompt: "What is one truthful next step?", createdAt: new Date().toISOString() });
   if (path === "/adam") return createAdamPage();
   if (path === "/eve") return createEvePage();
@@ -58,6 +63,7 @@ export function routePage(path: string, bundle?: EvidenceBundle): PageModel {
   if (path === "/table") return createTablePage();
   if (path === "/library") return createLibraryPage();
   if (path === "/founder") return createFounderPage();
+  if (path === "/wellness") return createWellnessPage();
   if (path === "/admin") return createAdminPage();
   if (path === "/launch-status") return createLaunchStatusPage(createReleaseReadinessReport(bundle ?? { createdAt: new Date().toISOString(), workspaceRoot: ".", evidence: [] }));
   return createHomePage();

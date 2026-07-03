@@ -15,13 +15,13 @@ export function createBookPage(): PageModel {
   const firstQuote = quoteLibrary.quotes[0];
   return {
     pageId: "book",
-    kind: "PUBLIC",
+    kind: "MEMBER",
     title: "The Humanity Laws Book",
     subtitle: "The foundation for a calmer, more responsible, more dignified way to live and grow.",
     seoTitle: "The Humanity Laws Book",
     accessibilitySummary: "Book sales page for Humanity Laws",
     actions: [
-      { label: "Buy the Book", href: "/book/buy", kind: "PRIMARY" },
+      { label: "Return to Dashboard", href: "/dashboard", kind: "PRIMARY" },
       { label: "Join the Practice", href: "/join", kind: "SECONDARY" },
     ],
     sections: [
@@ -31,6 +31,7 @@ export function createBookPage(): PageModel {
       { eyebrow: "Quote provenance", title: "Quotes trace back to exact pages.", body: firstQuote ? `Quote ${firstQuote.id} traces to page ${firstQuote.page}, line ${firstQuote.line}.` : "No quote entries are available." },
       { title: "Why it exists", body: "The book gives language to what people already know deep down: truth matters, responsibility matters, dignity matters, and humanity must remain the standard." },
       { title: "What membership adds", body: "Membership turns the message into a daily rhythm through Spark, Council, Memory, Founder updates, and a growing Living Library." },
+      { eyebrow: "Member access", title: "The digital book is included for active monthly members.", body: "Access is controlled by the Supabase memberships record. Stripe payment alone does not unlock the book unless membership status becomes ACTIVE." },
     ],
   };
 }
