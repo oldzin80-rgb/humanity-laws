@@ -24,6 +24,7 @@ test("environment readiness does not expose configured secret values", () => {
       STRIPE_WEBHOOK_SECRET: "webhook-secret",
       STRIPE_MONTHLY_7_PRICE_ID: "price_monthly",
       STRIPE_YEARLY_70_PRICE_ID: "price_yearly",
+      STRIPE_DIGITAL_BOOK_PRICE_ID: "price_book",
       EMAIL_PROVIDER: "resend",
       ERROR_LOGGING_DSN: "https://error.example/123",
       MONITORING_ENDPOINT: "https://monitoring.example/health",
@@ -50,6 +51,7 @@ test("environment readiness blocks invalid URLs before staging verification", ()
       STRIPE_WEBHOOK_SECRET: "webhook-secret",
       STRIPE_MONTHLY_7_PRICE_ID: "price_monthly",
       STRIPE_YEARLY_70_PRICE_ID: "price_yearly",
+      STRIPE_DIGITAL_BOOK_PRICE_ID: "price_book",
       EMAIL_PROVIDER: "resend",
       ERROR_LOGGING_DSN: "https://error.example/123",
       MONITORING_ENDPOINT: "https://monitoring.example/health",
@@ -61,4 +63,3 @@ test("environment readiness blocks invalid URLs before staging verification", ()
   assert.ok(report.blockers.some((blocker) => blocker.includes("PUBLIC_APP_URL")));
   assert.ok(report.blockers.some((blocker) => blocker.includes("DEPLOYMENT_URL")));
 });
-

@@ -46,6 +46,7 @@ const REQUIREMENTS: EnvironmentRequirement[] = [
   { key: "STRIPE_WEBHOOK_SECRET", objective: "Stripe webhook verification secret is configured.", secret: true },
   { key: "STRIPE_MONTHLY_7_PRICE_ID", objective: "Monthly membership price is configured.", secret: false },
   { key: "STRIPE_YEARLY_70_PRICE_ID", objective: "Yearly membership price is configured.", secret: false },
+  { key: "STRIPE_DIGITAL_BOOK_PRICE_ID", objective: "Digital book-only price is configured.", secret: false },
   { key: "EMAIL_PROVIDER", objective: "Email delivery provider is selected for account and support messages." },
   { key: "ERROR_LOGGING_DSN", objective: "Error reporting destination is configured.", secret: true },
   { key: "MONITORING_ENDPOINT", objective: "Monitoring endpoint or dashboard target is configured.", secret: true },
@@ -92,4 +93,3 @@ export function assessEnvironmentReadiness(
     blockers,
   };
 }
-

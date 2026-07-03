@@ -2,10 +2,10 @@ import type { ApiRequest, ApiResponse } from "../src/server/http.js";
 import { bearerToken, methodNotAllowed, readJsonBody, sendJson } from "../src/server/http.js";
 import { verifySupabaseAccessToken } from "../src/server/supabaseMembership.js";
 import { createStripeCheckoutSession } from "../src/server/stripeRest.js";
-import type { SubscriptionPlanId } from "../src/member/index.js";
+import type { CommercePlanId } from "../src/member/index.js";
 
-function isPlanId(value: unknown): value is SubscriptionPlanId {
-  return value === "MONTHLY_7" || value === "YEARLY_70";
+function isPlanId(value: unknown): value is CommercePlanId {
+  return value === "MONTHLY_7" || value === "YEARLY_70" || value === "DIGITAL_BOOK";
 }
 
 function envValue(name: string): string | undefined {
@@ -14,9 +14,10 @@ function envValue(name: string): string | undefined {
   return value;
 }
 
-const planPriceEnv: Record<SubscriptionPlanId, string> = {
+const planPriceEnv: Record<CommercePlanId, string> = {
   MONTHLY_7: "STRIPE_MONTHLY_7_PRICE_ID",
   YEARLY_70: "STRIPE_YEARLY_70_PRICE_ID",
+  DIGITAL_BOOK: "STRIPE_DIGITAL_BOOK_PRICE_ID",
 };
 
 export async function handleCheckoutRequest(req: ApiRequest): Promise<{ status: number; body: Record<string, unknown> }> {
@@ -36,7 +37,8 @@ export async function handleCheckoutRequest(req: ApiRequest): Promise<{ status: 
 
   const monthlyPriceId = body.planId === "MONTHLY_7" ? envValue(planPriceEnv.MONTHLY_7) : undefined;
   const yearlyPriceId = body.planId === "YEARLY_70" ? envValue(planPriceEnv.YEARLY_70) : undefined;
-  const selectedPriceId = body.planId === "MONTHLY_7" ? monthlyPriceId : yearlyPriceId;
+  const digitalBookPriceId = body.planId === "DIGITAL_BOOK" ? envValue(planPriceEnv.DIGITAL_BOOK) : undefined;
+  const selectedPriceId = body.planId === "MONTHLY_7" ? monthlyPriceId : body.planId === "YEARLY_70" ? yearlyPriceId : digitalBookPriceId;
   if (!selectedPriceId) {
     return {
       status: 503,
@@ -51,6 +53,7 @@ export async function handleCheckoutRequest(req: ApiRequest): Promise<{ status: 
     secretKey: envValue("STRIPE_SECRET_KEY"),
     monthlyPriceId,
     yearlyPriceId,
+    digitalBookPriceId,
     publicAppUrl: envValue("PUBLIC_APP_URL"),
     memberId: auth.user.id,
     email: auth.user.email,

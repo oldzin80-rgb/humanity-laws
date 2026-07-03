@@ -28,6 +28,7 @@ export async function handleMembershipStatusRequest(req: ApiRequest): Promise<{ 
 
     const memberId = stripeSession.session.memberId ?? auth.user.id;
     if (memberId !== auth.user.id) return { status: 403, body: { success: false, error: "Stripe session does not belong to the authenticated member." } };
+    const isDigitalBookOnly = stripeSession.session.mode === "payment";
 
     const persisted = await persistMembershipStatus(
       {
@@ -37,7 +38,8 @@ export async function handleMembershipStatusRequest(req: ApiRequest): Promise<{ 
       {
         memberId: auth.user.id,
         email: stripeSession.session.email ?? auth.user.email,
-        status: "ACTIVE",
+        status: isDigitalBookOnly ? "FREE" : "ACTIVE",
+        digitalBookAccess: true,
         stripeCustomerId: stripeSession.session.customerId,
         stripeSubscriptionId: stripeSession.session.subscriptionId,
       },
@@ -53,8 +55,8 @@ export async function handleMembershipStatusRequest(req: ApiRequest): Promise<{ 
     auth.user.id,
   );
 
-  if (!membership.success) return { status: 503, body: { success: false, active: false, error: membership.error ?? "Membership status unavailable." } };
-  return { status: 200, body: { success: true, active: membership.active, membershipStatus: membership.status ?? "FREE" } };
+  if (!membership.success) return { status: 503, body: { success: false, active: false, bookAccess: false, error: membership.error ?? "Membership status unavailable." } };
+  return { status: 200, body: { success: true, active: membership.active, bookAccess: membership.bookAccess, membershipStatus: membership.status ?? "FREE" } };
 }
 
 export default async function handler(req: ApiRequest, res: ApiResponse): Promise<void> {

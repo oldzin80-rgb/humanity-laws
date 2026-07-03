@@ -63,12 +63,35 @@ test("Operational Blocker 03 checkout session creation calls Stripe and fails cl
   assert.ok(stripeBody.includes("metadata%5Bmember_id%5D=member_1"));
 });
 
+test("Operational Blocker 03 digital book checkout uses one-time payment mode", async () => {
+  let stripeBody = "";
+  globalThis.fetch = (async (_url, init) => {
+    stripeBody = String(init?.body);
+    return jsonResponse(200, { id: "cs_book", url: "https://checkout.stripe.com/c/pay/cs_book" });
+  }) as typeof fetch;
+
+  const created = await createStripeCheckoutSession({
+    secretKey: "sk_test",
+    digitalBookPriceId: "price_book",
+    publicAppUrl: "https://humanity-laws.vercel.app",
+    memberId: "member_1",
+    email: "reader@example.com",
+    planId: "DIGITAL_BOOK",
+  });
+
+  assert.equal(created.success, true);
+  assert.ok(stripeBody.includes("mode=payment"));
+  assert.ok(stripeBody.includes("line_items%5B0%5D%5Bprice%5D=price_book"));
+  assert.ok(stripeBody.includes("metadata%5Bplan_id%5D=DIGITAL_BOOK"));
+});
+
 test("Operational Blocker 03 checkout API requires Supabase auth and returns Stripe URL", async () => {
   process.env.SUPABASE_URL = "https://project.supabase.co";
   process.env.SUPABASE_ANON_KEY = "anon";
   process.env.STRIPE_SECRET_KEY = "sk_test";
   process.env.STRIPE_MONTHLY_7_PRICE_ID = "price_monthly";
   process.env.STRIPE_YEARLY_70_PRICE_ID = "price_yearly";
+  process.env.STRIPE_DIGITAL_BOOK_PRICE_ID = "price_book";
   process.env.PUBLIC_APP_URL = "https://humanity-laws.vercel.app";
 
   globalThis.fetch = (async (input) => {
@@ -87,6 +110,35 @@ test("Operational Blocker 03 checkout API requires Supabase auth and returns Str
   assert.equal(result.status, 200);
   assert.equal(result.body.success, true);
   assert.equal(result.body.checkoutUrl, "https://checkout.stripe.com/c/pay/cs_live");
+});
+
+test("Operational Blocker 03 checkout API starts digital book checkout separately from membership", async () => {
+  process.env.SUPABASE_URL = "https://project.supabase.co";
+  process.env.SUPABASE_ANON_KEY = "anon";
+  process.env.STRIPE_SECRET_KEY = "sk_test";
+  process.env.STRIPE_DIGITAL_BOOK_PRICE_ID = "price_book";
+  process.env.PUBLIC_APP_URL = "https://humanity-laws.vercel.app";
+
+  let stripeBody = "";
+  globalThis.fetch = (async (input, init) => {
+    const url = String(input);
+    if (url.includes("/auth/v1/user")) return jsonResponse(200, { id: "00000000-0000-4000-8000-000000000001", email: "reader@example.com" });
+    if (url.includes("api.stripe.com/v1/checkout/sessions")) {
+      stripeBody = String(init?.body);
+      return jsonResponse(200, { id: "cs_book", url: "https://checkout.stripe.com/c/pay/cs_book" });
+    }
+    return jsonResponse(404, {});
+  }) as typeof fetch;
+
+  const result = await handleCheckoutRequest({
+    method: "POST",
+    headers: { authorization: "Bearer access_token" },
+    body: { planId: "DIGITAL_BOOK" },
+  } as ApiRequest);
+
+  assert.equal(result.status, 200);
+  assert.equal(result.body.checkoutUrl, "https://checkout.stripe.com/c/pay/cs_book");
+  assert.ok(stripeBody.includes("mode=payment"));
 });
 
 test("Operational Blocker 03 checkout API does not send literal env var names as Stripe prices", async () => {
@@ -157,6 +209,47 @@ test("Operational Blocker 03 webhook signature verification activates membership
   assert.equal(result.status, 200);
   assert.equal(result.body.membershipStatus, "ACTIVE");
   assert.equal(persisted, true);
+});
+
+test("Operational Blocker 03 digital book webhook grants book access without full membership", async () => {
+  process.env.STRIPE_WEBHOOK_SECRET = "whsec_test";
+  process.env.SUPABASE_URL = "https://project.supabase.co";
+  process.env.SUPABASE_SERVICE_ROLE_KEY = "service";
+
+  let persistedBody = "";
+  globalThis.fetch = (async (input, init) => {
+    const url = String(input);
+    if (url.includes("/rest/v1/memberships") && init?.method === "POST") {
+      persistedBody = String(init.body);
+      return new Response(null, { status: 204 });
+    }
+    return jsonResponse(404, {});
+  }) as typeof fetch;
+
+  const payload = JSON.stringify({
+    type: "checkout.session.completed",
+    data: {
+      object: {
+        mode: "payment",
+        payment_status: "paid",
+        status: "complete",
+        customer: "cus_book",
+        metadata: { member_id: "00000000-0000-4000-8000-000000000001", plan_id: "DIGITAL_BOOK" },
+        customer_details: { email: "reader@example.com" },
+      },
+    },
+  });
+  const result = await handleStripeWebhookRequest({
+    method: "POST",
+    headers: { "stripe-signature": stripeSignature(payload, "whsec_test") },
+    body: payload,
+  } as unknown as ApiRequest);
+
+  assert.equal(result.status, 200);
+  assert.equal(result.body.membershipStatus, "FREE");
+  assert.equal(result.body.bookAccess, true);
+  assert.ok(persistedBody.includes('"membership_status":"FREE"'));
+  assert.ok(persistedBody.includes('"digital_book_access":true'));
 });
 
 test("Operational Blocker 03 invalid webhook signature is rejected", () => {

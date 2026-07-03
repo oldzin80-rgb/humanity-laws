@@ -12,6 +12,7 @@ import { createTablePage } from "./pages/tablePage.js";
 import { createLibraryPage } from "./pages/libraryPage.js";
 import { createFounderPage } from "./pages/founderPage.js";
 import { createWellnessPage } from "./pages/wellnessPage.js";
+import { createHardcoverPage } from "./pages/hardcoverPage.js";
 import { createLoginPage } from "./pages/loginPage.js";
 import { createSignupPage } from "./pages/signupPage.js";
 import { createCheckoutPage } from "./pages/checkoutPage.js";
@@ -29,6 +30,7 @@ export const LaunchRoutes: RouteDefinition[] = [
   { path: "/signup", label: "Signup", pageId: "signup", requiresAuth: false, requiresAdmin: false },
   { path: "/checkout/monthly", label: "Monthly Checkout", pageId: "checkout-monthly", requiresAuth: true, requiresAdmin: false },
   { path: "/checkout/yearly", label: "Yearly Checkout", pageId: "checkout-yearly", requiresAuth: true, requiresAdmin: false },
+  { path: "/checkout/book", label: "Digital Book Checkout", pageId: "checkout-book", requiresAuth: true, requiresAdmin: false },
   { path: "/checkout/success", label: "Checkout Success", pageId: "checkout-success", requiresAuth: true, requiresAdmin: false },
   { path: "/checkout/cancel", label: "Checkout Cancel", pageId: "checkout-cancel", requiresAuth: false, requiresAdmin: false },
   { path: "/dashboard", label: "Dashboard", pageId: "dashboard", requiresAuth: true, requiresAdmin: false },
@@ -41,6 +43,7 @@ export const LaunchRoutes: RouteDefinition[] = [
   { path: "/library", label: "Living Library", pageId: "library", requiresAuth: true, requiresAdmin: false },
   { path: "/founder", label: "Founder", pageId: "founder", requiresAuth: true, requiresAdmin: false },
   { path: "/wellness", label: "Wellness", pageId: "wellness", requiresAuth: true, requiresAdmin: false },
+  { path: "/book/hardcover", label: "Hardcover", pageId: "hardcover", requiresAuth: false, requiresAdmin: false },
   { path: "/admin", label: "Admin", pageId: "admin", requiresAuth: true, requiresAdmin: true },
   { path: "/launch-status", label: "Launch Status", pageId: "launch-status", requiresAuth: false, requiresAdmin: false },
 ];
@@ -52,6 +55,7 @@ export function routePage(path: string, bundle?: EvidenceBundle): PageModel {
   if (path === "/signup") return createSignupPage();
   if (path === "/checkout/monthly") return createCheckoutPage("monthly");
   if (path === "/checkout/yearly") return createCheckoutPage("yearly");
+  if (path === "/checkout/book") return createCheckoutPage("book");
   if (path === "/checkout/success") return createCheckoutPage("success");
   if (path === "/checkout/cancel") return createCheckoutPage("cancel");
   if (path === "/dashboard") return createDashboardPage("member");
@@ -64,6 +68,7 @@ export function routePage(path: string, bundle?: EvidenceBundle): PageModel {
   if (path === "/library") return createLibraryPage();
   if (path === "/founder") return createFounderPage();
   if (path === "/wellness") return createWellnessPage();
+  if (path === "/book/hardcover") return createHardcoverPage();
   if (path === "/admin") return createAdminPage();
   if (path === "/launch-status") return createLaunchStatusPage(createReleaseReadinessReport(bundle ?? { createdAt: new Date().toISOString(), workspaceRoot: ".", evidence: [] }));
   return createHomePage();

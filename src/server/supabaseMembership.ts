@@ -15,6 +15,7 @@ export interface PersistMembershipParams {
   memberId: string;
   email?: string;
   status: "ACTIVE" | "PAST_DUE" | "CANCELLED" | "FREE";
+  digitalBookAccess?: boolean;
   stripeCustomerId?: string;
   stripeSubscriptionId?: string;
 }
@@ -79,6 +80,7 @@ export async function persistMembershipStatus(
     member_id: params.memberId,
     email: params.email ?? null,
     membership_status: params.status,
+    digital_book_access: params.status === "ACTIVE" || Boolean(params.digitalBookAccess),
     stripe_customer_id: params.stripeCustomerId ?? null,
     stripe_subscription_id: params.stripeSubscriptionId ?? null,
     updated_at: now,
@@ -105,20 +107,22 @@ export async function persistMembershipStatus(
 export async function getMembershipStatus(
   config: SupabaseMembershipConfig,
   memberId: string,
-): Promise<{ success: boolean; active: boolean; status?: string; error?: string }> {
-  if (!membershipPersistenceConfigured(config)) return { success: false, active: false, error: "Supabase service role persistence is not configured." };
+): Promise<{ success: boolean; active: boolean; bookAccess: boolean; status?: string; error?: string }> {
+  if (!membershipPersistenceConfigured(config)) return { success: false, active: false, bookAccess: false, error: "Supabase service role persistence is not configured." };
 
   const table = config.tableName ?? defaultTable;
   const fetcher = config.fetchImpl ?? fetch;
   const response = await fetcher(
-    `${baseUrl(config.supabaseUrl)}/rest/v1/${table}?member_id=eq.${encodeURIComponent(memberId)}&select=membership_status&limit=1`,
+    `${baseUrl(config.supabaseUrl)}/rest/v1/${table}?member_id=eq.${encodeURIComponent(memberId)}&select=membership_status,digital_book_access&limit=1`,
     { headers: serviceHeaders(config) },
   );
   const json = (await response.json().catch(() => [])) as unknown;
 
-  if (!response.ok) return { success: false, active: false, error: `Supabase membership lookup failed with HTTP ${response.status}.` };
+  if (!response.ok) return { success: false, active: false, bookAccess: false, error: `Supabase membership lookup failed with HTTP ${response.status}.` };
   const first = Array.isArray(json) ? (json[0] as Record<string, unknown> | undefined) : undefined;
   const status = typeof first?.membership_status === "string" ? first.membership_status : "FREE";
+  const active = status === "ACTIVE";
+  const bookAccess = active || first?.digital_book_access === true;
 
-  return { success: true, active: status === "ACTIVE", status };
+  return { success: true, active, bookAccess, status };
 }

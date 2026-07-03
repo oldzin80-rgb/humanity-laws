@@ -1,14 +1,15 @@
 import crypto from "node:crypto";
-import type { SubscriptionPlanId } from "../member/index.js";
+import type { CommercePlanId, SubscriptionPlanId } from "../member/index.js";
 
 export interface StripeCheckoutSessionRequest {
   secretKey?: string;
   monthlyPriceId?: string;
   yearlyPriceId?: string;
+  digitalBookPriceId?: string;
   publicAppUrl?: string;
   memberId: string;
   email?: string;
-  planId: SubscriptionPlanId;
+  planId: CommercePlanId;
   fetchImpl?: typeof fetch;
 }
 
@@ -31,11 +32,14 @@ export interface StripeCheckoutSessionSummary {
 }
 
 export function priceForPlan(params: {
-  planId: SubscriptionPlanId;
+  planId: CommercePlanId;
   monthlyPriceId?: string;
   yearlyPriceId?: string;
+  digitalBookPriceId?: string;
 }): string | undefined {
-  return params.planId === "MONTHLY_7" ? params.monthlyPriceId : params.yearlyPriceId;
+  if (params.planId === "MONTHLY_7") return params.monthlyPriceId;
+  if (params.planId === "YEARLY_70") return params.yearlyPriceId;
+  return params.digitalBookPriceId;
 }
 
 export async function createStripeCheckoutSession(params: StripeCheckoutSessionRequest): Promise<StripeCheckoutSessionResult> {
@@ -47,7 +51,7 @@ export async function createStripeCheckoutSession(params: StripeCheckoutSessionR
 
   const baseUrl = params.publicAppUrl.replace(/\/$/, "");
   const body = new URLSearchParams({
-    mode: "subscription",
+    mode: params.planId === "DIGITAL_BOOK" ? "payment" : "subscription",
     client_reference_id: params.memberId,
     success_url: `${baseUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${baseUrl}/checkout/cancel?plan=${params.planId}`,

@@ -22,7 +22,8 @@ export function createBookPage(): PageModel {
     accessibilitySummary: "Book sales page for Humanity Laws",
     actions: [
       { label: "Return to Dashboard", href: "/dashboard", kind: "PRIMARY" },
-      { label: "Join the Practice", href: "/join", kind: "SECONDARY" },
+      { label: "Digital Book Only", href: "/checkout/book", kind: "SECONDARY" },
+      { label: "Hardcover Coming Soon", href: "/book/hardcover", kind: "TERTIARY" },
     ],
     sections: [
       { eyebrow: "Foundation", title: "Start with the words. Return through the practice.", body: NewHomeLanguage.book },
@@ -32,6 +33,7 @@ export function createBookPage(): PageModel {
       { title: "Why it exists", body: "The book gives language to what people already know deep down: truth matters, responsibility matters, dignity matters, and humanity must remain the standard." },
       { title: "What membership adds", body: "Membership turns the message into a daily rhythm through Spark, Council, Memory, Founder updates, and a growing Living Library." },
       { eyebrow: "Member access", title: "The digital book is included for active monthly members.", body: "Access is controlled by the Supabase memberships record. Stripe payment alone does not unlock the book unless membership status becomes ACTIVE." },
+      { eyebrow: "Digital book only", title: "Book-only purchase is separate from membership.", body: "A digital-book-only purchase unlocks the book and does not unlock Dashboard, Spark, Council, Wellness, or the full member room." },
     ],
   };
 }

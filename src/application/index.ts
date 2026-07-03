@@ -17,6 +17,7 @@ export * from "./pages/tablePage.js";
 export * from "./pages/libraryPage.js";
 export * from "./pages/founderPage.js";
 export * from "./pages/wellnessPage.js";
+export * from "./pages/hardcoverPage.js";
 export * from "./pages/accountPage.js";
 export * from "./pages/adminPage.js";
 export * from "./pages/launchStatusPage.js";

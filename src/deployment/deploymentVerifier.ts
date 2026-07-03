@@ -28,6 +28,7 @@ export const REQUIRED_STAGING_PATHS = [
   "/signup",
   "/checkout/monthly",
   "/checkout/yearly",
+  "/checkout/book",
   "/checkout/success",
   "/checkout/cancel",
   "/dashboard",
@@ -39,6 +40,7 @@ export const REQUIRED_STAGING_PATHS = [
   "/library",
   "/founder",
   "/wellness",
+  "/book/hardcover",
   "/admin",
   "/launch-status",
 ] as const;

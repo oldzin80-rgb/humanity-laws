@@ -32,7 +32,9 @@ export async function handleStripeWebhookRequest(req: ApiRequest): Promise<{ sta
   const customerDetails = object.customer_details && typeof object.customer_details === "object" ? (object.customer_details as Record<string, unknown>) : {};
   const paymentStatus = typeof object.payment_status === "string" ? object.payment_status : "";
   const sessionStatus = typeof object.status === "string" ? object.status : "";
+  const mode = typeof object.mode === "string" ? object.mode : "";
   const memberId = typeof metadata.member_id === "string" ? metadata.member_id : typeof object.client_reference_id === "string" ? object.client_reference_id : undefined;
+  const isDigitalBookOnly = metadata.plan_id === "DIGITAL_BOOK" || mode === "payment";
 
   if (!memberId) return { status: 400, body: { success: false, error: "Webhook did not include member_id." } };
   if (paymentStatus !== "paid" && sessionStatus !== "complete") {
@@ -47,14 +49,15 @@ export async function handleStripeWebhookRequest(req: ApiRequest): Promise<{ sta
     {
       memberId,
       email: typeof customerDetails.email === "string" ? customerDetails.email : undefined,
-      status: "ACTIVE",
+      status: isDigitalBookOnly ? "FREE" : "ACTIVE",
+      digitalBookAccess: true,
       stripeCustomerId: typeof object.customer === "string" ? object.customer : undefined,
       stripeSubscriptionId: typeof object.subscription === "string" ? object.subscription : undefined,
     },
   );
 
   if (!persisted.success) return { status: 500, body: { success: false, error: persisted.error ?? "Membership persistence failed." } };
-  return { status: 200, body: { success: true, membershipStatus: "ACTIVE" } };
+  return { status: 200, body: { success: true, membershipStatus: isDigitalBookOnly ? "FREE" : "ACTIVE", bookAccess: true } };
 }
 
 export default async function handler(req: ApiRequest, res: ApiResponse): Promise<void> {

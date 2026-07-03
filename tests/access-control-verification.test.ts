@@ -42,7 +42,10 @@ test("Access Control protected pages redirect logged-out users to login and unpa
     assert.ok(html.includes(`paidOnly=[`), `${path} should include paid member gate`);
     assert.ok(html.includes(`"/login?next="`), `${path} should redirect logged-out users to login`);
     assert.ok(html.includes(`/api/membership-status`), `${path} should check membership status`);
-    assert.ok(html.includes(`/membership?membership=required`), `${path} should redirect unpaid users to membership`);
+    assert.ok(
+      html.includes(path === "/book" ? `/membership?book=required` : `/membership?membership=required`),
+      `${path} should redirect unpaid users to the correct commerce page`,
+    );
   }
 });
 
@@ -51,6 +54,7 @@ test("Access Control digital book is included for ACTIVE monthly members", () =>
 
   assert.ok(html.includes("The digital book is included for active monthly members"));
   assert.ok(html.includes("membership status becomes ACTIVE"));
+  assert.ok(html.includes("digital-book-only purchase unlocks the book") || html.includes("digital-book-only purchase is separate"));
 });
 
 test("Access Control membership_status ACTIVE controls unlock", async () => {
@@ -61,7 +65,7 @@ test("Access Control membership_status ACTIVE controls unlock", async () => {
   globalThis.fetch = (async (input) => {
     const url = String(input);
     if (url.includes("/auth/v1/user")) return jsonResponse(200, { id: "00000000-0000-4000-8000-000000000001", email: "member@example.com" });
-    if (url.includes("/rest/v1/memberships")) return jsonResponse(200, [{ membership_status: "ACTIVE" }]);
+    if (url.includes("/rest/v1/memberships")) return jsonResponse(200, [{ membership_status: "ACTIVE", digital_book_access: true }]);
     return jsonResponse(404, {});
   }) as typeof fetch;
 
@@ -72,7 +76,31 @@ test("Access Control membership_status ACTIVE controls unlock", async () => {
 
   assert.equal(result.status, 200);
   assert.equal(result.body.active, true);
+  assert.equal(result.body.bookAccess, true);
   assert.equal(result.body.membershipStatus, "ACTIVE");
+});
+
+test("Access Control digital-book-only purchase unlocks book access without full membership", async () => {
+  process.env.SUPABASE_URL = "https://project.supabase.co";
+  process.env.SUPABASE_ANON_KEY = "anon";
+  process.env.SUPABASE_SERVICE_ROLE_KEY = "service";
+
+  globalThis.fetch = (async (input) => {
+    const url = String(input);
+    if (url.includes("/auth/v1/user")) return jsonResponse(200, { id: "00000000-0000-4000-8000-000000000001", email: "reader@example.com" });
+    if (url.includes("/rest/v1/memberships")) return jsonResponse(200, [{ membership_status: "FREE", digital_book_access: true }]);
+    return jsonResponse(404, {});
+  }) as typeof fetch;
+
+  const result = await handleMembershipStatusRequest({
+    method: "GET",
+    headers: { authorization: "Bearer access_token" },
+  } as unknown as ApiRequest);
+
+  assert.equal(result.status, 200);
+  assert.equal(result.body.active, false);
+  assert.equal(result.body.bookAccess, true);
+  assert.equal(result.body.membershipStatus, "FREE");
 });
 
 test("Access Control Stripe payment alone does not unlock unless membership persistence succeeds", async () => {

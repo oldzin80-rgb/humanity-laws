@@ -1,6 +1,6 @@
 import type { PageModel } from "../types.js";
 
-type CheckoutPageKind = "monthly" | "yearly" | "success" | "cancel";
+type CheckoutPageKind = "monthly" | "yearly" | "book" | "success" | "cancel";
 
 const checkoutCopy: Record<CheckoutPageKind, Pick<PageModel, "title" | "subtitle" | "seoTitle" | "accessibilitySummary">> = {
   monthly: {
@@ -14,6 +14,12 @@ const checkoutCopy: Record<CheckoutPageKind, Pick<PageModel, "title" | "subtitle
     subtitle: "Continue to Stripe for the $70 yearly Humanity Laws membership.",
     seoTitle: "Yearly Checkout — Humanity Laws",
     accessibilitySummary: "Yearly checkout start page",
+  },
+  book: {
+    title: "Buy digital book access.",
+    subtitle: "Continue to Stripe for digital Humanity Laws book access only.",
+    seoTitle: "Digital Book Checkout — Humanity Laws",
+    accessibilitySummary: "Digital book checkout start page",
   },
   success: {
     title: "Membership unlocked.",
@@ -33,7 +39,7 @@ export function createCheckoutPage(kind: CheckoutPageKind): PageModel {
   const copy = checkoutCopy[kind];
   const isSuccess = kind === "success";
   const isCancel = kind === "cancel";
-  const isStart = kind === "monthly" || kind === "yearly";
+  const isStart = kind === "monthly" || kind === "yearly" || kind === "book";
   const action = isSuccess
     ? { label: "Open Dashboard", href: "/dashboard", kind: "PRIMARY" as const }
     : isCancel
@@ -55,16 +61,21 @@ export function createCheckoutPage(kind: CheckoutPageKind): PageModel {
           ? "Your member room is ready after verification."
           : isCancel
             ? "No membership change was made."
+            : kind === "book"
+              ? "Digital book access only."
             : "Value-for-value only.",
         body: isSuccess
           ? "Stripe session_id is required before membership can be unlocked. This protects members from false success states."
           : isCancel
             ? "No membership change was made. You can return when ready."
+            : kind === "book"
+              ? "Digital book purchase unlocks the book only. It does not unlock Dashboard, Spark, Council, Wellness, or the full member room."
             : "Stripe handles payment. Humanity Laws keeps the membership promise simple: no ads, no donations, cancel anytime.",
         bullets: isStart
           ? [
               "Payment must be verified before membership unlocks.",
               "No fake payment success.",
+              kind === "book" ? "Digital book access is separate from full membership." : "Monthly membership includes digital book access.",
               "Checkout returns through Stripe success or cancel routes.",
             ]
           : undefined,
