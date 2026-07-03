@@ -115,7 +115,7 @@ test("Operational Blocker 03 checkout API does not send literal env var names as
   } as ApiRequest);
 
   assert.equal(result.status, 503);
-  assert.match(String(result.body.error), /MONTHLY_7/);
+  assert.match(String(result.body.error), /STRIPE_MONTHLY_7_PRICE_ID/);
   assert.equal(stripeWasCalled, false);
 });
 

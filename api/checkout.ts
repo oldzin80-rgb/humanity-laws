@@ -14,6 +14,11 @@ function envValue(name: string): string | undefined {
   return value;
 }
 
+const planPriceEnv: Record<SubscriptionPlanId, string> = {
+  MONTHLY_7: "STRIPE_MONTHLY_7_PRICE_ID",
+  YEARLY_70: "STRIPE_YEARLY_70_PRICE_ID",
+};
+
 export async function handleCheckoutRequest(req: ApiRequest): Promise<{ status: number; body: Record<string, unknown> }> {
   if (req.method !== "POST") return methodNotAllowed(req.method);
 
@@ -29,10 +34,23 @@ export async function handleCheckoutRequest(req: ApiRequest): Promise<{ status: 
   const body = await readJsonBody(req);
   if (!isPlanId(body.planId)) return { status: 400, body: { success: false, error: "Valid planId is required." } };
 
+  const monthlyPriceId = body.planId === "MONTHLY_7" ? envValue(planPriceEnv.MONTHLY_7) : undefined;
+  const yearlyPriceId = body.planId === "YEARLY_70" ? envValue(planPriceEnv.YEARLY_70) : undefined;
+  const selectedPriceId = body.planId === "MONTHLY_7" ? monthlyPriceId : yearlyPriceId;
+  if (!selectedPriceId) {
+    return {
+      status: 503,
+      body: {
+        success: false,
+        error: `${planPriceEnv[body.planId]} is missing or still set to a placeholder value.`,
+      },
+    };
+  }
+
   const checkout = await createStripeCheckoutSession({
     secretKey: envValue("STRIPE_SECRET_KEY"),
-    monthlyPriceId: envValue("STRIPE_MONTHLY_7_PRICE_ID"),
-    yearlyPriceId: envValue("STRIPE_YEARLY_70_PRICE_ID"),
+    monthlyPriceId,
+    yearlyPriceId,
     publicAppUrl: envValue("PUBLIC_APP_URL"),
     memberId: auth.user.id,
     email: auth.user.email,
