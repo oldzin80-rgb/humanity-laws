@@ -8,6 +8,12 @@ function isPlanId(value: unknown): value is SubscriptionPlanId {
   return value === "MONTHLY_7" || value === "YEARLY_70";
 }
 
+function envValue(name: string): string | undefined {
+  const value = process.env[name]?.trim();
+  if (!value || value === name) return undefined;
+  return value;
+}
+
 export async function handleCheckoutRequest(req: ApiRequest): Promise<{ status: number; body: Record<string, unknown> }> {
   if (req.method !== "POST") return methodNotAllowed(req.method);
 
@@ -24,10 +30,10 @@ export async function handleCheckoutRequest(req: ApiRequest): Promise<{ status: 
   if (!isPlanId(body.planId)) return { status: 400, body: { success: false, error: "Valid planId is required." } };
 
   const checkout = await createStripeCheckoutSession({
-    secretKey: process.env.STRIPE_SECRET_KEY,
-    monthlyPriceId: process.env.STRIPE_MONTHLY_7_PRICE_ID,
-    yearlyPriceId: process.env.STRIPE_YEARLY_70_PRICE_ID,
-    publicAppUrl: process.env.PUBLIC_APP_URL,
+    secretKey: envValue("STRIPE_SECRET_KEY"),
+    monthlyPriceId: envValue("STRIPE_MONTHLY_7_PRICE_ID"),
+    yearlyPriceId: envValue("STRIPE_YEARLY_70_PRICE_ID"),
+    publicAppUrl: envValue("PUBLIC_APP_URL"),
     memberId: auth.user.id,
     email: auth.user.email,
     planId: body.planId,

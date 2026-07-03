@@ -89,6 +89,36 @@ test("Operational Blocker 03 checkout API requires Supabase auth and returns Str
   assert.equal(result.body.checkoutUrl, "https://checkout.stripe.com/c/pay/cs_live");
 });
 
+test("Operational Blocker 03 checkout API does not send literal env var names as Stripe prices", async () => {
+  process.env.SUPABASE_URL = "https://project.supabase.co";
+  process.env.SUPABASE_ANON_KEY = "anon";
+  process.env.STRIPE_SECRET_KEY = "sk_test";
+  process.env.STRIPE_MONTHLY_7_PRICE_ID = "STRIPE_MONTHLY_7_PRICE_ID\n";
+  process.env.STRIPE_YEARLY_70_PRICE_ID = "price_yearly";
+  process.env.PUBLIC_APP_URL = "https://humanity-laws.vercel.app";
+
+  let stripeWasCalled = false;
+  globalThis.fetch = (async (input) => {
+    const url = String(input);
+    if (url.includes("/auth/v1/user")) return jsonResponse(200, { id: "00000000-0000-4000-8000-000000000001", email: "member@example.com" });
+    if (url.includes("api.stripe.com/v1/checkout/sessions")) {
+      stripeWasCalled = true;
+      return jsonResponse(200, { id: "cs_live", url: "https://checkout.stripe.com/c/pay/cs_live" });
+    }
+    return jsonResponse(404, {});
+  }) as typeof fetch;
+
+  const result = await handleCheckoutRequest({
+    method: "POST",
+    headers: { authorization: "Bearer access_token" },
+    body: { planId: "MONTHLY_7" },
+  } as ApiRequest);
+
+  assert.equal(result.status, 503);
+  assert.match(String(result.body.error), /MONTHLY_7/);
+  assert.equal(stripeWasCalled, false);
+});
+
 test("Operational Blocker 03 webhook signature verification activates membership", async () => {
   process.env.STRIPE_WEBHOOK_SECRET = "whsec_test";
   process.env.SUPABASE_URL = "https://project.supabase.co";
