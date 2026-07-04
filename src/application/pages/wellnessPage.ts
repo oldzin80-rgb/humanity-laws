@@ -4,8 +4,8 @@ export function createWellnessPage(): PageModel {
   return {
     pageId: "wellness",
     kind: "MEMBER",
-    title: "Wellness and Human OS.",
-    subtitle: "A garden for steady habits, recovery, gratitude, and daily care.",
+    title: "Wellness",
+    subtitle: "A calm garden for one small practice today.",
     seoTitle: "Wellness — Humanity Laws",
     accessibilitySummary: "Active member wellness page",
     actions: [
@@ -17,12 +17,12 @@ export function createWellnessPage(): PageModel {
       {
         eyebrow: "Wellness",
         title: "Stewardship, not diagnosis.",
-        body: "Wellness supports daily care and reflection. It does not diagnose, prescribe, or replace qualified professional help.",
+        body: "Wellness supports daily care and reflection. It does not diagnose, prescribe, or replace qualified help.",
       },
       {
         eyebrow: "Today",
         title: "Choose one small practice.",
-        body: "Begin with breath, movement, hydration, gratitude, rest, or a short reflection. Keep it simple enough to repeat.",
+        body: "Begin with breath, movement, hydration, gratitude, rest, or one short reflection.",
       },
     ],
   };

@@ -6,7 +6,7 @@ export function createHomePage(): PageModel {
     pageId: "home",
     kind: "PUBLIC",
     title: "A calm home for daily human growth.",
-    subtitle: "Read the foundation. Reflect each day. Talk with Adam and Eve. Save what matters.",
+    subtitle: "Read the Book. Practice one Spark. Talk with Adam and Eve. Save what matters.",
     seoTitle: "Humanity Laws — A beautiful home for daily human growth",
     accessibilitySummary: "Public homepage introducing the new Humanity Laws home",
     actions: [
@@ -18,7 +18,7 @@ export function createHomePage(): PageModel {
       {
         eyebrow: "Front Door",
         title: "Know where you are.",
-        body: "Humanity Laws is one connected home: Book, Spark, Adam and Eve, The Table, Founder updates, Wellness, and the Living Library.",
+        body: "Humanity Laws is one connected home for reading, reflection, companionship, hospitality, wellness, and memory.",
       },
       {
         eyebrow: "Book",
@@ -33,7 +33,7 @@ export function createHomePage(): PageModel {
       {
         eyebrow: "Daily practice",
         title: "Start small. Continue naturally.",
-        body: "Spark gives you one reflection. Council helps when something needs more perspective. The Library keeps what matters close.",
+        body: "Spark gives one reflection. Council helps when a question needs more care. The Library keeps what matters close.",
         bullets: [
           "Start Spark.",
           "Talk with Adam and Eve.",
@@ -53,7 +53,7 @@ export function createHomePage(): PageModel {
       {
         eyebrow: "The Table",
         title: "Connection belongs here too.",
-        body: "The Table brings gratitude, hospitality, recipes, and conversation into the same home without becoming another feed.",
+        body: "The Table brings gratitude, hospitality, recipes, and conversation without becoming another feed.",
       },
       {
         eyebrow: "Membership",

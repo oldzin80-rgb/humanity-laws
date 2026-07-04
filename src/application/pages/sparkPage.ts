@@ -18,7 +18,7 @@ export function createSparkPage(spark: SparkRecord): PageModel {
     sections: [
       { eyebrow: spark.pillar, title: "Reveal today's prompt.", body: spark.prompt },
       { title: "Practice", body: "Pause for one minute. Write one honest sentence. Choose one next step." },
-      { title: "Continue", body: "Reflect with Adam and Eve, save the insight to the Library, or return to the Book." },
+      { title: "Continue", body: "Reflect with Adam and Eve, save the insight, or return to the Book." },
       { title: "No-repeat promise", body: "Spark avoids repeating the same prompt until the available pool has been honored." },
     ],
   };

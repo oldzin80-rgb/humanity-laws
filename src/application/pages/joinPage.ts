@@ -5,7 +5,7 @@ export function createJoinPage(): PageModel {
   return {
     pageId: "join",
     kind: "PUBLIC",
-    title: "Join the daily practice.",
+    title: "Join Humanity Laws.",
     subtitle: NewHomeLanguage.membership,
     seoTitle: "Join Humanity Laws",
     accessibilitySummary: "Membership and pricing page",
@@ -17,7 +17,7 @@ export function createJoinPage(): PageModel {
       {
         eyebrow: "Membership",
         title: "A calm place to return every day.",
-        body: "Your membership opens the Dashboard, Spark, Adam, Eve, Council, Memory, Founder updates, The Table, and the Living Library as the home continues to grow.",
+        body: "Membership opens the Dashboard, Spark, Adam, Eve, Council, Founder updates, The Table, Wellness, and the Living Library.",
       },
       {
         eyebrow: "Trust",

@@ -5,7 +5,7 @@ export function createCommunityPage(): PageModel {
     pageId: "community",
     kind: "MEMBER",
     title: "Community",
-    subtitle: "A member room for respectful discussion, encouragement, learning, and service.",
+    subtitle: "A future room for respectful discussion, encouragement, learning, and service.",
     seoTitle: "Community — Humanity Laws",
     accessibilitySummary: "Community member room",
     actions: [
@@ -14,8 +14,8 @@ export function createCommunityPage(): PageModel {
       { label: "Return to Dashboard", href: "/dashboard", kind: "TERTIARY" },
     ],
     sections: [
-      { eyebrow: "Community", title: "Connection needs stewardship.", body: "Community should encourage listening, curiosity, kindness, and human dignity. It should not become another engagement feed." },
-      { eyebrow: "Current state", title: "Public community features are not live yet.", body: "The safe foundation is The Table, Council, and the Living Library while moderation and support workflows are verified." },
+      { eyebrow: "Community", title: "Connection needs stewardship.", body: "Community should encourage listening, curiosity, kindness, and human dignity — not engagement loops." },
+      { eyebrow: "Current state", title: "Community features are not live yet.", body: "No public feed or activity is being faked. The Table, Council, and Library are the safe foundation while moderation is verified." },
     ],
     emptyState: "Community spaces will open only after moderation, support, and safety paths are verified.",
   };

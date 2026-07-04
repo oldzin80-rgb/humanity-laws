@@ -1,9 +1,10 @@
 import crypto from "node:crypto";
 import { DemoCompanionGateway } from "./companionGateway.js";
-import type { CompanionGateway, ConversationRecord, CouncilResponse } from "./types.js";
+import type { CompanionGateway, CompanionResponse, ConversationRecord, CouncilResponse } from "./types.js";
 import { MemoryPersistenceService } from "./memoryPersistenceService.js";
 import { createMergedHumanityLawsRuntime } from "../runtime/mergedHumanityLaws.js";
 import type { ProfessionalBoundaryRequest, ProfessionalDomain } from "../adam-eve-os/professional-boundaries.ts";
+import { UnifiedCompanionService } from "../communication/unifiedCompanionService.js";
 
 export interface ConversationRepository {
   save(record: ConversationRecord): Promise<ConversationRecord>;
@@ -27,10 +28,32 @@ export class CouncilConversationService {
     const runtime = createMergedHumanityLawsRuntime();
     const boundary = runtime.professionalBoundaries.assess(classifyProfessionalBoundary(input, options.jurisdiction));
     const sourceReport = runtime.sourceLedger.report({ kind: "book" });
-    const adam = await this.gateway.respond("Adam", input);
-    const eve = await this.gateway.respond("Eve", input);
+    const unified = await new UnifiedCompanionService(this.gateway).respond({
+      memberId,
+      companion: "Council",
+      channel: "council_session",
+      message: input,
+      consentToRemember: options.consentToRemember === true,
+      saveInsight: false,
+      contextSources: [],
+      intent: "council_request",
+    });
+    const adam: CompanionResponse = {
+      companion: "Adam",
+      message: unified.council?.adamPerspective ?? "Adam: I am an AI companion. I would slow the question down and look for the truthful next step.",
+      transparency: "AI_TRANSPARENT",
+      humanSovereigntyReminder: unified.humanSovereigntyReminder,
+      sourceSummary: unified.sourceSummary,
+    };
+    const eve: CompanionResponse = {
+      companion: "Eve",
+      message: unified.council?.evePerspective ?? "Eve: I am an AI companion. I would protect dignity, relationship, and care in the next step.",
+      transparency: "AI_TRANSPARENT",
+      humanSovereigntyReminder: unified.humanSovereigntyReminder,
+      sourceSummary: unified.sourceSummary,
+    };
     const synthesis = [
-      "Council synthesis: Adam emphasizes truthful responsibility; Eve emphasizes dignified presence.",
+      unified.message,
       "Hold both: act clearly, stay human, and let your judgment remain final.",
       `Boundary: ${boundary.domain}/${boundary.riskLevel}/${boundary.responsePosture}.`,
       `Source: Humanity Laws archive SHA-256 ${runtime.bookRegistry.source.sha256}, ${runtime.archiveManifest.source.pageCount} pages.`,

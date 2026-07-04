@@ -3,27 +3,156 @@ import { bearerToken, methodNotAllowed, readJsonBody, sendJson } from "../src/se
 import { verifySupabaseAccessToken } from "../src/server/supabaseMembership.js";
 import { persistCompanionTurn } from "../src/server/supabaseCompanionPersistence.js";
 import type { CompanionTurnPersistenceResult } from "../src/server/supabaseCompanionPersistence.js";
-import type { CompanionResponse } from "../src/experiences/types.js";
+import type { CommunicationIntent, CompanionChannel, UnifiedCompanionResponse } from "../src/communication/types.js";
 
 function isCompanion(value: unknown): value is "Adam" | "Eve" {
   return value === "Adam" || value === "Eve";
 }
 
-async function generateCompanionResponse(companion: "Adam" | "Eve", input: string): Promise<CompanionResponse> {
+function isChannel(value: unknown): value is CompanionChannel {
+  return value === "in_app" || value === "sms" || value === "phone_voice" || value === "email" || value === "council_session" || value === "future_video_avatar";
+}
+
+function isIntent(value: unknown): value is CommunicationIntent {
+  return value === "reflection"
+    || value === "encouragement"
+    || value === "decision_support"
+    || value === "spark_discussion"
+    || value === "book_discussion"
+    || value === "wellness_support"
+    || value === "table_community_connection"
+    || value === "saved_insight"
+    || value === "crisis_escalation_boundary"
+    || value === "council_request";
+}
+
+async function generateCompanionResponse(params: {
+  memberId: string;
+  companion: "Adam" | "Eve";
+  channel: CompanionChannel;
+  input: string;
+  consentToRemember: boolean;
+  saveInsight: boolean;
+  intent: CommunicationIntent;
+  conversationHistory: Array<{ companion: string; input?: string; message?: string; createdAt?: string }>;
+}): Promise<UnifiedCompanionResponse> {
   try {
-    const { DemoCompanionGateway } = await import("../src/experiences/companionGateway.js");
-    return await new DemoCompanionGateway().respond(companion, input);
+    const { UnifiedCompanionService } = await import("../src/communication/unifiedCompanionService.js");
+    return await new UnifiedCompanionService().respond({
+      memberId: params.memberId,
+      companion: params.companion,
+      channel: params.channel,
+      message: params.input,
+      consentToRemember: params.consentToRemember,
+      saveInsight: params.saveInsight,
+      contextSources: [],
+      intent: params.intent,
+      conversationHistory: params.conversationHistory,
+    });
   } catch (error) {
     console.error("Companion runtime unavailable", error);
     return {
-      companion,
+      companion: params.companion,
+      channel: params.channel,
       message:
-        companion === "Adam"
+        params.companion === "Adam"
           ? "Adam: I am an AI companion. I can still help you slow down, name the truth in front of you, and choose one responsible next step."
           : "Eve: I am an AI companion. I can still help you slow down, honor the human being in the moment, and choose one caring next step.",
+      persisted: false,
+      savedInsight: false,
       transparency: "AI_TRANSPARENT",
       humanSovereigntyReminder: "This is reflective support from AI; your human judgment remains final.",
       sourceSummary: "Source ledger temporarily unavailable.",
+      nextSteps: ["Use your human judgment", "Try again in a moment", "Seek qualified help for high-risk concerns"],
+      aiDisclosure: "AI companion; not a real person; human final judgment remains central.",
+      presence: {
+        detectedIntent: params.intent,
+        emotionalTone: "neutral",
+        warmth: params.companion === "Eve" ? "gentle" : "steady",
+        clarity: "brief",
+        memoryStatus: params.consentToRemember ? "consented_context_available" : "no_long_term_memory_implied",
+      },
+      voiceProfile: {
+        companion: params.companion,
+        qualities: params.companion === "Adam" ? ["calm", "steady", "practical", "truth-oriented"] : ["warm", "perceptive", "relational", "reflective"],
+        bestFor: params.companion === "Adam" ? ["decisions", "discipline", "responsibility"] : ["feelings", "connection", "meaning"],
+        avoid: ["fake certainty", "dependency", "deception"],
+      },
+      memoryStatus: params.consentToRemember ? "consented_context_available" : "no_long_term_memory_implied",
+      excellence: {
+        warmth: params.companion === "Eve" ? "high" : "steady",
+        clarity: "simple",
+        brevity: "brief",
+        helpfulness: "next_step_focused",
+        humility: true,
+        humanDignity: true,
+        lifeStage: "unspecified",
+        humanNeeds: ["reflection", "practical_next_steps"],
+        loveInAction: {
+          acknowledge: "You are being met with attention, not judgment.",
+          understand: "The visible need appears to include reflection.",
+          clarify: "Keep the center simple and truthful.",
+          encourage: "You are still capable of one faithful next step.",
+          guide: "Move gently, clearly, and without giving your agency away.",
+          preserveAgency: "Adam and Eve can support reflection; they do not choose for you.",
+          nextStep: "choose one honest, small next step you can take today",
+        },
+      },
+      qualityReview: {
+        savedInsight: false,
+        escalationNeeded: false,
+        topicCategory: "reflection",
+        userNextStepSuccess: "unknown",
+        invasiveAnalytics: false,
+      },
+      escalationBoundary: { triggered: false },
+      avatarPresence: {
+        state: "unavailable",
+        providerConfigured: false,
+        placeholderOnly: true,
+        visibleParticipants: [params.companion],
+        qualities: {
+          humanLikePresence: true,
+          warmFacialExpression: true,
+          naturalEyeContact: true,
+          calmBodyLanguage: true,
+          subtleMicroExpressions: true,
+          voiceSyncedSpeakingLater: true,
+          emotionallyAppropriateTone: true,
+          aiTransparency: true,
+        },
+        statusMessage: "Avatar presence coming soon. Voice and avatar support will be connected after provider verification.",
+        transparencyLabel: "AI_AVATAR_PLACEHOLDER",
+        councilMode: false,
+      },
+      immersivePresence: {
+        sessionState: "text_fallback",
+        avatarRoomState: "fallback_text",
+        voiceState: "unavailable",
+        emotionalExpression: params.companion === "Eve" ? "warm" : "calm",
+        gestureState: params.companion === "Eve" ? "open_posture" : "gentle_nod",
+        naturalTurnTakingReady: false,
+        voiceSyncedExpressionReady: false,
+        eyeContactReady: false,
+        microExpressionReady: false,
+        bodyLanguageReady: false,
+        continuityChannels: ["in_app", "sms", "phone_voice", "email", "future_video_avatar"],
+        providerReadiness: {
+          avatarProviderConfigured: false,
+          voiceProviderConfigured: false,
+          smsProviderConfigured: false,
+          emailProviderConfigured: false,
+        },
+        fallback: {
+          mode: "text",
+          reason: "Immersive voice/avatar presence is architected but not live until providers are connected and verified.",
+        },
+        trustBoundary: {
+          aiTransparent: true,
+          neverClaimsHumanIdentity: true,
+          humanSovereignty: true,
+        },
+      },
     };
   }
 }
@@ -48,8 +177,30 @@ export async function handleCompanionRequest(req: ApiRequest): Promise<{ status:
   if (input.length > 2000) return { status: 413, body: { success: false, error: "Please keep the message under 2,000 characters." } };
   const consentToRemember = body.consentToRemember === true;
   const saveInsight = body.saveInsight === true;
+  const channel = isChannel(body.channel) ? body.channel : "in_app";
+  const intent = isIntent(body.intent) ? body.intent : "reflection";
+  const conversationHistory = Array.isArray(body.history)
+    ? body.history.slice(-8).map((item) => {
+      const record = item as Record<string, unknown>;
+      return {
+        companion: typeof record.companion === "string" ? record.companion : "",
+        input: typeof record.input === "string" ? record.input.slice(0, 500) : undefined,
+        message: typeof record.message === "string" ? record.message.slice(0, 500) : undefined,
+        createdAt: typeof record.createdAt === "string" ? record.createdAt : undefined,
+      };
+    })
+    : [];
 
-  const response = await generateCompanionResponse(body.companion, input);
+  const response = await generateCompanionResponse({
+    memberId: auth.user.id,
+    companion: body.companion,
+    channel,
+    input,
+    consentToRemember,
+    saveInsight,
+    intent,
+    conversationHistory,
+  });
   const persistence = await persistCompanionTurn(
     {
       supabaseUrl: process.env.SUPABASE_URL,
@@ -67,9 +218,9 @@ export async function handleCompanionRequest(req: ApiRequest): Promise<{ status:
     },
   ).catch((error: unknown): CompanionTurnPersistenceResult => {
     console.error("Companion persistence unavailable", error);
-    return { success: false, persisted: false, error: "Conversation response returned, but saving was unavailable." };
+    return { success: false, persisted: false, error: `${body.companion} returned a response, but saving was unavailable.` };
   });
-  const persistenceWarning = persistence.success ? undefined : "Conversation response returned, but saving was unavailable.";
+  const persistenceWarning = persistence.success ? undefined : `${body.companion} returned a response, but saving was unavailable.`;
   if (!persistence.success) console.error("Companion persistence failed", persistence.error);
 
   return {
@@ -83,10 +234,21 @@ export async function handleCompanionRequest(req: ApiRequest): Promise<{ status:
       savedInsight: persistence.success ? Boolean(persistence.savedInsightId) : false,
       savedInsightId: persistence.success ? persistence.savedInsightId : undefined,
       companion: response.companion,
+      channel: response.channel,
       message: response.message,
       transparency: response.transparency,
       humanSovereigntyReminder: response.humanSovereigntyReminder,
       sourceSummary: response.sourceSummary,
+      nextSteps: response.nextSteps,
+      aiDisclosure: response.aiDisclosure,
+      presence: response.presence,
+      voiceProfile: response.voiceProfile,
+      memoryStatus: response.memoryStatus,
+      excellence: response.excellence,
+      qualityReview: response.qualityReview,
+      escalationBoundary: response.escalationBoundary,
+      avatarPresence: response.avatarPresence,
+      immersivePresence: response.immersivePresence,
     },
   };
 }

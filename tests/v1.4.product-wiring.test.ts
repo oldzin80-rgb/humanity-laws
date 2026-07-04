@@ -9,7 +9,7 @@ test("Adam, Eve, and Council pages expose merged runtime and source ledger conte
   const manifest = getHumanityLawsArchiveManifest();
   for (const path of ["/adam", "/eve", "/council"]) {
     const html = renderPageModelToHtml(routePage(path));
-    assert.ok(html.includes("verified Adam/Eve foundation") || html.includes("High-risk questions require qualified help"));
+    assert.ok(html.includes("verified companion foundation") || html.includes("High-risk questions require qualified help"));
     assert.ok(html.includes(manifest.source.sha256));
     assert.ok(html.includes(String(manifest.source.pageCount)));
   }

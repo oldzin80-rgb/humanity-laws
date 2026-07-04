@@ -8,7 +8,7 @@ export function createDashboardPage(member: string | MemberProfile): PageModel {
     pageId: "dashboard",
     kind: "MEMBER",
     title: `Welcome home, ${displayName}.`,
-    subtitle: "Choose one clear next step and continue from there.",
+    subtitle: "One daily next step. Everything else can wait.",
     seoTitle: "Humanity Laws Member Dashboard",
     accessibilitySummary: `Member dashboard for ${memberId}`,
     actions: [
@@ -17,10 +17,10 @@ export function createDashboardPage(member: string | MemberProfile): PageModel {
       { label: "Talk with Adam & Eve", href: "/council", kind: "TERTIARY" },
     ],
     sections: [
-      { eyebrow: "Today", title: "Begin with one thing.", body: "Start Spark, continue the Book, or bring a real question to Adam and Eve." },
-      { eyebrow: "Living Room", title: "Everything connects from here.", body: "Move naturally to The Table, Wellness, Founder updates, or the Living Library when the next step calls for it." },
-      { eyebrow: "Memory", title: "You choose what stays.", body: "Memory is consent-aware. Save only what you want remembered, with export and delete paths kept visible." },
-      { eyebrow: "Trust", title: "No pressure loops.", body: "The Dashboard should reduce decisions, not create more noise. One helpful next step is enough." },
+      { eyebrow: "Today", title: "Begin with one thing.", body: "Start Spark, continue the Book, or bring one real question to Adam and Eve." },
+      { eyebrow: "Living Room", title: "The house connects from here.", body: "Move to The Table, Wellness, Founder updates, or the Library only when it helps." },
+      { eyebrow: "Memory", title: "You choose what stays.", body: "Memory is consent-aware. Save only what you want remembered. Export and delete paths stay visible." },
+      { eyebrow: "Trust", title: "No pressure loops.", body: "The Dashboard should reduce decisions. One helpful next step is enough." },
     ],
     emptyState: "Your Dashboard will grow as you save Sparks, reflections, reading progress, and Council outcomes.",
   };

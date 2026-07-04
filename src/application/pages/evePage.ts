@@ -20,9 +20,9 @@ export function createEvePage(): PageModel {
     sections: [
       { eyebrow: "Conversation Room", title: "Bring one moment that needs care.", body: "Ask about a feeling, relationship, repair, gratitude, or next step. Keep the conversation honest and human." },
       { eyebrow: "Transparent companion", title: "Eve is AI, not human.", body: "Eve supports reflection. She does not replace your conscience, qualified help, relationships, faith, or human judgment." },
-      { eyebrow: "Connected foundation", title: "Eve stays connected to the source.", body: `Eve uses the verified Adam/Eve foundation, source ledger, and professional-boundary safeguards. Verified book sources visible: ${sourceReport.sources.length}.` },
+      { eyebrow: "Connected foundation", title: "Eve stays connected to the source.", body: `Eve uses the verified companion foundation, source ledger, and professional-boundary safeguards. Verified book sources visible: ${sourceReport.sources.length}.` },
       { eyebrow: "Source ledger", title: "The Humanity Laws source remains visible.", body: `Preserved book archive: ${runtime.archiveManifest.source.pageCount} pages. SHA-256: ${runtime.bookRegistry.source.sha256}.` },
-      { title: "Natural next step", body: "Reflect on today's Spark, discuss a chapter, save the insight, or open Council when the question deserves more perspective." },
+      { title: "Natural next step", body: "Reflect on Spark, discuss a chapter, save the insight, or open Council when the question deserves more perspective." },
     ],
   };
 }

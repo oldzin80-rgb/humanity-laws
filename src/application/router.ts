@@ -15,6 +15,7 @@ import { createPodcastPage } from "./pages/podcastPage.js";
 import { createWellnessPage } from "./pages/wellnessPage.js";
 import { createCommunityPage } from "./pages/communityPage.js";
 import { createHardcoverPage } from "./pages/hardcoverPage.js";
+import { createSettingsPage } from "./pages/accountPage.js";
 import { createLoginPage } from "./pages/loginPage.js";
 import { createSignupPage } from "./pages/signupPage.js";
 import { createCheckoutPage } from "./pages/checkoutPage.js";
@@ -47,6 +48,7 @@ export const LaunchRoutes: RouteDefinition[] = [
   { path: "/founder", label: "Founder", pageId: "founder", requiresAuth: true, requiresAdmin: false },
   { path: "/wellness", label: "Wellness", pageId: "wellness", requiresAuth: true, requiresAdmin: false },
   { path: "/community", label: "Community", pageId: "community", requiresAuth: true, requiresAdmin: false },
+  { path: "/settings", label: "Settings", pageId: "settings", requiresAuth: true, requiresAdmin: false },
   { path: "/book/hardcover", label: "Hardcover", pageId: "hardcover", requiresAuth: false, requiresAdmin: false },
   { path: "/admin", label: "Admin", pageId: "admin", requiresAuth: true, requiresAdmin: true },
   { path: "/launch-status", label: "Launch Status", pageId: "launch-status", requiresAuth: false, requiresAdmin: false },
@@ -74,6 +76,7 @@ export function routePage(path: string, bundle?: EvidenceBundle): PageModel {
   if (path === "/founder") return createFounderPage();
   if (path === "/wellness") return createWellnessPage();
   if (path === "/community") return createCommunityPage();
+  if (path === "/settings") return createSettingsPage();
   if (path === "/book/hardcover") return createHardcoverPage();
   if (path === "/admin") return createAdminPage();
   if (path === "/launch-status") return createLaunchStatusPage(createReleaseReadinessReport(bundle ?? { createdAt: new Date().toISOString(), workspaceRoot: ".", evidence: [] }));

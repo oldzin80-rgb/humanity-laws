@@ -52,7 +52,7 @@ test("Craftsmanship Pass 01 keeps Dashboard calm and decision-light", () => {
   const page = routePage("/dashboard");
   const html = renderPageModelToHtml(page);
 
-  assert.equal(page.subtitle, "Choose one clear next step and continue from there.");
+  assert.equal(page.subtitle, "One daily next step. Everything else can wait.");
   assert.deepEqual(page.actions.map((action) => action.label), ["Start today's Spark", "Continue Reading", "Talk with Adam & Eve"]);
   assert.ok(html.includes("Begin with one thing."));
   assert.ok(html.includes("No pressure loops."));
@@ -64,7 +64,7 @@ test("Craftsmanship Pass 02 keeps Book source-preserving and reading-first", () 
   const page = routePage("/book");
   const html = renderPageModelToHtml(page);
 
-  assert.equal(page.subtitle, "Read the source. Carry one principle into daily practice.");
+  assert.equal(page.subtitle, "Read the source. Carry one principle into today.");
   assert.equal(page.actions[0]?.label, "Continue Reading");
   assert.deepEqual(page.actions.map((action) => action.label), ["Continue Reading", "Discuss with Adam & Eve", "Start a Spark", "Save to Library"]);
   assert.ok(html.includes(manifest.source.sha256), "Book page must keep source hash visible");
@@ -124,7 +124,7 @@ test("Adam and Eve reach conversation UI readiness with real input and output co
     assert.ok(html.includes("Your message"), `${path} should provide a message input`);
     assert.ok(html.includes("data-companion-output"), `${path} should provide a response output area`);
     assert.ok(html.includes("/api/companion"), `${path} should post to the companion API`);
-    assert.ok(html.includes("human judgment preserved"), `${path} should preserve the human judgment boundary`);
+    assert.ok(html.includes("your judgment stays final"), `${path} should preserve the human judgment boundary`);
   }
 });
 
@@ -132,8 +132,8 @@ test("Adam and Eve production conversation UI includes history, streaming, conse
   for (const path of ["/adam", "/eve"]) {
     const html = routeHtml(path);
     assert.ok(html.includes("data-companion-history"), `${path} should render persistent local conversation history`);
-    assert.ok(html.includes("Remember this conversation with my consent."), `${path} should show memory consent`);
-    assert.ok(html.includes("Save the response as an insight."), `${path} should show saved insight consent`);
+    assert.ok(html.includes("Remember with my consent."), `${path} should show memory consent`);
+    assert.ok(html.includes("Save response as insight."), `${path} should show saved insight consent`);
     assert.ok(html.includes("data-save-latest-insight"), `${path} should include a save latest insight action`);
     assert.ok(html.includes("data-stream-output"), `${path} should progressively render response output`);
     assert.ok(html.includes("hl_companion_history_v1_"), `${path} should persist local history by companion`);

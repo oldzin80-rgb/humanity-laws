@@ -113,7 +113,7 @@ test("companion API returns response without false saved state when persistence 
     assert.equal(result.body.persisted, false);
     assert.equal(result.body.savedInsight, false);
     assert.equal(result.body.savedInsightId, undefined);
-    assert.equal(result.body.persistenceWarning, "Conversation response returned, but saving was unavailable.");
+    assert.equal(result.body.persistenceWarning, "Eve returned a response, but saving was unavailable.");
     assert.match(String(result.body.message), /Eve: I am an AI companion\./);
   } finally {
     process.env = oldEnv;
