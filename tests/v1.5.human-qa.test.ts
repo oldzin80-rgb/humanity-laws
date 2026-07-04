@@ -84,6 +84,38 @@ test("Craftsmanship Pass 02 keeps Spark a clear daily practice with no dead end"
   assert.ok(html.includes("connected-pathways"));
 });
 
+test("Craftsmanship Pass 03 keeps Adam and Eve conversation-first and connected", () => {
+  const adam = routePage("/adam");
+  const eve = routePage("/eve");
+  const adamHtml = renderPageModelToHtml(adam);
+  const eveHtml = renderPageModelToHtml(eve);
+
+  assert.equal(adam.title, "Talk with Adam");
+  assert.equal(eve.title, "Talk with Eve");
+  assert.equal(adam.actions[0]?.label, "Talk with Adam");
+  assert.equal(eve.actions[0]?.label, "Talk with Eve");
+  for (const html of [adamHtml, eveHtml]) {
+    assert.ok(html.includes("Conversation Room"));
+    assert.ok(html.includes("Reflect on today&#039;s Spark"));
+    assert.ok(html.includes("Open Council"));
+    assert.ok(html.includes("Save insight"));
+    assert.ok(html.includes("connected-pathways"));
+  }
+});
+
+test("Craftsmanship Pass 03 keeps Council decision-focused with human final authority", () => {
+  const page = routePage("/council");
+  const html = renderPageModelToHtml(page);
+
+  assert.equal(page.subtitle, "A calm room for decisions, tension, and deeper reflection.");
+  assert.deepEqual(page.actions.map((action) => action.label), ["Open Council", "Bring in Adam", "Bring in Eve", "Save outcome"]);
+  assert.ok(html.includes("Council Chamber"));
+  assert.ok(html.includes("Adam. Eve. Principle. Human choice."));
+  assert.ok(html.includes("You make the final decision."));
+  assert.ok(html.includes("final authority"));
+  assert.ok(html.includes("Review the Humanity Laws principle."));
+});
+
 test("member experience clearly communicates AI transparency and human judgment", () => {
   for (const path of ["/", "/adam", "/eve", "/council", "/dashboard"]) {
     const html = routeHtml(path);

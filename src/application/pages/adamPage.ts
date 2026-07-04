@@ -7,21 +7,22 @@ export function createAdamPage(): PageModel {
   return {
     pageId: "adam",
     kind: "MEMBER",
-    title: "Meet Adam",
+    title: "Talk with Adam",
     subtitle: "A steady AI companion for truth, responsibility, and clear next steps.",
     seoTitle: "Meet Adam — Humanity Laws",
     accessibilitySummary: "Adam AI companion page",
     actions: [
-      { label: "Open Council", href: "/council", kind: "PRIMARY" },
-      { label: "Read the Book", href: "/book", kind: "SECONDARY" },
-      { label: "Save to Library", href: "/library", kind: "TERTIARY" },
+      { label: "Talk with Adam", href: "/adam", kind: "PRIMARY" },
+      { label: "Reflect on today's Spark", href: "/spark", kind: "SECONDARY" },
+      { label: "Open Council", href: "/council", kind: "TERTIARY" },
+      { label: "Save insight", href: "/library", kind: "TERTIARY" },
     ],
     sections: [
-      { eyebrow: "Transparent companion", title: "Adam is AI, not human.", body: "Adam is designed to support truth, responsibility, stewardship, and clear judgment while always staying honest about what he is." },
-      { eyebrow: "Connected foundation", title: "Adam is using the verified Adam/Eve foundation.", body: `Adam is wired to the same truth, source, and professional-boundary safeguards used by Council. Verified book sources visible: ${sourceReport.sources.length}.` },
-      { eyebrow: "Source ledger", title: "The Humanity Laws source is visible.", body: `Preserved book archive: ${runtime.archiveManifest.source.pageCount} pages. SHA-256: ${runtime.bookRegistry.source.sha256}.` },
-      { title: "How to use Adam", body: "Bring a question, decision, or pattern you want to see clearly. Adam helps you slow down and name the responsible next step." },
-      { title: "What Adam is not", body: "Adam is not an authority over your life. He never replaces your conscience, qualified help, or human judgment." },
+      { eyebrow: "Conversation Room", title: "Bring one thing you want to see clearly.", body: "Ask about a decision, pattern, responsibility, or next step. Keep it simple and honest." },
+      { eyebrow: "Transparent companion", title: "Adam is AI, not human.", body: "Adam supports reflection. He does not replace your conscience, qualified help, relationships, faith, or human judgment." },
+      { eyebrow: "Connected foundation", title: "Adam stays connected to the source.", body: `Adam uses the verified Adam/Eve foundation, source ledger, and professional-boundary safeguards. Verified book sources visible: ${sourceReport.sources.length}.` },
+      { eyebrow: "Source ledger", title: "The Humanity Laws source remains visible.", body: `Preserved book archive: ${runtime.archiveManifest.source.pageCount} pages. SHA-256: ${runtime.bookRegistry.source.sha256}.` },
+      { title: "Natural next step", body: "Reflect on today's Spark, discuss a chapter, save the insight, or open Council when the question deserves more perspective." },
     ],
   };
 }
