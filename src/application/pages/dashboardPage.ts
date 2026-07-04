@@ -8,20 +8,20 @@ export function createDashboardPage(member: string | MemberProfile): PageModel {
     pageId: "dashboard",
     kind: "MEMBER",
     title: `Welcome home, ${displayName}.`,
-    subtitle: "Your calm starting point for today.",
+    subtitle: "Choose one clear next step and continue from there.",
     seoTitle: "Humanity Laws Member Dashboard",
     accessibilitySummary: `Member dashboard for ${memberId}`,
     actions: [
       { label: "Start today's Spark", href: "/spark", kind: "PRIMARY" },
-      { label: "Talk with Adam & Eve", href: "/council", kind: "SECONDARY" },
-      { label: "Open Library", href: "/library", kind: "TERTIARY" },
+      { label: "Continue Reading", href: "/book", kind: "SECONDARY" },
+      { label: "Talk with Adam & Eve", href: "/council", kind: "TERTIARY" },
     ],
     sections: [
-      { eyebrow: "Today", title: "Choose one useful next step.", body: "Start with Spark, continue reading, visit The Table, or bring a real question to Adam and Eve." },
-      { eyebrow: "Continue", title: "Keep the house connected.", body: "The Dashboard connects the Book, Spark, Council, The Table, Wellness, Founder updates, and the Living Library." },
-      { eyebrow: "Memory", title: "You control what is remembered.", body: "Memory is consent-aware. Reflections should only be remembered when you choose it, with export and delete paths kept visible." },
-      { eyebrow: "Founder", title: "Latest founder updates belong here.", body: "Founder letters, videos, and podcast notes should surface here when they are verified and ready." },
+      { eyebrow: "Today", title: "Begin with one thing.", body: "Start Spark, continue the Book, or bring a real question to Adam and Eve." },
+      { eyebrow: "Living Room", title: "Everything connects from here.", body: "Move naturally to The Table, Wellness, Founder updates, or the Living Library when the next step calls for it." },
+      { eyebrow: "Memory", title: "You choose what stays.", body: "Memory is consent-aware. Save only what you want remembered, with export and delete paths kept visible." },
+      { eyebrow: "Trust", title: "No pressure loops.", body: "The Dashboard should reduce decisions, not create more noise. One helpful next step is enough." },
     ],
-    emptyState: "Your dashboard will become richer as you create Sparks, Council conversations, and memories.",
+    emptyState: "Your Dashboard will grow as you save Sparks, reflections, reading progress, and Council outcomes.",
   };
 }

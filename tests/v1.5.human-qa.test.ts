@@ -36,6 +36,54 @@ test("primary and secondary navigation match the unified house model", () => {
   }
 });
 
+test("Craftsmanship Pass 01 keeps Home focused, direct, and connected", () => {
+  const page = routePage("/");
+  const html = renderPageModelToHtml(page);
+
+  assert.equal(page.title, "A calm home for daily human growth.");
+  assert.deepEqual(page.actions.map((action) => action.label), ["Join for $7/month", "Read the Book", "Start Spark"]);
+  assert.ok(html.includes("Know where you are."));
+  assert.ok(html.includes("Start small. Continue naturally."));
+  assert.ok(html.includes("AI companions, not authorities."));
+  assert.ok(html.includes("You remain the final decision-maker."));
+});
+
+test("Craftsmanship Pass 01 keeps Dashboard calm and decision-light", () => {
+  const page = routePage("/dashboard");
+  const html = renderPageModelToHtml(page);
+
+  assert.equal(page.subtitle, "Choose one clear next step and continue from there.");
+  assert.deepEqual(page.actions.map((action) => action.label), ["Start today's Spark", "Continue Reading", "Talk with Adam & Eve"]);
+  assert.ok(html.includes("Begin with one thing."));
+  assert.ok(html.includes("No pressure loops."));
+  assert.ok(html.includes("reduce decisions"));
+});
+
+test("Craftsmanship Pass 02 keeps Book source-preserving and reading-first", () => {
+  const manifest = getHumanityLawsArchiveManifest();
+  const page = routePage("/book");
+  const html = renderPageModelToHtml(page);
+
+  assert.equal(page.subtitle, "Read the source. Carry one principle into daily practice.");
+  assert.equal(page.actions[0]?.label, "Continue Reading");
+  assert.deepEqual(page.actions.map((action) => action.label), ["Continue Reading", "Discuss with Adam & Eve", "Start a Spark", "Save to Library"]);
+  assert.ok(html.includes(manifest.source.sha256), "Book page must keep source hash visible");
+  assert.ok(html.includes("Quotes trace back to exact pages"), "Book page must keep quote provenance visible");
+  assert.ok(html.includes("Book → Spark → Adam &amp; Eve → Library"), "Book should preserve connected pathway language");
+});
+
+test("Craftsmanship Pass 02 keeps Spark a clear daily practice with no dead end", () => {
+  const page = routePage("/spark");
+  const html = renderPageModelToHtml(page);
+
+  assert.equal(page.subtitle, "One prompt. One reflection. One next step.");
+  assert.deepEqual(page.actions.map((action) => action.label), ["Start today's Spark", "Reflect with Adam & Eve", "Save to Library", "Continue Reading"]);
+  assert.ok(html.includes("Reveal today&#039;s prompt."));
+  assert.ok(html.includes("Pause for one minute."));
+  assert.ok(html.includes("Reflect with Adam and Eve"));
+  assert.ok(html.includes("connected-pathways"));
+});
+
 test("member experience clearly communicates AI transparency and human judgment", () => {
   for (const path of ["/", "/adam", "/eve", "/council", "/dashboard"]) {
     const html = routeHtml(path);
