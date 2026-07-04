@@ -116,6 +116,18 @@ test("Craftsmanship Pass 03 keeps Council decision-focused with human final auth
   assert.ok(html.includes("Review the Humanity Laws principle."));
 });
 
+test("Adam and Eve reach conversation UI readiness with real input and output controls", () => {
+  for (const path of ["/adam", "/eve"]) {
+    const html = routeHtml(path);
+    assert.ok(html.includes("conversation-panel"), `${path} should render a conversation panel`);
+    assert.ok(html.includes("data-companion-form"), `${path} should render a companion form`);
+    assert.ok(html.includes("Your message"), `${path} should provide a message input`);
+    assert.ok(html.includes("data-companion-output"), `${path} should provide a response output area`);
+    assert.ok(html.includes("/api/companion"), `${path} should post to the companion API`);
+    assert.ok(html.includes("human judgment preserved"), `${path} should preserve the human judgment boundary`);
+  }
+});
+
 test("member experience clearly communicates AI transparency and human judgment", () => {
   for (const path of ["/", "/adam", "/eve", "/council", "/dashboard"]) {
     const html = routeHtml(path);
