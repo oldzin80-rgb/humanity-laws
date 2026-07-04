@@ -128,6 +128,19 @@ test("Adam and Eve reach conversation UI readiness with real input and output co
   }
 });
 
+test("Adam and Eve production conversation UI includes history, streaming, consent, and saved insights", () => {
+  for (const path of ["/adam", "/eve"]) {
+    const html = routeHtml(path);
+    assert.ok(html.includes("data-companion-history"), `${path} should render persistent local conversation history`);
+    assert.ok(html.includes("Remember this conversation with my consent."), `${path} should show memory consent`);
+    assert.ok(html.includes("Save the response as an insight."), `${path} should show saved insight consent`);
+    assert.ok(html.includes("data-save-latest-insight"), `${path} should include a save latest insight action`);
+    assert.ok(html.includes("data-stream-output"), `${path} should progressively render response output`);
+    assert.ok(html.includes("hl_companion_history_v1_"), `${path} should persist local history by companion`);
+    assert.ok(html.includes("hl_saved_insights_v1"), `${path} should persist saved insights locally`);
+  }
+});
+
 test("member experience clearly communicates AI transparency and human judgment", () => {
   for (const path of ["/", "/adam", "/eve", "/council", "/dashboard"]) {
     const html = routeHtml(path);
