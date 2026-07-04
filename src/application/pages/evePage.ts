@@ -8,15 +8,19 @@ export function createEvePage(): PageModel {
     pageId: "eve",
     kind: "MEMBER",
     title: "Meet Eve",
-    subtitle: "Warm, loving, present, emotionally intelligent, graceful, and dignified.",
+    subtitle: "A warm AI companion for presence, dignity, and reflection.",
     seoTitle: "Meet Eve — Humanity Laws",
     accessibilitySummary: "Eve AI companion page",
-    actions: [{ label: "Open Council", href: "/council", kind: "PRIMARY" }],
+    actions: [
+      { label: "Open Council", href: "/council", kind: "PRIMARY" },
+      { label: "Visit The Table", href: "/table", kind: "SECONDARY" },
+      { label: "Save to Library", href: "/library", kind: "TERTIARY" },
+    ],
     sections: [
       { eyebrow: "Transparent companion", title: "Eve is AI, not human.", body: "Eve is designed to support presence, dignity, warmth, and emotionally intelligent reflection while always preserving AI transparency." },
       { eyebrow: "Connected foundation", title: "Eve is using the verified Adam/Eve foundation.", body: `Eve is wired to the same dignity, source, and professional-boundary safeguards used by Council. Verified book sources visible: ${sourceReport.sources.length}.` },
       { eyebrow: "Source ledger", title: "The Humanity Laws source is visible.", body: `Preserved book archive: ${runtime.archiveManifest.source.pageCount} pages. SHA-256: ${runtime.bookRegistry.source.sha256}.` },
-      { title: "What Eve protects", body: "Eve protects against shame, coldness, emotional neglect, and forgetting the human being in front of you." },
+      { title: "How to use Eve", body: "Bring a feeling, relationship question, or moment that needs care. Eve helps you slow down and remember dignity." },
       { title: "Human judgment remains first", body: "Eve never pretends to be human and never replaces your judgment, relationships, faith, qualified help, or professional care." },
     ],
   };

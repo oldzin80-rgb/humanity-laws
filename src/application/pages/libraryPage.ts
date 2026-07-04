@@ -13,18 +13,20 @@ export function createLibraryPage(): PageModel {
     pageId: "library",
     kind: "MEMBER",
     title: "Living Library",
-    subtitle: "A quiet shelf for founder letters, book excerpts, Sparks, and Humanity Laws teachings.",
+    subtitle: "Your personal library for what matters.",
     seoTitle: "Living Library — Humanity Laws",
     accessibilitySummary: "Living Library page",
     actions: [
       { label: "Read the Book", href: "/book", kind: "PRIMARY" },
-      { label: "Return to Dashboard", href: "/dashboard", kind: "SECONDARY" },
+      { label: "Start Spark", href: "/spark", kind: "SECONDARY" },
+      { label: "Talk with Adam & Eve", href: "/council", kind: "TERTIARY" },
     ],
     sections: [
-      { eyebrow: "Library", title: "Start with the foundation. Grow with care.", body: "The Library begins with the book and grows through member practice, founder updates, and carefully reviewed resources." },
+      { eyebrow: "Personal Library", title: "Preserve what matters.", body: "The Library holds saved Sparks, reflections, favorite chapters, founder notes, podcast bookmarks, Table memories, and wellness notes as those features become verified." },
       { eyebrow: "Book archive", title: "Humanity Laws source ledger", body: `The preserved book archive is available to the Library: ${manifest.source.pageCount} pages, SHA-256 ${manifest.source.sha256}.` },
       { eyebrow: "Law index", title: "Page-referenced law and quote entries", body: `Law entries available: ${lawIndex.laws.length}. Quote entries with page provenance: ${quoteLibrary.quotes.length}.` },
-      { title: "No content for content's sake", body: "The Library should remain intentional. Every addition should help members return to truth, dignity, responsibility, and human growth." },
+      { title: "Find the next connection", body: "Move from a saved quote to a chapter, from a chapter to Spark, or from a Spark to Adam and Eve." },
     ],
+    emptyState: "Saved items will appear here after you save Sparks, reflections, chapters, founder updates, and Table memories.",
   };
 }

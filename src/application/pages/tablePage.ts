@@ -5,13 +5,18 @@ export function createTablePage(): PageModel {
     pageId: "table",
     kind: "MEMBER",
     title: "The Table",
-    subtitle: "A future room for shared humanity, thoughtful updates, and carefully protected community.",
+    subtitle: "A dining room for gratitude, hospitality, recipes, and meaningful conversation.",
     seoTitle: "The Table — Humanity Laws",
     accessibilitySummary: "The Table member page",
-    actions: [{ label: "Return to Dashboard", href: "/dashboard", kind: "SECONDARY" }],
+    actions: [
+      { label: "Save to Library", href: "/library", kind: "PRIMARY" },
+      { label: "Talk with Adam & Eve", href: "/council", kind: "SECONDARY" },
+      { label: "Return to Dashboard", href: "/dashboard", kind: "TERTIARY" },
+    ],
     sections: [
-      { eyebrow: "Coming online carefully", title: "Community deserves stewardship.", body: "The Table is prepared as a member space. Community features should launch only when moderation, dignity, and safety are ready." },
-      { title: "The standard", body: "When The Table opens, it should feel like a calm room where people are treated as human beings, not as engagement metrics." },
+      { eyebrow: "Hospitality", title: "Begin with gratitude.", body: "Use The Table for simple prompts, family recipes, seasonal meals, and conversations that help people feel welcomed." },
+      { eyebrow: "Connection", title: "Not another feed.", body: "The Table should encourage meaningful interaction and never become a place for endless consumption." },
+      { eyebrow: "Next", title: "Carry the moment forward.", body: "Save a memory to the Living Library or bring a relationship question to Adam and Eve." },
     ],
   };
 }

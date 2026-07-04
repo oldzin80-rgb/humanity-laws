@@ -11,7 +11,9 @@ import { createEvePage } from "./pages/evePage.js";
 import { createTablePage } from "./pages/tablePage.js";
 import { createLibraryPage } from "./pages/libraryPage.js";
 import { createFounderPage } from "./pages/founderPage.js";
+import { createPodcastPage } from "./pages/podcastPage.js";
 import { createWellnessPage } from "./pages/wellnessPage.js";
+import { createCommunityPage } from "./pages/communityPage.js";
 import { createHardcoverPage } from "./pages/hardcoverPage.js";
 import { createLoginPage } from "./pages/loginPage.js";
 import { createSignupPage } from "./pages/signupPage.js";
@@ -41,8 +43,10 @@ export const LaunchRoutes: RouteDefinition[] = [
   { path: "/council", label: "Council", pageId: "council", requiresAuth: true, requiresAdmin: false },
   { path: "/table", label: "The Table", pageId: "table", requiresAuth: true, requiresAdmin: false },
   { path: "/library", label: "Living Library", pageId: "library", requiresAuth: true, requiresAdmin: false },
+  { path: "/podcast", label: "Podcast", pageId: "podcast", requiresAuth: false, requiresAdmin: false },
   { path: "/founder", label: "Founder", pageId: "founder", requiresAuth: true, requiresAdmin: false },
   { path: "/wellness", label: "Wellness", pageId: "wellness", requiresAuth: true, requiresAdmin: false },
+  { path: "/community", label: "Community", pageId: "community", requiresAuth: true, requiresAdmin: false },
   { path: "/book/hardcover", label: "Hardcover", pageId: "hardcover", requiresAuth: false, requiresAdmin: false },
   { path: "/admin", label: "Admin", pageId: "admin", requiresAuth: true, requiresAdmin: true },
   { path: "/launch-status", label: "Launch Status", pageId: "launch-status", requiresAuth: false, requiresAdmin: false },
@@ -66,8 +70,10 @@ export function routePage(path: string, bundle?: EvidenceBundle): PageModel {
   if (path === "/council") return createCouncilPage();
   if (path === "/table") return createTablePage();
   if (path === "/library") return createLibraryPage();
+  if (path === "/podcast") return createPodcastPage();
   if (path === "/founder") return createFounderPage();
   if (path === "/wellness") return createWellnessPage();
+  if (path === "/community") return createCommunityPage();
   if (path === "/book/hardcover") return createHardcoverPage();
   if (path === "/admin") return createAdminPage();
   if (path === "/launch-status") return createLaunchStatusPage(createReleaseReadinessReport(bundle ?? { createdAt: new Date().toISOString(), workspaceRoot: ".", evidence: [] }));

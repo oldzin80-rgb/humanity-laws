@@ -12,28 +12,27 @@ export function createHomePage(): PageModel {
     actions: [
       { label: "Join for $7/month", href: "/join", kind: "PRIMARY", ariaLabel: "Join Humanity Laws for seven dollars per month" },
       { label: "Read the Book", href: "/book", kind: "SECONDARY" },
-      { label: "Meet Adam and Eve", href: "/council", kind: "TERTIARY" },
+      { label: "Talk with Adam & Eve", href: "/council", kind: "TERTIARY" },
     ],
     sections: [
       {
-        eyebrow: "A new home",
-        title: "Peaceful by design. Practical by purpose.",
-        body:
-          "Humanity Laws is a premium member home for reflection, responsibility, dignity, and daily return. It is intentionally quiet, clear, and built to help people feel more human when they leave than when they arrived.",
+        eyebrow: "Front Door",
+        title: "A calm home for daily growth.",
+        body: "Humanity Laws gives members one place to read, reflect, talk with Adam and Eve, save what matters, and return to a better rhythm.",
       },
       {
-        eyebrow: "The path",
-        title: "Read the foundation. Practice it daily.",
+        eyebrow: "Book",
+        title: "Start with the foundation.",
         body: NewHomeLanguage.book,
         bullets: [
-          "The book introduces the standard.",
-          "Spark gives you one focused reflection.",
-          "Council helps you think with Adam and Eve while keeping you in charge.",
+          "Read the principles.",
+          "Use Spark for one focused reflection.",
+          "Use Council for deeper perspective while you remain in charge.",
         ],
       },
       {
-        eyebrow: "Transparent companions",
-        title: "Adam and Eve support reflection without pretending to be human.",
+        eyebrow: "Adam & Eve",
+        title: "AI companions with clear boundaries.",
         body: HumanExperienceCopy.aiTransparency,
         bullets: [
           "Adam brings grounded responsibility and truth.",
@@ -42,9 +41,19 @@ export function createHomePage(): PageModel {
         ],
       },
       {
-        eyebrow: "Simple membership",
-        title: "Value-for-value. No manipulation.",
+        eyebrow: "Membership",
+        title: "Simple access. No manipulation.",
         body: HumanExperienceCopy.membershipPromise,
+      },
+      {
+        eyebrow: "The Table",
+        title: "A room for gratitude and connection.",
+        body: "The Table connects recipes, reflection, hospitality, and meaningful conversation without becoming another feed.",
+      },
+      {
+        eyebrow: "Founder",
+        title: "Follow the stewardship.",
+        body: "Founder updates keep the mission transparent, grounded, and accountable as the house grows.",
       },
     ],
   };
