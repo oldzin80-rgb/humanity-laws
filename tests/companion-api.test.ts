@@ -85,3 +85,38 @@ test("companion API persists consent and saved insight when Supabase service rol
     globalThis.fetch = oldFetch;
   }
 });
+
+test("companion API returns response without false saved state when persistence insert fails", async () => {
+  const oldEnv = { ...process.env };
+  const oldFetch = globalThis.fetch;
+  process.env.SUPABASE_URL = "https://supabase.example";
+  process.env.SUPABASE_ANON_KEY = "anon";
+  process.env.SUPABASE_SERVICE_ROLE_KEY = "service";
+  globalThis.fetch = async (input) => {
+    const url = String(input);
+    if (url.includes("/auth/v1/user")) return new Response(JSON.stringify({ id: "11111111-1111-1111-1111-111111111111", email: "member@example.com" }), { status: 200 });
+    if (url.includes("/rest/v1/companion_conversation_turns")) return new Response(JSON.stringify({ message: "insert failed" }), { status: 500 });
+    return new Response("not found", { status: 404 });
+  };
+
+  try {
+    const result = await handleCompanionRequest(jsonRequest({
+      companion: "Eve",
+      input: "Help me reflect with care.",
+      consentToRemember: true,
+      saveInsight: true,
+    }));
+
+    assert.equal(result.status, 200);
+    assert.equal(result.body.success, true);
+    assert.equal(result.body.companion, "Eve");
+    assert.equal(result.body.persisted, false);
+    assert.equal(result.body.savedInsight, false);
+    assert.equal(result.body.savedInsightId, undefined);
+    assert.equal(result.body.persistenceWarning, "Conversation response returned, but saving was unavailable.");
+    assert.match(String(result.body.message), /Eve: I am an AI companion\./);
+  } finally {
+    process.env = oldEnv;
+    globalThis.fetch = oldFetch;
+  }
+});

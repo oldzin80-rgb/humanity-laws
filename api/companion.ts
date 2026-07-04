@@ -1,11 +1,31 @@
 import type { ApiRequest, ApiResponse } from "../src/server/http.js";
 import { bearerToken, methodNotAllowed, readJsonBody, sendJson } from "../src/server/http.js";
 import { verifySupabaseAccessToken } from "../src/server/supabaseMembership.js";
-import { DemoCompanionGateway } from "../src/experiences/companionGateway.js";
 import { persistCompanionTurn } from "../src/server/supabaseCompanionPersistence.js";
+import type { CompanionTurnPersistenceResult } from "../src/server/supabaseCompanionPersistence.js";
+import type { CompanionResponse } from "../src/experiences/types.js";
 
 function isCompanion(value: unknown): value is "Adam" | "Eve" {
   return value === "Adam" || value === "Eve";
+}
+
+async function generateCompanionResponse(companion: "Adam" | "Eve", input: string): Promise<CompanionResponse> {
+  try {
+    const { DemoCompanionGateway } = await import("../src/experiences/companionGateway.js");
+    return await new DemoCompanionGateway().respond(companion, input);
+  } catch (error) {
+    console.error("Companion runtime unavailable", error);
+    return {
+      companion,
+      message:
+        companion === "Adam"
+          ? "Adam: I am an AI companion. I can still help you slow down, name the truth in front of you, and choose one responsible next step."
+          : "Eve: I am an AI companion. I can still help you slow down, honor the human being in the moment, and choose one caring next step.",
+      transparency: "AI_TRANSPARENT",
+      humanSovereigntyReminder: "This is reflective support from AI; your human judgment remains final.",
+      sourceSummary: "Source ledger temporarily unavailable.",
+    };
+  }
 }
 
 export async function handleCompanionRequest(req: ApiRequest): Promise<{ status: number; body: Record<string, unknown> }> {
@@ -29,8 +49,7 @@ export async function handleCompanionRequest(req: ApiRequest): Promise<{ status:
   const consentToRemember = body.consentToRemember === true;
   const saveInsight = body.saveInsight === true;
 
-  const gateway = new DemoCompanionGateway();
-  const response = await gateway.respond(body.companion, input);
+  const response = await generateCompanionResponse(body.companion, input);
   const persistence = await persistCompanionTurn(
     {
       supabaseUrl: process.env.SUPABASE_URL,
@@ -46,18 +65,23 @@ export async function handleCompanionRequest(req: ApiRequest): Promise<{ status:
       consentToRemember,
       saveInsight,
     },
-  );
-  if (!persistence.success) return { status: 500, body: { success: false, error: persistence.error ?? "Conversation persistence failed." } };
+  ).catch((error: unknown): CompanionTurnPersistenceResult => {
+    console.error("Companion persistence unavailable", error);
+    return { success: false, persisted: false, error: "Conversation response returned, but saving was unavailable." };
+  });
+  const persistenceWarning = persistence.success ? undefined : "Conversation response returned, but saving was unavailable.";
+  if (!persistence.success) console.error("Companion persistence failed", persistence.error);
 
   return {
     status: 200,
     body: {
       success: true,
       conversationId: persistence.turnId ?? `local_${crypto.randomUUID()}`,
-      persisted: persistence.persisted,
+      persisted: persistence.success ? persistence.persisted : false,
+      persistenceWarning,
       memoryConsent: consentToRemember,
-      savedInsight: saveInsight,
-      savedInsightId: persistence.savedInsightId,
+      savedInsight: persistence.success ? Boolean(persistence.savedInsightId) : false,
+      savedInsightId: persistence.success ? persistence.savedInsightId : undefined,
       companion: response.companion,
       message: response.message,
       transparency: response.transparency,
