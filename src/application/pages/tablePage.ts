@@ -1,22 +1,29 @@
 import type { PageModel } from "../types.js";
+import { createTableExperience } from "../../experiences/index.js";
 
 export function createTablePage(): PageModel {
+  const experience = createTableExperience();
+  const prompt = experience.prompt;
   return {
     pageId: "table",
     kind: "MEMBER",
     title: "The Table",
-    subtitle: "A dining room for gratitude, hospitality, recipes, and belonging.",
+    subtitle: "Gather. Receive one beautiful prompt. Share honestly. Remember what mattered.",
     seoTitle: "The Table — Humanity Laws",
-    accessibilitySummary: "The Table member page",
+    accessibilitySummary: "Warm gathering room for hospitality, conversation, gratitude, and remembrance",
     actions: [
-      { label: "Save to Library", href: "/library", kind: "PRIMARY" },
-      { label: "Talk with Adam & Eve", href: "/council", kind: "SECONDARY" },
-      { label: "Return to Dashboard", href: "/dashboard", kind: "TERTIARY" },
+      { label: "Discuss with Adam & Eve", href: "/council", kind: "PRIMARY" },
+      { label: "Save the Moment", href: "/library", kind: "SECONDARY" },
+      { label: "Start a Spark", href: "/spark", kind: "TERTIARY" },
     ],
     sections: [
-      { eyebrow: "Hospitality", title: "Begin with gratitude.", body: "Use The Table for simple prompts, family recipes, seasonal meals, and conversations that help people feel welcomed." },
-      { eyebrow: "Connection", title: "Not another feed.", body: "The Table should encourage meaningful interaction and never become a place for endless consumption." },
-      { eyebrow: "Next", title: "Carry the moment forward.", body: "Save a memory to the Library or bring one relationship question to Adam and Eve." },
+      { eyebrow: "Gather", title: "Choose who is at the table.", body: "Family, friends, date, dinner, community, or Founder Table. One gathering type is enough." },
+      { eyebrow: "Prompt", title: prompt.title, body: prompt.conversationPrompt },
+      { eyebrow: "Gratitude", title: "Ask one thankful question.", body: prompt.gratitudeQuestion },
+      { eyebrow: "Meal", title: "Optional meal idea.", body: prompt.mealIdea ?? "Food can stay simple. The point is presence." },
+      { eyebrow: "Toast", title: "Optional blessing or toast.", body: prompt.toast ?? "To the people around this table." },
+      { eyebrow: "Remember", title: "Save what mattered.", body: "Adam and Eve can receive Table context when you choose to save, discuss, or carry the moment forward." },
     ],
+    emptyState: "No feed. No performance. The Table is for one real moment of connection at a time.",
   };
 }

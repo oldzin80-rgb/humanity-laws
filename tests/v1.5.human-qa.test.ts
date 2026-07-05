@@ -119,6 +119,29 @@ test("Craftsmanship Pass 03 keeps Council decision-focused with human final auth
   assert.ok(html.includes("Review the Humanity Laws principle."));
 });
 
+test("The Table stays warm, simple, connected, and not a feed", () => {
+  const page = routePage("/table");
+  const html = renderPageModelToHtml(page);
+
+  assert.equal(page.subtitle, "Gather. Receive one beautiful prompt. Share honestly. Remember what mattered.");
+  assert.deepEqual(page.actions.map((action) => action.label), ["Discuss with Adam & Eve", "Save the Moment", "Start a Spark"]);
+  assert.ok(html.includes("Gather → Prompt → Share → Remember"));
+  assert.ok(html.includes("Family"));
+  assert.ok(html.includes("Friends"));
+  assert.ok(html.includes("Date"));
+  assert.ok(html.includes("Dinner"));
+  assert.ok(html.includes("Community"));
+  assert.ok(html.includes("Founder Table"));
+  assert.ok(html.includes("One prompt"));
+  assert.ok(html.includes("Gratitude"));
+  assert.ok(html.includes("Optional meal idea"));
+  assert.ok(html.includes("Optional blessing or toast"));
+  assert.ok(html.includes("queuedTableCompanionEvents"));
+  assert.ok(html.includes("data-table-action=\"adam_eve_opened\""));
+  assert.ok(html.includes("data-table-action=\"table_saved\""));
+  assert.doesNotMatch(html, /infinite scroll|public feed|likes|ranking/i);
+});
+
 test("Adam and Eve reach conversation UI readiness with real input and output controls", () => {
   for (const path of ["/adam", "/eve"]) {
     const html = routeHtml(path);
