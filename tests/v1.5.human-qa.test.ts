@@ -182,6 +182,23 @@ test("Social Media Command Center stays honest, approval-gated, and not a fake p
   assert.doesNotMatch(html, /auto-posted|live audience|viral/i);
 });
 
+test("Community & Relationships stays privacy-first, safety-gated, and not a fake social network", () => {
+  const page = routePage("/community");
+  const html = renderPageModelToHtml(page);
+
+  assert.equal(page.title, "Community & Relationships");
+  assert.equal(page.subtitle, "A future relationship ecosystem for meaningful connection, shared growth, hospitality, service, and trust.");
+  assert.deepEqual(page.actions.map((action) => action.label), ["Visit The Table", "Open Council", "Return to Dashboard"]);
+  assert.ok(html.includes("Technology should help people connect more meaningfully"));
+  assert.ok(html.includes("Community Hub"));
+  assert.ok(html.includes("The Table Expansion"));
+  assert.ok(html.includes("Meeting &amp; Dating"));
+  assert.ok(html.includes("Choice, safety, and dignity come first."));
+  assert.ok(html.includes("No fake members, fake conversations, fake activity, or fake testimonials"));
+  assert.ok(html.includes("Community features are not live yet"));
+  assert.doesNotMatch(html, /fake member joined|live dating is active|messages are live|public ranking/i);
+});
+
 test("Adam and Eve reach conversation UI readiness with real input and output controls", () => {
   for (const path of ["/adam", "/eve"]) {
     const html = routeHtml(path);

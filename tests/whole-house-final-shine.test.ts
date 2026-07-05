@@ -69,10 +69,10 @@ test("placeholder rooms are honest and make no fake live claims", () => {
   assert.match(social, /No live publishing adapter is connected/);
   assert.match(social, /No social outlet is live-connected yet/);
   assert.match(community, /Community features are not live yet/);
-  assert.match(community, /No public feed or activity is being faked/);
+  assert.match(community, /No fake members, fake conversations, fake activity, or fake testimonials/);
   assert.match(companionRooms, /Avatar presence coming soon/);
   assert.match(companionRooms, /Not a live video call/);
-  assert.doesNotMatch(podcast + social + community + companionRooms, /live video call is active|SMS is live|real human|auto-posted/i);
+  assert.doesNotMatch(podcast + social + community + companionRooms, /live video call is active|SMS is live|Adam is a real human|Eve is a real human|auto-posted|live dating is active/i);
 });
 
 test("Settings is a real protected room with account, membership, and security paths", () => {
