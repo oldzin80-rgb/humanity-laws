@@ -17,6 +17,7 @@ const majorRooms = [
   "/founder",
   "/wellness",
   "/podcast",
+  "/social-media-command-center",
   "/community",
   "/membership",
   "/settings",
@@ -59,16 +60,19 @@ test("Whole House Final Shine leaves no major room as a dead end", () => {
 
 test("placeholder rooms are honest and make no fake live claims", () => {
   const podcast = htmlFor("/podcast");
+  const social = htmlFor("/social-media-command-center");
   const community = htmlFor("/community");
   const companionRooms = [htmlFor("/adam"), htmlFor("/eve"), htmlFor("/council")].join("\n");
 
   assert.match(podcast, /Podcast publishing is not live yet/);
   assert.match(podcast, /No episodes are being presented as live/);
+  assert.match(social, /No live publishing adapter is connected/);
+  assert.match(social, /No social outlet is live-connected yet/);
   assert.match(community, /Community features are not live yet/);
   assert.match(community, /No public feed or activity is being faked/);
   assert.match(companionRooms, /Avatar presence coming soon/);
   assert.match(companionRooms, /Not a live video call/);
-  assert.doesNotMatch(podcast + community + companionRooms, /live video call is active|SMS is live|real human/i);
+  assert.doesNotMatch(podcast + social + community + companionRooms, /live video call is active|SMS is live|real human|auto-posted/i);
 });
 
 test("Settings is a real protected room with account, membership, and security paths", () => {

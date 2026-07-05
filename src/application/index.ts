@@ -16,6 +16,7 @@ export * from "./pages/councilPage.js";
 export * from "./pages/tablePage.js";
 export * from "./pages/libraryPage.js";
 export * from "./pages/podcastPage.js";
+export * from "./pages/socialMediaCommandCenterPage.js";
 export * from "./pages/founderPage.js";
 export * from "./pages/wellnessPage.js";
 export * from "./pages/communityPage.js";

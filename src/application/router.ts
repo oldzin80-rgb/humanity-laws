@@ -12,6 +12,7 @@ import { createTablePage } from "./pages/tablePage.js";
 import { createLibraryPage } from "./pages/libraryPage.js";
 import { createFounderPage } from "./pages/founderPage.js";
 import { createPodcastPage } from "./pages/podcastPage.js";
+import { createSocialMediaCommandCenterPage } from "./pages/socialMediaCommandCenterPage.js";
 import { createWellnessPage } from "./pages/wellnessPage.js";
 import { createCommunityPage } from "./pages/communityPage.js";
 import { createHardcoverPage } from "./pages/hardcoverPage.js";
@@ -45,6 +46,7 @@ export const LaunchRoutes: RouteDefinition[] = [
   { path: "/table", label: "The Table", pageId: "table", requiresAuth: true, requiresAdmin: false },
   { path: "/library", label: "Living Library", pageId: "library", requiresAuth: true, requiresAdmin: false },
   { path: "/podcast", label: "Podcast", pageId: "podcast", requiresAuth: false, requiresAdmin: false },
+  { path: "/social-media-command-center", label: "Social Command Center", pageId: "social-media-command-center", requiresAuth: true, requiresAdmin: true },
   { path: "/founder", label: "Founder", pageId: "founder", requiresAuth: true, requiresAdmin: false },
   { path: "/wellness", label: "Wellness", pageId: "wellness", requiresAuth: true, requiresAdmin: false },
   { path: "/community", label: "Community", pageId: "community", requiresAuth: true, requiresAdmin: false },
@@ -73,6 +75,7 @@ export function routePage(path: string, bundle?: EvidenceBundle): PageModel {
   if (path === "/table") return createTablePage();
   if (path === "/library") return createLibraryPage();
   if (path === "/podcast") return createPodcastPage();
+  if (path === "/social-media-command-center") return createSocialMediaCommandCenterPage();
   if (path === "/founder") return createFounderPage();
   if (path === "/wellness") return createWellnessPage();
   if (path === "/community") return createCommunityPage();

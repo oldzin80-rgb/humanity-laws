@@ -1,22 +1,28 @@
 import type { PageModel } from "../types.js";
+import { createPodcastExperience } from "../../experiences/index.js";
 
 export function createPodcastPage(): PageModel {
+  const experience = createPodcastExperience();
+  const episode = experience.featuredEpisode;
   return {
     pageId: "podcast",
     kind: "PUBLIC",
-    title: "Podcast",
-    subtitle: "A listening room for reviewed conversations, founder updates, and reflections.",
+    title: "The Listening Room",
+    subtitle: "Listen. Reflect. Discuss. Remember what stays with you.",
     seoTitle: "Podcast — Humanity Laws",
     accessibilitySummary: "Podcast listening room",
     actions: [
-      { label: "Latest Episodes", href: "/podcast", kind: "PRIMARY" },
-      { label: "Founder", href: "/founder", kind: "SECONDARY" },
-      { label: "Open Library", href: "/library", kind: "TERTIARY" },
+      { label: "Discuss with Adam & Eve", href: "/council", kind: "PRIMARY" },
+      { label: "Founder Letters", href: "/founder", kind: "SECONDARY" },
+      { label: "Start a Spark", href: "/spark", kind: "TERTIARY" },
     ],
     sections: [
-      { eyebrow: "Listening Room", title: "Listen, reflect, continue.", body: "Episodes will connect to Sparks, chapters, founder notes, and Library items after review." },
-      { eyebrow: "Current state", title: "Podcast publishing is not live yet.", body: "No episodes are being presented as live. Use Founder updates and the Library for now." },
+      { eyebrow: "Featured Episode", title: episode.title, body: episode.theme },
+      { eyebrow: "Reflection", title: "Carry one sentence forward.", body: episode.reflectionPrompt },
+      { eyebrow: "Founder Voice", title: "The living voice stays accountable.", body: "Founder audio should support the book, not replace it. Episodes connect to Founder Letters after review." },
+      { eyebrow: "Current state", title: "Podcast publishing is not live yet.", body: "No episodes are being presented as live. No audience metrics or community activity are being faked." },
+      { eyebrow: "Remember", title: "Save what stayed with you.", body: "Adam and Eve can receive Podcast context when you choose to play, save, or discuss an episode." },
     ],
-    emptyState: "Episodes will appear here after they are reviewed, published, and connected to the Library.",
+    emptyState: "Podcast publishing is not live yet. Until then, use this room as a calm bridge to Founder Letters, Spark, The Table, and Adam & Eve.",
   };
 }

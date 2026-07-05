@@ -6,7 +6,7 @@ import { getHumanityLawsArchiveManifest } from "../src/humanity-laws-source/book
 const routeHtml = (path: string): string => renderPageModelToHtml(routePage(path));
 
 test("all expected visitor, member, and admin routes render accessible page models", () => {
-  const expected = ["/", "/book", "/join", "/login", "/dashboard", "/spark", "/adam", "/eve", "/council", "/table", "/library", "/podcast", "/founder", "/wellness", "/community", "/admin", "/launch-status"];
+  const expected = ["/", "/book", "/join", "/login", "/dashboard", "/spark", "/adam", "/eve", "/council", "/table", "/library", "/podcast", "/social-media-command-center", "/founder", "/wellness", "/community", "/admin", "/launch-status"];
   for (const path of expected) {
     const route = LaunchRoutes.find((item) => item.path === path);
     assert.ok(route, `Missing route ${path}`);
@@ -20,7 +20,7 @@ test("all expected visitor, member, and admin routes render accessible page mode
 });
 
 test("unified house flow gives major rooms room indicators, next steps, and connected pathways", () => {
-  const expectedRooms = ["/", "/dashboard", "/book", "/spark", "/adam", "/eve", "/council", "/table", "/library", "/podcast", "/founder", "/wellness", "/community"];
+  const expectedRooms = ["/", "/dashboard", "/book", "/spark", "/adam", "/eve", "/council", "/table", "/library", "/podcast", "/social-media-command-center", "/founder", "/wellness", "/community"];
   for (const path of expectedRooms) {
     const html = routeHtml(path);
     assert.ok(html.includes("room-indicator"), `${path} should show where the member is`);
@@ -140,6 +140,42 @@ test("The Table stays warm, simple, connected, and not a feed", () => {
   assert.ok(html.includes("data-table-action=\"adam_eve_opened\""));
   assert.ok(html.includes("data-table-action=\"table_saved\""));
   assert.doesNotMatch(html, /infinite scroll|public feed|likes|ranking/i);
+});
+
+test("Podcast stays calm, reflective, honest, and connected", () => {
+  const page = routePage("/podcast");
+  const html = renderPageModelToHtml(page);
+
+  assert.equal(page.subtitle, "Listen. Reflect. Discuss. Remember what stays with you.");
+  assert.deepEqual(page.actions.map((action) => action.label), ["Discuss with Adam & Eve", "Founder Letters", "Start a Spark"]);
+  assert.ok(html.includes("Listen → Reflect → Discuss → Remember"));
+  assert.ok(html.includes("Featured Episode"));
+  assert.ok(html.includes("Founder Voice"));
+  assert.ok(html.includes("Podcast publishing is not live yet"));
+  assert.ok(html.includes("No episodes are being presented as live"));
+  assert.ok(html.includes("queuedPodcastCompanionEvents"));
+  assert.ok(html.includes("data-podcast-action=\"episode_played\""));
+  assert.ok(html.includes("data-podcast-action=\"podcast_discussed\""));
+  assert.ok(html.includes("data-podcast-action=\"podcast_reflection_saved\""));
+  assert.doesNotMatch(html, /trending|listener count|reviews|ranking|noisy feed/i);
+});
+
+test("Social Media Command Center stays honest, approval-gated, and not a fake posting system", () => {
+  const page = routePage("/social-media-command-center");
+  const html = renderPageModelToHtml(page);
+
+  assert.equal(page.subtitle, "Plan calmly. Approve honestly. Export safely. Publish only after real channels are verified.");
+  assert.deepEqual(page.actions.map((action) => action.label), ["Create Campaign", "Review with Adam & Eve", "Return to Dashboard"]);
+  assert.ok(html.includes("Social Command Center"));
+  assert.ok(html.includes("Idea → Campaign → Content Set → Channel Arrangement → Schedule → Approval → Publish/Export → Reflect/Analyze"));
+  assert.ok(html.includes("Human approval stays before publishing."));
+  assert.ok(html.includes("Manual export only"));
+  assert.ok(html.includes("No social outlet is live-connected yet"));
+  assert.ok(html.includes("queuedSocialCommandCenterEvents"));
+  assert.ok(html.includes("data-social-action=\"campaign_created\""));
+  assert.ok(html.includes("data-social-action=\"campaign_approved\""));
+  assert.ok(html.includes("data-social-action=\"campaign_exported\""));
+  assert.doesNotMatch(html, /auto-posted|live audience|viral/i);
 });
 
 test("Adam and Eve reach conversation UI readiness with real input and output controls", () => {
