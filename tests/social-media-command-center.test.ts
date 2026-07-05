@@ -75,7 +75,9 @@ test("Social command center page renders as an admin command room with honest pl
   assert.equal(route?.requiresAdmin, true);
   assert.equal(page.pageId, "social-media-command-center");
   assert.equal(page.kind, "ADMIN");
+  assert.match(html, /Growth &amp; Communications Platform/);
   assert.match(html, /Social Media Command Center/);
+  assert.match(html, /Master Content Engine/);
   assert.match(html, /Idea → Campaign → Content Set → Channel Arrangement → Schedule → Approval → Publish\/Export → Reflect\/Analyze/);
   assert.match(html, /Manual export only/);
   assert.match(html, /No live publishing adapter is connected/);

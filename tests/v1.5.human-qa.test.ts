@@ -164,9 +164,13 @@ test("Social Media Command Center stays honest, approval-gated, and not a fake p
   const page = routePage("/social-media-command-center");
   const html = renderPageModelToHtml(page);
 
-  assert.equal(page.subtitle, "Plan calmly. Approve honestly. Export safely. Publish only after real channels are verified.");
+  assert.equal(page.title, "Growth & Communications Platform");
+  assert.equal(page.subtitle, "One calm command center for campaigns, content, audiences, messages, calendars, approvals, and truthful growth.");
   assert.deepEqual(page.actions.map((action) => action.label), ["Create Campaign", "Review with Adam & Eve", "Return to Dashboard"]);
-  assert.ok(html.includes("Social Command Center"));
+  assert.ok(html.includes("Growth &amp; Communications"));
+  assert.ok(html.includes("Social Media Command Center"));
+  assert.ok(html.includes("Master Content Engine"));
+  assert.ok(html.includes("Create once. Distribute thoughtfully."));
   assert.ok(html.includes("Idea → Campaign → Content Set → Channel Arrangement → Schedule → Approval → Publish/Export → Reflect/Analyze"));
   assert.ok(html.includes("Human approval stays before publishing."));
   assert.ok(html.includes("Manual export only"));
