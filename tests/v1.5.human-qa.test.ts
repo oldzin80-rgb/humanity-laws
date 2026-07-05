@@ -55,6 +55,9 @@ test("Craftsmanship Pass 01 keeps Dashboard calm and decision-light", () => {
   assert.equal(page.subtitle, "One daily next step. Everything else can wait.");
   assert.deepEqual(page.actions.map((action) => action.label), ["Start today's Spark", "Continue Reading", "Talk with Adam & Eve"]);
   assert.ok(html.includes("Begin with one thing."));
+  assert.ok(html.includes("Experience Orchestrator"));
+  assert.ok(html.includes("The house suggests. You choose."));
+  assert.ok(html.includes("recommendations optional, limited, and explainable"));
   assert.ok(html.includes("No pressure loops."));
   assert.ok(html.includes("reduce decisions"));
 });

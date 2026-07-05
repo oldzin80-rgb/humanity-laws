@@ -7,6 +7,7 @@ export * from "./podcastExperience.js";
 export * from "./socialMediaExperience.js";
 export * from "./growthCommunicationsExperience.js";
 export * from "./communityRelationshipsExperience.js";
+export * from "./experienceOrchestrator.js";
 export * from "./companionGateway.js";
 export * from "./councilConversationService.js";
 export * from "../communication/index.js";
