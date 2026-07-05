@@ -76,12 +76,14 @@ test("Craftsmanship Pass 02 keeps Spark a clear daily practice with no dead end"
   const page = routePage("/spark");
   const html = renderPageModelToHtml(page);
 
-  assert.equal(page.subtitle, "Ready for today’s Spark? One beautiful moment, one reflection, one next step.");
-  assert.deepEqual(page.actions.map((action) => action.label), ["Begin Morning Spark", "Talk with Adam", "Save to Library"]);
-  assert.ok(html.includes("Ready for today’s Spark?"));
-  assert.ok(html.includes("Pause for one minute."));
+  assert.equal(page.subtitle, "Spin the wheel. Roll the dice. Receive one question worth carrying into your day.");
+  assert.deepEqual(page.actions.map((action) => action.label), ["Discuss with Adam & Eve", "Save Spark", "Share Spark"]);
+  assert.ok(html.includes("Spin. Roll. Receive."));
+  assert.ok(html.includes("Start Spark"));
+  assert.ok(html.includes("Whisper"));
   assert.ok(html.includes("Wheel"));
   assert.ok(html.includes("Dice"));
+  assert.ok(html.includes("Today’s move"));
   assert.ok(html.includes("connected-pathways"));
 });
 

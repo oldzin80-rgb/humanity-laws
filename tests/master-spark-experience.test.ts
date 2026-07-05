@@ -3,9 +3,15 @@ import assert from "node:assert/strict";
 import { renderPageModelToHtml, routePage } from "../src/application/index.js";
 import {
   canAccessFounderSparkMode,
+  CinematicDailySparks,
+  createSparkCompanionEvent,
   createMasterSparkExperience,
+  createSimplifiedCinematicSparkExperience,
   createSparkGroupReadiness,
   createSparkNotificationReadiness,
+  FinalSparkCategories,
+  getDailyCinematicSpark,
+  resolveFinalSparkGame,
   selectSparkModes,
   SparkModeDefinitions,
 } from "../src/experiences/index.js";
@@ -122,16 +128,112 @@ test("Spark notifications and group readiness are honest placeholders only", () 
 test("Spark page exposes premium ritual UI without fake live systems", () => {
   const html = renderPageModelToHtml(routePage("/spark"));
 
-  assert.match(html, /Ready for today’s Spark/);
+  assert.match(html, /Spin\. Roll\. Receive\./);
   assert.match(html, /data-spark-ritual/);
-  assert.match(html, /Choose one main mode/);
-  assert.match(html, /Wheel/);
-  assert.match(html, /Dice/);
-  assert.match(html, /Morning Spark reminders coming soon/);
-  assert.match(html, /Notifications will be connected after provider verification/);
-  assert.match(html, /No live participants or group activity/);
-  assert.match(html, /Founder Podcast Mode is creator-only/);
+  assert.match(html, /data-spark-stage="idle"/);
+  assert.match(html, /classy roulette table/i);
+  assert.match(html, /data-roulette-color="(red|black|green)"/);
+  assert.match(html, /data-dice-path="(one_die|two_dice|founder_wildcard)"/);
+  assert.match(html, /physical dice roll|One die|Two dice|No dice/i);
+  assert.match(html, /Start Spark/);
+  assert.match(html, /role="status" aria-live="polite"/);
+  assert.match(html, /Preparing today’s Spark/);
+  assert.match(html, /Whisper/);
+  assert.match(html, /Question/);
+  assert.match(html, /Reflect/);
+  assert.match(html, /Action/);
+  assert.match(html, /Discuss with Adam &amp; Eve/);
+  assert.doesNotMatch(html, /Choose one main mode|Available member modes|Selected category|Founder Podcast Mode is creator-only/);
+  assert.doesNotMatch(html, /Notifications will be connected after provider verification|No live participants or group activity/);
   assert.doesNotMatch(html, /SMS is live|push notification sent|live participants are waiting|published live podcast/i);
+});
+
+test("Simplified cinematic Spark keeps engines backstage and reveals one daily Spark", () => {
+  const date = new Date("2026-07-04T12:00:00Z");
+  const spark = getDailyCinematicSpark(date);
+  const experience = createSimplifiedCinematicSparkExperience(date);
+
+  assert.ok(CinematicDailySparks.length >= 6);
+  assert.equal(FinalSparkCategories.length, 12);
+  assert.equal(experience.spark.id, spark.id);
+  assert.equal(experience.result.mode, "solo");
+  assert.deepEqual(experience.stages, ["idle", "preparing", "spinning", "rolling", "revealing", "ready"]);
+  assert.deepEqual(experience.polish, {
+    reducedMotion: true,
+    mobileOptimized: true,
+    companionEventsBuffered: true,
+    oneDailySpin: true,
+  });
+  assert.equal(experience.enginesBackstage, true);
+  assert.equal(experience.visibleModes, false);
+  assert.equal(experience.visibleCategories, false);
+  assert.deepEqual(experience.path, ["Spin", "Roll", "Receive", "Reflect", "Adam & Eve"]);
+  assert.deepEqual(experience.nextSteps, ["Discuss with Adam & Eve", "Save to Library", "Return Tomorrow"]);
+  assert.deepEqual(experience.rouletteLogic, {
+    red: "two dice reveal categories 7–12",
+    black: "one die reveals categories 1–6",
+    green: "Founder Wildcard, no dice",
+  });
+  assert.equal(experience.wheel.reducedMotionFallback, true);
+  assert.equal(experience.dice.reducedMotionFallback, true);
+});
+
+test("Spark extra buff polish adds accessible transitions, replay protection, and event buffering", () => {
+  const html = renderPageModelToHtml(routePage("/spark"));
+
+  assert.match(html, /data-stage-chip="preparing"/);
+  assert.match(html, /data-stage-chip="spinning"/);
+  assert.match(html, /data-stage-chip="rolling"/);
+  assert.match(html, /data-stage-chip="revealing"/);
+  assert.match(html, /data-stage-chip="ready"/);
+  assert.match(html, /prefers-reduced-motion:reduce/);
+  assert.match(html, /queuedCompanionEvents/);
+  assert.match(html, /hl_spark_daily_spin_v1/);
+  assert.match(html, /navigator\.vibrate/);
+  assert.match(html, /aria-label="Start today’s Spark roulette and dice reveal"/);
+  assert.match(html, /viewport-fit=cover/);
+});
+
+test("Final Spark roulette resolves black, red, and green paths correctly", () => {
+  const black = resolveFinalSparkGame(new Date("2026-07-05T12:00:00Z"));
+  const red = resolveFinalSparkGame(new Date("2026-07-04T12:00:00Z"));
+  const green = resolveFinalSparkGame(new Date("2026-07-11T12:00:00Z"), "founder");
+
+  assert.equal(black.rouletteColor, "black");
+  assert.equal(black.dicePath, "one_die");
+  assert.equal(black.diceValues.length, 1);
+  assert.equal(typeof black.categoryNumber, "number");
+  assert.ok(Number(black.categoryNumber) >= 1 && Number(black.categoryNumber) <= 6);
+
+  assert.equal(red.rouletteColor, "red");
+  assert.equal(red.dicePath, "two_dice");
+  assert.equal(red.diceValues.length, 2);
+  assert.equal(typeof red.categoryNumber, "number");
+  assert.ok(Number(red.categoryNumber) >= 7 && Number(red.categoryNumber) <= 12);
+
+  assert.equal(green.rouletteColor, "green");
+  assert.equal(green.dicePath, "founder_wildcard");
+  assert.deepEqual(green.diceValues, []);
+  assert.equal(green.categoryNumber, "wildcard");
+  assert.equal(green.categoryName, "Founder Wildcard");
+});
+
+test("Final Spark companion events keep Adam and Eve connectability user-owned", () => {
+  const spark = resolveFinalSparkGame(new Date("2026-07-04T12:00:00Z"));
+  const event = createSparkCompanionEvent({
+    userId: "member_1",
+    type: "spark_received",
+    spark,
+    createdAt: "2026-07-04T12:00:00.000Z",
+  });
+
+  assert.equal(event.source, "spark");
+  assert.equal(event.type, "spark_received");
+  assert.equal(event.companionVisible, true);
+  assert.equal(event.userOwned, true);
+  assert.equal(event.editableByUser, true);
+  assert.equal(event.deletableByUser, true);
+  assert.equal(event.purpose, "personalized_reflection_and_growth");
 });
 
 test("Spark connects to relevant rooms without showing every room at once", () => {

@@ -1,5 +1,344 @@
 import crypto from "node:crypto";
 
+export type SparkTone = "playful" | "bold" | "curious" | "reflective" | "funny" | "uplifting";
+export type RouletteColor = "red" | "black" | "green";
+export type DicePath = "one_die" | "two_dice" | "founder_wildcard";
+export type SparkStage = "idle" | "preparing" | "spinning" | "rolling" | "revealing" | "ready";
+export type FinalSparkMode = "solo" | "group" | "family" | "date" | "friends" | "founder";
+export type CompanionEventStatus = "sent" | "queued" | "failed";
+
+export interface SparkPolishSettings {
+  reducedMotion: boolean;
+  mobileOptimized: boolean;
+  companionEventsBuffered: boolean;
+  oneDailySpin: boolean;
+}
+
+export interface FinalSparkCategory {
+  number: number;
+  name: string;
+  whatItIs: string;
+}
+
+export interface FinalSparkResult {
+  rouletteColor: RouletteColor;
+  dicePath: DicePath;
+  diceValues: readonly number[];
+  categoryNumber: number | "wildcard";
+  categoryName: string;
+  title: string;
+  whatItIs: string;
+  question: string;
+  mode: FinalSparkMode;
+}
+
+export type SparkCompanionEventType =
+  | "spark_started"
+  | "roulette_landed"
+  | "dice_rolled"
+  | "spark_received"
+  | "spark_answered"
+  | "spark_saved"
+  | "spark_shared"
+  | "adam_eve_opened";
+
+export interface SparkCompanionEvent {
+  userId: string;
+  type: SparkCompanionEventType;
+  source: "spark";
+  mode: FinalSparkMode;
+  spark?: FinalSparkResult;
+  userOutput?: string;
+  createdAt: string;
+  companionVisible: true;
+  userOwned: true;
+  editableByUser: true;
+  deletableByUser: true;
+  purpose: "personalized_reflection_and_growth";
+}
+
+export interface CinematicSpark {
+  id: string;
+  title: string;
+  whisper: string;
+  question: string;
+  reflection: string;
+  action: string;
+  tone: SparkTone;
+}
+
+export interface SimplifiedCinematicSparkExperience {
+  spark: CinematicSpark;
+  result: FinalSparkResult;
+  stages: readonly ["idle", "preparing", "spinning", "rolling", "revealing", "ready"];
+  polish: SparkPolishSettings;
+  wheel: {
+    label: "Classy casino roulette table";
+    state: SparkStage;
+    color: RouletteColor;
+    reducedMotionFallback: true;
+  };
+  dice: {
+    label: "Physical dice roll";
+    path: DicePath;
+    values: readonly number[];
+    state: SparkStage;
+    reducedMotionFallback: true;
+  };
+  rouletteLogic: {
+    red: "two dice reveal categories 7–12";
+    black: "one die reveals categories 1–6";
+    green: "Founder Wildcard, no dice";
+  };
+  path: readonly ["Spin", "Roll", "Receive", "Reflect", "Adam & Eve"];
+  nextSteps: readonly ["Discuss with Adam & Eve", "Save to Library", "Return Tomorrow"];
+  companionEvents: readonly SparkCompanionEventType[];
+  enginesBackstage: true;
+  visibleModes: false;
+  visibleCategories: false;
+}
+
+export const FinalSparkCategories: readonly FinalSparkCategory[] = [
+  { number: 1, name: "Truth", whatItIs: "Seeing clearly, even when comfort wants the remote." },
+  { number: 2, name: "Responsibility", whatItIs: "Owning your part without carrying what is not yours." },
+  { number: 3, name: "Human Value", whatItIs: "Remembering people are never just roles, labels, or opinions." },
+  { number: 4, name: "Unity", whatItIs: "Finding the bridge before building another wall." },
+  { number: 5, name: "Discipline", whatItIs: "Doing the small thing before it becomes the big problem." },
+  { number: 6, name: "Creation", whatItIs: "Turning what is inside you into something useful outside you." },
+  { number: 7, name: "Balance", whatItIs: "Knowing when to push, pause, laugh, or log off." },
+  { number: 8, name: "Protection", whatItIs: "Guarding what matters without becoming closed to life." },
+  { number: 9, name: "Contribution", whatItIs: "Making the room better because you showed up." },
+  { number: 10, name: "Growth", whatItIs: "Letting yesterday teach you without letting it own you." },
+  { number: 11, name: "Consciousness", whatItIs: "Noticing the story you are living before it writes itself." },
+  { number: 12, name: "Legacy", whatItIs: "Leaving behind proof that love became action." },
+] as const;
+
+export const CinematicDailySparks: readonly CinematicSpark[] = [
+  {
+    id: "spark-001",
+    title: "Future You Is Watching",
+    whisper: "Small choices have long shadows.",
+    question: "What is one decision Future You would quietly high-five you for today?",
+    reflection: "The future is not built in one dramatic moment. It is shaped by ordinary choices made with unusual honesty.",
+    action: "Do one small thing today that makes tomorrow easier.",
+    tone: "playful",
+  },
+  {
+    id: "spark-002",
+    title: "Rent-Free Thoughts",
+    whisper: "Not every thought deserves a room in your mind.",
+    question: "What has been living in your head rent-free that needs an eviction notice?",
+    reflection: "Peace often begins when you stop giving unlimited space to things that give nothing back.",
+    action: "Write down one thought you are done feeding.",
+    tone: "funny",
+  },
+  {
+    id: "spark-003",
+    title: "The Tiny Brave Thing",
+    whisper: "Courage does not always roar. Sometimes it just clicks send.",
+    question: "What tiny brave thing have you been avoiding that would take less than five minutes?",
+    reflection: "Most people wait for confidence before action. But often, confidence arrives after movement.",
+    action: "Take the first five-minute step.",
+    tone: "bold",
+  },
+  {
+    id: "spark-004",
+    title: "Plot Twist Energy",
+    whisper: "Today is still being written.",
+    question: "If today had a plot twist, what would make it surprisingly better?",
+    reflection: "A day can change direction when a person chooses presence, humor, courage, or kindness at the right moment.",
+    action: "Create one small plot twist for the better.",
+    tone: "uplifting",
+  },
+  {
+    id: "spark-005",
+    title: "The Group Chat of Excuses",
+    whisper: "Excuses are loudest right before growth.",
+    question: "If your excuses had a group chat, what message would they be sending today?",
+    reflection: "Excuses often sound reasonable because they know your fears so well. But truth does not need to shout.",
+    action: "Name the excuse, then do one thing anyway.",
+    tone: "funny",
+  },
+  {
+    id: "spark-006",
+    title: "Main Character Moment",
+    whisper: "You are not here to drift through your own story.",
+    question: "What would the wiser version of you do in this scene?",
+    reflection: "Life becomes clearer when you stop watching yourself from a distance and start choosing with intention.",
+    action: "Make one choice today that matches the person you are becoming.",
+    tone: "bold",
+  },
+] as const;
+
+function dailySparkIndex(date = new Date()): number {
+  const seed = date.getFullYear() * 10000 + (date.getMonth() + 1) * 100 + date.getDate();
+  return seed % CinematicDailySparks.length;
+}
+
+function finalSparkSeed(date = new Date()): number {
+  return date.getFullYear() * 372 + (date.getMonth() + 1) * 31 + date.getDate();
+}
+
+function deterministicDie(seed: number, offset = 0): 1 | 2 | 3 | 4 | 5 | 6 {
+  return (((seed + offset) % 6) + 1) as 1 | 2 | 3 | 4 | 5 | 6;
+}
+
+export function getFinalSparkQuestion(category: string, mode: FinalSparkMode): string {
+  const questions: Record<FinalSparkMode, readonly string[]> = {
+    solo: [
+      `Where is ${category.toLowerCase()} trying to get your attention today?`,
+      "What would Future You high-five you for doing today?",
+      "What thought has been living rent-free in your head and needs to move out?",
+    ],
+    group: [
+      "What is one small thing someone did for you that they probably forgot — but you didn’t?",
+      "If this group had a theme song today, what would it be and why?",
+      "What is one truth people your age need to talk about more honestly?",
+    ],
+    family: [
+      "What is one family memory that deserves a comeback episode?",
+      "Who in this family quietly does more than people notice?",
+      "What is one tradition worth keeping, upgrading, or finally retiring?",
+    ],
+    date: [
+      "What is something simple that instantly makes you feel cared for?",
+      "What is one green flag people do not talk about enough?",
+      "What is something you find attractive that has nothing to do with looks?",
+    ],
+    friends: [
+      "Who in the friend group would survive a crisis — and who would bring snacks?",
+      "What is one inside joke that still deserves a standing ovation?",
+      "What is one way this group makes life better?",
+    ],
+    founder: [
+      "What would you build if you stopped waiting for permission?",
+      "What part of your story might help someone else one day?",
+      "What is one thing you know is true, even if you are still learning how to live it?",
+    ],
+  };
+  const list = questions[mode];
+  return list[finalSparkSeed() % list.length] ?? list[0]!;
+}
+
+export function resolveFinalSparkGame(date = new Date(), mode: FinalSparkMode = "solo"): FinalSparkResult {
+  const seed = finalSparkSeed(date);
+  const rouletteColor: RouletteColor = seed % 20 === 0 ? "green" : seed % 2 === 0 ? "black" : "red";
+
+  if (rouletteColor === "green") {
+    return {
+      rouletteColor,
+      dicePath: "founder_wildcard",
+      diceValues: [],
+      categoryNumber: "wildcard",
+      categoryName: "Founder Wildcard",
+      title: "The Unexpected Table",
+      whatItIs: "A founder-level question meant to surprise the room and open something real.",
+      question: getFinalSparkQuestion("Founder Wildcard", mode),
+      mode,
+    };
+  }
+
+  if (rouletteColor === "black") {
+    const die = deterministicDie(seed);
+    const category = FinalSparkCategories.find((item) => item.number === die) ?? FinalSparkCategories[0]!;
+    return {
+      rouletteColor,
+      dicePath: "one_die",
+      diceValues: [die],
+      categoryNumber: category.number,
+      categoryName: category.name,
+      title: `${category.number}. ${category.name}`,
+      whatItIs: category.whatItIs,
+      question: getFinalSparkQuestion(category.name, mode),
+      mode,
+    };
+  }
+
+  const firstDie = deterministicDie(seed, 1);
+  const secondDie = deterministicDie(seed, 4);
+  const categoryNumber = 7 + ((firstDie + secondDie - 2) % 6);
+  const category = FinalSparkCategories.find((item) => item.number === categoryNumber) ?? FinalSparkCategories[6]!;
+  return {
+    rouletteColor,
+    dicePath: "two_dice",
+    diceValues: [firstDie, secondDie],
+    categoryNumber: category.number,
+    categoryName: category.name,
+    title: `${category.number}. ${category.name}`,
+    whatItIs: category.whatItIs,
+    question: getFinalSparkQuestion(category.name, mode),
+    mode,
+  };
+}
+
+export function getDailyCinematicSpark(date = new Date()): CinematicSpark {
+  return CinematicDailySparks[dailySparkIndex(date)] ?? CinematicDailySparks[0]!;
+}
+
+export function createSparkCompanionEvent(params: {
+  userId: string;
+  type: SparkCompanionEventType;
+  mode?: FinalSparkMode;
+  spark?: FinalSparkResult;
+  userOutput?: string;
+  createdAt?: string;
+}): SparkCompanionEvent {
+  return {
+    userId: params.userId,
+    type: params.type,
+    source: "spark",
+    mode: params.mode ?? params.spark?.mode ?? "solo",
+    spark: params.spark,
+    userOutput: params.userOutput,
+    createdAt: params.createdAt ?? new Date().toISOString(),
+    companionVisible: true,
+    userOwned: true,
+    editableByUser: true,
+    deletableByUser: true,
+    purpose: "personalized_reflection_and_growth",
+  };
+}
+
+export function createSimplifiedCinematicSparkExperience(date = new Date(), mode: FinalSparkMode = "solo"): SimplifiedCinematicSparkExperience {
+  const spark = getDailyCinematicSpark(date);
+  const result = resolveFinalSparkGame(date, mode);
+  return {
+    spark,
+    result,
+    stages: ["idle", "preparing", "spinning", "rolling", "revealing", "ready"],
+    polish: {
+      reducedMotion: true,
+      mobileOptimized: true,
+      companionEventsBuffered: true,
+      oneDailySpin: true,
+    },
+    wheel: {
+      label: "Classy casino roulette table",
+      state: "ready",
+      color: result.rouletteColor,
+      reducedMotionFallback: true,
+    },
+    dice: {
+      label: "Physical dice roll",
+      path: result.dicePath,
+      values: result.diceValues,
+      state: "ready",
+      reducedMotionFallback: true,
+    },
+    rouletteLogic: {
+      red: "two dice reveal categories 7–12",
+      black: "one die reveals categories 1–6",
+      green: "Founder Wildcard, no dice",
+    },
+    path: ["Spin", "Roll", "Receive", "Reflect", "Adam & Eve"],
+    nextSteps: ["Discuss with Adam & Eve", "Save to Library", "Return Tomorrow"],
+    companionEvents: ["spark_started", "roulette_landed", "dice_rolled", "spark_received", "spark_answered", "spark_saved", "spark_shared", "adam_eve_opened"],
+    enginesBackstage: true,
+    visibleModes: false,
+    visibleCategories: false,
+  };
+}
+
 export type SparkPrimaryMode =
   | "morning_spark"
   | "evening_reflection"
