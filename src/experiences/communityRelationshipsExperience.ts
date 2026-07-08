@@ -1,3 +1,5 @@
+import { createFoundersBlessingsReadinessModel, type FoundersBlessingsReadinessModel } from "./foundersBlessingsService.js";
+
 export type CommunityRelationshipsModuleId =
   | "community_hub"
   | "table_expansion"
@@ -121,6 +123,93 @@ export interface CommunityIntegrationAdapter {
   configurationNote: string;
 }
 
+export interface FoundersBlessingsDatabasePlaceholder {
+  founders_blessings_profiles: readonly [
+    "id",
+    "member_id",
+    "enrollment_status",
+    "enrolled_at",
+    "eligibility_status",
+    "eligibility_reason",
+    "current_level",
+    "lifetime_blessings_received",
+    "last_included_event_id",
+    "last_selected_event_id",
+    "active_member_required",
+    "created_at",
+    "updated_at",
+  ];
+  founders_blessings_events: readonly [
+    "id",
+    "event_month",
+    "event_date",
+    "status",
+    "blessing_theme",
+    "gift_type",
+    "gift_description_private",
+    "estimated_gift_value",
+    "selected_member_id_nullable",
+    "founder_approved_member_id_nullable",
+    "founder_approval_status",
+    "admin_review_status",
+    "tax_accounting_review_status",
+    "legal_review_status",
+    "activation_status",
+    "created_at",
+    "updated_at",
+  ];
+  founders_blessings_candidates: readonly ["id", "event_id", "member_id", "profile_id", "eligibility_status", "exclusion_reason_nullable", "blessing_level_at_event", "created_at"];
+  founders_blessings_random_audits: readonly ["id", "event_id", "algorithm_name", "algorithm_version", "candidate_pool_hash", "request_id", "audit_hash", "created_at"];
+  founders_blessings_gifts: readonly ["id", "event_id", "recipient_member_id", "gift_type", "delivery_status", "payout_provider_nullable", "payout_status_nullable", "created_at"];
+  founders_blessings_notifications: readonly ["id", "event_id", "recipient_member_id_nullable", "notification_type", "notification_status", "public_identity_exposed", "created_at"];
+  founders_blessings_outcome_confirmations: readonly ["id", "event_id", "internal_gift_id", "public_confirmation_status", "public_month", "public_year", "public_category", "public_message", "exact_value_hidden", "recipient_identity_hidden", "communication_private", "approved_for_public_display", "approved_by_admin_id", "approved_at", "created_at", "updated_at"];
+  founders_blessings_private_communications: readonly ["id", "event_id", "member_id", "communication_type", "communication_channel", "message_status", "delivered_at", "read_at", "founder_message_optional", "follow_up_required", "created_at"];
+}
+
+export interface FoundersBlessingsFeatureModel {
+  name: "Founder’s Blessings";
+  subtitle: "An occasional expression of appreciation from the Founder to the Humanity Laws community.";
+  purpose: "Offer occasional private member recognition at Founder discretion with privacy, auditability, and clear activation gates.";
+  coreLanguage: string;
+  extraPurchaseRequired: false;
+  recipientIdentityPrivateByDefault: true;
+  publicAnnouncementEnabled: false;
+  automaticGiftEnabled: false;
+  automaticGiftDeliveryEnabled: false;
+  realMoneyMovementEnabled: false;
+  randomSelectionAssist: "Secure cryptographic standard";
+  founderFinalApprovalRequired: true;
+  adminReleaseRequired: true;
+  launchBlocking: false;
+  activationBlocking: true;
+  adminReviewRequired: true;
+  taxAccountingReviewRequired: true;
+  legalReviewRecommended: true;
+  backendIntegrationRequired: true;
+  readiness: FoundersBlessingsReadinessModel;
+  levels: readonly string[];
+  suggestedEventDateLabel: string;
+  statusLabel: "In preparation";
+  auditPlaceholder: string;
+  candidatePoolPlaceholder: string;
+  privateRecipientMessage: string;
+  quietImpactCard: {
+    title: "Quiet Impact";
+    body: string;
+    metrics: readonly string[];
+  };
+  privateRelationshipPrinciple: string;
+  memberAutonomyPrinciple: string;
+  anonymizedCommunityHistory: {
+    totalBlessingsPreparedLabel: string;
+    totalPrivateRecipientsLabel: string;
+    archive: readonly string[];
+  };
+  rulesAndPrivacy: readonly string[];
+  legalAdminTodos: readonly string[];
+  databasePlaceholders: FoundersBlessingsDatabasePlaceholder;
+}
+
 export interface CommunityRelationshipsPlatform {
   name: "Community & Relationships Platform";
   purpose: string;
@@ -144,6 +233,7 @@ export interface CommunityRelationshipsPlatform {
   noFakeTestimonials: true;
   userConsentFirst: true;
   privacyByDefault: true;
+  foundersBlessings: FoundersBlessingsFeatureModel;
   launchReady: false;
 }
 
@@ -162,7 +252,102 @@ export const CommunityRelationshipsModules: readonly CommunityRelationshipsModul
   { id: "future_integrations", title: "Future Integrations", purpose: "Prepare safe adapters for calendar, video meetings, messaging, ticketing, and identity verification.", status: "provider_required", privacyByDefault: true, humanModerationRequired: true },
 ];
 
+export function createFoundersBlessingsFeatureModel(): FoundersBlessingsFeatureModel {
+  const readiness = createFoundersBlessingsReadinessModel();
+
+  return {
+    name: "Founder’s Blessings",
+    subtitle: "An occasional expression of appreciation from the Founder to the Humanity Laws community.",
+    purpose: "Offer occasional private member recognition at Founder discretion with privacy, auditability, and clear activation gates.",
+    coreLanguage:
+      readiness.memberFacingCopy,
+    extraPurchaseRequired: false,
+    recipientIdentityPrivateByDefault: true,
+    publicAnnouncementEnabled: false,
+    automaticGiftEnabled: false,
+    automaticGiftDeliveryEnabled: false,
+    realMoneyMovementEnabled: false,
+    randomSelectionAssist: "Secure cryptographic standard",
+    founderFinalApprovalRequired: true,
+    adminReleaseRequired: true,
+    launchBlocking: false,
+    activationBlocking: true,
+    adminReviewRequired: true,
+    taxAccountingReviewRequired: true,
+    legalReviewRecommended: true,
+    backendIntegrationRequired: true,
+    readiness,
+    levels: [
+      "level_1 Active Member is active by default.",
+      "level_2 Long-Term Member is future-ready and inactive.",
+      "level_3 Founding Supporter is future-ready and inactive.",
+      "level_4 Community Contributor is future-ready and inactive.",
+      "level_5 Legacy Member is future-ready and inactive.",
+      "level_6 Founder’s Circle is future-ready and inactive.",
+    ],
+    suggestedEventDateLabel: "Occasional Founder-selected timing; no fixed public schedule.",
+    statusLabel: "In preparation",
+    auditPlaceholder: "Audit ID, request ID, candidate pool hash, timestamp, and algorithm version are recorded when selection assist is used.",
+    candidatePoolPlaceholder: "Eligible active paid members in good standing; exclusions are applied before any suggestion is generated.",
+    privateRecipientMessage: "Congratulations. The Founder has chosen to recognize you with a Founder’s Blessing as an expression of appreciation for being part of the Humanity Laws community. Further details will be shared privately.",
+    quietImpactCard: {
+      title: "Quiet Impact",
+      body: readiness.outcomeVerificationCopy,
+      metrics: [
+        "Blessings completed privately",
+        "This year",
+        "Last completed month",
+        "Recipient privacy: Protected",
+        "Communication: One-to-One",
+      ],
+    },
+    privateRelationshipPrinciple:
+      "Founder’s Blessings are a private expression of appreciation between Humanity Laws and an individual member. Official communication is one-to-one by default.",
+    memberAutonomyPrinciple: readiness.memberAutonomyCopy,
+    anonymizedCommunityHistory: {
+      totalBlessingsPreparedLabel: "0 shown until Founder/admin/legal review is complete.",
+      totalPrivateRecipientsLabel: "0 private recipients recorded.",
+      archive: ["No Founder’s Blessings have been activated yet. Any future community history remains anonymized unless a recipient explicitly opts in."],
+    },
+    rulesAndPrivacy: [
+      "Humanity Laws membership stands on its own value.",
+      "Founder’s Blessings are occasional, discretionary, not guaranteed, and may vary.",
+      "No extra purchase required.",
+      "Recipient identity remains private unless the recipient explicitly opts in.",
+      "Gift details require Founder approval, admin review, and tax/accounting review before activation.",
+      "Every active paid member in good standing is included through a Founder’s Blessings profile.",
+      "Eligibility pauses for canceled, refunded, banned, fraud-flagged, unpaid, duplicate, test, admin-excluded, or future jurisdiction-excluded accounts.",
+      "No money movement is enabled in this package.",
+      "Official platform communication remains private by default.",
+      "Member sharing is voluntary and member-controlled.",
+      "Humanity Laws reposting, quoting, or featuring a member story requires explicit permission.",
+      "No automatic social media posting, required testimony, leaderboard, ranking, or member comparison is created.",
+    ],
+    legalAdminTodos: [
+      "TODO: Supabase integration for founders_blessings_profiles, events, candidates, random audits, gifts, and notifications.",
+      "TODO: Founder/admin review workflow before any suggested recipient becomes final.",
+      "TODO: Tax/accounting review before any gift is released.",
+      "TODO: Payout or gift provider integration only after separate approval.",
+      "TODO: Public outcome confirmation requires admin approval and must remain anonymized by default.",
+      "TODO: Private communication logs must remain role-based and audited.",
+      "TODO: Legal review recommended before activation; do not activate gifts until approved.",
+    ],
+    databasePlaceholders: {
+      founders_blessings_profiles: ["id", "member_id", "enrollment_status", "enrolled_at", "eligibility_status", "eligibility_reason", "current_level", "lifetime_blessings_received", "last_included_event_id", "last_selected_event_id", "active_member_required", "created_at", "updated_at"],
+      founders_blessings_events: ["id", "event_month", "event_date", "status", "blessing_theme", "gift_type", "gift_description_private", "estimated_gift_value", "selected_member_id_nullable", "founder_approved_member_id_nullable", "founder_approval_status", "admin_review_status", "tax_accounting_review_status", "legal_review_status", "activation_status", "created_at", "updated_at"],
+      founders_blessings_candidates: ["id", "event_id", "member_id", "profile_id", "eligibility_status", "exclusion_reason_nullable", "blessing_level_at_event", "created_at"],
+      founders_blessings_random_audits: ["id", "event_id", "algorithm_name", "algorithm_version", "candidate_pool_hash", "request_id", "audit_hash", "created_at"],
+      founders_blessings_gifts: ["id", "event_id", "recipient_member_id", "gift_type", "delivery_status", "payout_provider_nullable", "payout_status_nullable", "created_at"],
+      founders_blessings_notifications: ["id", "event_id", "recipient_member_id_nullable", "notification_type", "notification_status", "public_identity_exposed", "created_at"],
+      founders_blessings_outcome_confirmations: ["id", "event_id", "internal_gift_id", "public_confirmation_status", "public_month", "public_year", "public_category", "public_message", "exact_value_hidden", "recipient_identity_hidden", "communication_private", "approved_for_public_display", "approved_by_admin_id", "approved_at", "created_at", "updated_at"],
+      founders_blessings_private_communications: ["id", "event_id", "member_id", "communication_type", "communication_channel", "message_status", "delivered_at", "read_at", "founder_message_optional", "follow_up_required", "created_at"],
+    },
+  };
+}
+
 export function createCommunityRelationshipsPlatform(): CommunityRelationshipsPlatform {
+  const foundersBlessings = createFoundersBlessingsFeatureModel();
+
   return {
     name: "Community & Relationships Platform",
     purpose: "Create a unified relationship ecosystem that helps people build meaningful connections while preserving privacy, safety, authenticity, and human dignity.",
@@ -223,6 +408,7 @@ export function createCommunityRelationshipsPlatform(): CommunityRelationshipsPl
     noFakeTestimonials: true,
     userConsentFirst: true,
     privacyByDefault: true,
+    foundersBlessings,
     launchReady: false,
   };
 }

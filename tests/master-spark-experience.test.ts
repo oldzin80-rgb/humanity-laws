@@ -278,7 +278,7 @@ test("Master Spark upgrade does not touch book/source, commerce/auth, Adam/Eve/C
   const bundle: EvidenceBundle = { createdAt: new Date().toISOString(), workspaceRoot: ".", evidence: [] };
 
   assert.ok(manifest.source.sha256.length > 20);
-  assert.deepEqual(membership.actions.map((action) => action.href), ["/checkout/monthly", "/checkout/yearly"]);
+  assert.deepEqual(membership.actions.map((action) => action.href), ["/checkout/monthly", "/checkout/book", "/book/hardcover"]);
   assert.match(adam + eve, /Write one clear message/);
   assert.match(council, /You make the final decision/);
   assert.equal(createReleaseReadinessReport(bundle).launchReady, false);

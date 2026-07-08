@@ -1,14 +1,15 @@
-import { DemoCompanionGateway } from "../experiences/companionGateway.js";
+import { createConfiguredCompanionGateway } from "../experiences/companionGateway.js";
 import type { CompanionGateway } from "../experiences/types.js";
 import { createMergedHumanityLawsRuntime } from "../runtime/mergedHumanityLaws.js";
 import { createPlaceholderChannelAdapters, isPlaceholderOnlyChannel } from "./channelAdapters.js";
 import { createCompanionExcellenceContext, createConversationQualityReviewHook, excellenceLine } from "./companionExcellenceEngine.js";
 import { createCompanionQualityIntelligence } from "./companionQualityIntelligence.js";
+import { buildHumanityLawsCompanionOS } from "./humanityLawsCompanionOperatingSystem.js";
 import { createImmersivePresenceMetadata } from "./immersivePresence.js";
 import { MasterCompanionOrchestrator } from "./masterCompanionOrchestrator.js";
 import { aiDisclosure, buildRelevantNextSteps, companionVoiceProfiles, createPresenceContext, shapeCompanionMessage, shapeCouncilMessage } from "./presenceEngine.js";
 import { createAvatarPresenceMetadata, RealtimeAvatarAdapter } from "./realtimeAvatarAdapter.js";
-import type { CompanionParticipant, EscalationBoundary, UnifiedCompanionRequest, UnifiedCompanionResponse } from "./types.js";
+import type { CompanionOperatingSystemRuntime, CompanionParticipant, EscalationBoundary, UnifiedCompanionRequest, UnifiedCompanionResponse } from "./types.js";
 
 const humanSovereigntyReminder = "This is reflective support from AI; your human judgment remains final.";
 
@@ -49,8 +50,55 @@ function principleSummary(sourcePrinciple: string): string {
   return sourcePrinciple.replace(/^Humanity Laws source remains preserved:\s*/i, "");
 }
 
+function companionOSModeFor(companion: CompanionParticipant): "Adam" | "Eve" | "Council" {
+  if (companion === "Eve") return "Eve";
+  if (companion === "Council" || companion === "AdamEve") return "Council";
+  return "Adam";
+}
+
+function buildCompanionOSRuntime(request: UnifiedCompanionRequest, sourceContext: string): {
+  prompt: string;
+  runtime: CompanionOperatingSystemRuntime;
+} {
+  const os = buildHumanityLawsCompanionOS({
+    mode: companionOSModeFor(request.companion),
+    memberId: request.memberId,
+    userMessage: request.message,
+    humanityLawsBookContext: [sourceContext],
+    memberContext: [
+      `Intent: ${request.intent}`,
+      `Channel: ${request.channel}`,
+      `Consent to remember: ${request.consentToRemember ? "yes" : "no"}`,
+      ...(request.conversationHistory ?? []).slice(-6).map((turn) => `${turn.companion}: ${turn.input ?? ""} ${turn.message ?? ""}`.trim()),
+    ],
+    sparkContext: request.intent === "spark_discussion" ? ["Spark context requested for this companion turn."] : [],
+    tableContext: request.intent === "table_community_connection" ? ["The Table/community context requested for this companion turn."] : [],
+    wellnessContext: request.intent === "wellness_support" ? ["Wellness context requested; preserve educational boundaries."] : [],
+    researchContext: ["Use safety, source hierarchy, AI transparency, and human sovereignty checks before answering."],
+  });
+  return {
+    prompt: os.systemPrompt,
+    runtime: {
+      mode: os.mode,
+      activeLayers: os.activeLayers,
+      launchStandard: os.launchStandard,
+      qualityGates: os.qualityGates,
+      governingLayer: true,
+      promptIncludedInProviderPath: true,
+      preservedEngines: [
+        "memory",
+        "communication",
+        "source",
+        "avatar_presence",
+        "quality_intelligence",
+        "safety_boundaries",
+      ],
+    },
+  };
+}
+
 export class UnifiedCompanionService {
-  constructor(private readonly gateway: CompanionGateway = new DemoCompanionGateway()) {}
+  constructor(private readonly gateway: CompanionGateway = createConfiguredCompanionGateway()) {}
 
   async respond(request: UnifiedCompanionRequest): Promise<UnifiedCompanionResponse> {
     if (isPlaceholderOnlyChannel(request.channel)) return this.placeholderResponse(request);
@@ -59,11 +107,31 @@ export class UnifiedCompanionService {
     }
     if (!isDirectCompanion(request.companion)) return this.councilResponse({ ...request, channel: "council_session", companion: "Council" });
 
-    const response = await this.gateway.respond(request.companion, request.message);
     const presence = createPresenceContext(request);
     const escalationBoundary = detectEscalationBoundary(request.message);
+    if (escalationBoundary.triggered) return this.safetyBoundaryResponse(request, presence, escalationBoundary);
+    const runtime = createMergedHumanityLawsRuntime();
+    const sourceContext = `Humanity Laws source remains preserved: SHA-256 ${runtime.bookRegistry.source.sha256}, ${runtime.archiveManifest.source.pageCount} pages.`;
+    const companionOS = buildCompanionOSRuntime(request, sourceContext);
+    const response = await this.gateway.respond(request.companion, request.message, {
+      memberId: request.memberId,
+      conversationHistory: request.conversationHistory,
+      sourceContext,
+      companionOperatingSystem: {
+        mode: companionOS.runtime.mode,
+        systemPrompt: companionOS.prompt,
+        activeLayers: companionOS.runtime.activeLayers,
+        launchStandard: companionOS.runtime.launchStandard,
+        qualityGates: companionOS.runtime.qualityGates,
+      },
+      intent: request.intent,
+      consentToRemember: request.consentToRemember,
+      safetyBoundary: escalationBoundary,
+    });
     const excellence = createCompanionExcellenceContext(request, presence);
-    const message = `${shapeCompanionMessage(request.companion, request, presence)} ${excellenceLine(excellence)}`;
+    const message = response.responseOrigin === "provider"
+      ? response.message
+      : `${shapeCompanionMessage(request.companion, request, presence)} ${excellenceLine(excellence)}`;
     const primaryNeed = excellence.humanNeeds[0];
     const internalQuality = createCompanionQualityIntelligence({
       request,
@@ -77,10 +145,13 @@ export class UnifiedCompanionService {
       message,
       companion: response.companion,
       channel: request.channel,
+      responseOrigin: response.responseOrigin ?? "demo_fallback",
+      providerName: response.providerName,
+      model: response.model,
       persisted: false,
       savedInsight: false,
       humanSovereigntyReminder: response.humanSovereigntyReminder,
-      sourceSummary: response.sourceSummary,
+      sourceSummary: response.sourceSummary ?? sourceContext,
       nextSteps: buildRelevantNextSteps(request, presence),
       transparency: response.transparency,
       aiDisclosure,
@@ -97,16 +168,77 @@ export class UnifiedCompanionService {
       immersivePresence: createImmersivePresenceMetadata(request),
       internalQuality,
       orchestration,
+      companionOS: companionOS.runtime,
+    };
+  }
+
+  private safetyBoundaryResponse(
+    request: UnifiedCompanionRequest,
+    presence: ReturnType<typeof createPresenceContext>,
+    escalationBoundary: EscalationBoundary,
+  ): UnifiedCompanionResponse {
+    const companion = request.companion === "Eve" ? "Eve" : "Adam";
+    const excellence = createCompanionExcellenceContext({ ...request, companion }, presence);
+    const message = `${companion}: I am an AI companion, not a real person. This may involve safety, medical, legal, financial, or other qualified human support. ${escalationBoundary.recommendedAction ?? "Please involve qualified human help before acting."} Your human judgment and real-world support come first.`;
+    const internalQuality = createCompanionQualityIntelligence({
+      request: { ...request, companion },
+      response: message,
+      context: presence,
+      primaryNeed: excellence.humanNeeds[0],
+      escalationNeeded: true,
+    });
+    const orchestration = new MasterCompanionOrchestrator().orchestrate({ request: { ...request, companion }, response: message, internalQuality });
+    return {
+      message,
+      companion,
+      channel: request.channel,
+      responseOrigin: "demo_fallback",
+      providerName: "safety_boundary",
+      persisted: false,
+      savedInsight: false,
+      humanSovereigntyReminder,
+      sourceSummary: "Safety boundary response. Humanity Laws source remains preserved; qualified human support is required for high-risk concerns.",
+      nextSteps: ["Pause and seek qualified human support", "Use your human judgment", "Return when it is safe to reflect"],
+      transparency: "AI_TRANSPARENT",
+      aiDisclosure,
+      presence,
+      voiceProfile: companionVoiceProfiles[companion],
+      memoryStatus: presence.memoryStatus,
+      excellence,
+      qualityReview: createConversationQualityReviewHook(excellence, { ...request, companion }, true),
+      escalationBoundary,
+      avatarPresence: createAvatarPresenceMetadata({
+        companion,
+        state: "reflecting",
+      }),
+      immersivePresence: createImmersivePresenceMetadata({ ...request, companion }),
+      internalQuality,
+      orchestration,
     };
   }
 
   private async councilResponse(request: UnifiedCompanionRequest): Promise<UnifiedCompanionResponse> {
     const runtime = createMergedHumanityLawsRuntime();
-    const adam = await this.gateway.respond("Adam", request.message);
-    const eve = await this.gateway.respond("Eve", request.message);
     const principle = `Humanity Laws source remains preserved: SHA-256 ${runtime.bookRegistry.source.sha256}, ${runtime.archiveManifest.source.pageCount} pages.`;
     const presence = createPresenceContext({ ...request, companion: "Council", channel: "council_session", intent: "council_request" });
     const councilRequest = { ...request, companion: "Council" as const, channel: "council_session" as const, intent: "council_request" as const };
+    const companionOS = buildCompanionOSRuntime(councilRequest, principle);
+    const councilGatewayContext = {
+      memberId: request.memberId,
+      conversationHistory: request.conversationHistory,
+      sourceContext: principle,
+      companionOperatingSystem: {
+        mode: companionOS.runtime.mode,
+        systemPrompt: companionOS.prompt,
+        activeLayers: companionOS.runtime.activeLayers,
+        launchStandard: companionOS.runtime.launchStandard,
+        qualityGates: companionOS.runtime.qualityGates,
+      },
+      intent: "council_request",
+      consentToRemember: request.consentToRemember,
+    };
+    const adam = await this.gateway.respond("Adam", request.message, councilGatewayContext);
+    const eve = await this.gateway.respond("Eve", request.message, councilGatewayContext);
     const escalationBoundary = detectEscalationBoundary(request.message);
     const excellence = createCompanionExcellenceContext(councilRequest, presence);
     const adamSees = "truth, responsibility, and one clear next step";
@@ -145,6 +277,7 @@ export class UnifiedCompanionService {
       immersivePresence: createImmersivePresenceMetadata(councilRequest),
       internalQuality,
       orchestration,
+      companionOS: companionOS.runtime,
       council: {
         adamPerspective: adam.message,
         evePerspective: eve.message,

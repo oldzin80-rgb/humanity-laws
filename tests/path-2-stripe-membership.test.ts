@@ -16,8 +16,10 @@ test("Path 2 Join buttons resolve to implemented checkout routes", () => {
   const html = renderPageModelToHtml(routePage("/join"));
 
   assert.ok(html.includes("/checkout/monthly"));
-  assert.ok(html.includes("/checkout/yearly"));
+  assert.ok(html.includes("/checkout/book"));
+  assert.ok(html.includes("/book/hardcover"));
   assert.equal(routePage("/checkout/monthly").pageId, "checkout-monthly");
+  assert.equal(routePage("/checkout/book").pageId, "checkout-book");
   assert.equal(routePage("/checkout/yearly").pageId, "checkout-yearly");
 });
 

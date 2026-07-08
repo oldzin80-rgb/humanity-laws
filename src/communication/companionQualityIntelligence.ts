@@ -13,6 +13,7 @@ import type {
   WonderMoment,
   WonderPrompt,
 } from "./types.js";
+import { upgradeCompanionResponseToHighestStandard } from "./adamEveHighestStandardUpgrade.js";
 
 function score(value: number): PresenceQualityScore {
   return Math.max(1, Math.min(10, Math.round(value))) as PresenceQualityScore;
@@ -162,6 +163,13 @@ export function createCompanionQualityIntelligence(params: {
     escalationNeeded: params.escalationNeeded,
     practicalUrgency: craftDecision.move === "professional_boundary",
   });
+  const companionName = params.request.companion === "Eve" ? "Eve" : params.request.companion === "Council" || params.request.companion === "AdamEve" ? "Council" : "Adam";
+  const highestStandard = upgradeCompanionResponseToHighestStandard({
+    companionName,
+    userMessage: params.request.message,
+    draftResponse: params.response,
+    standardLevel: "highest_humanity_laws_standard",
+  });
   return {
     qualityEvaluation: evaluatePresenceQuality(params.response, params.context),
     craftDecision,
@@ -174,6 +182,11 @@ export function createCompanionQualityIntelligence(params: {
       unresolvedNeed: params.escalationNeeded ? params.primaryNeed : undefined,
       escalationNeeded: params.escalationNeeded,
     }),
+    highestStandard: {
+      approved: highestStandard.approved,
+      requiredRevisionNotes: highestStandard.requiredRevisionNotes,
+      internalOnly: true,
+    },
     internalOnly: true,
   };
 }

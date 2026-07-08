@@ -54,6 +54,8 @@ async function generateCompanionResponse(params: {
     return {
       companion: params.companion,
       channel: params.channel,
+      responseOrigin: "emergency_fallback",
+      providerName: "emergency_fallback",
       message:
         params.companion === "Adam"
           ? "Adam: I am an AI companion. I can still help you slow down, name the truth in front of you, and choose one responsible next step."
@@ -235,6 +237,9 @@ export async function handleCompanionRequest(req: ApiRequest): Promise<{ status:
       savedInsightId: persistence.success ? persistence.savedInsightId : undefined,
       companion: response.companion,
       channel: response.channel,
+      responseOrigin: response.responseOrigin,
+      providerName: response.providerName,
+      model: response.model,
       message: response.message,
       transparency: response.transparency,
       humanSovereigntyReminder: response.humanSovereigntyReminder,

@@ -56,6 +56,8 @@ export const LaunchRoutes: RouteDefinition[] = [
   { path: "/launch-status", label: "Launch Status", pageId: "launch-status", requiresAuth: false, requiresAdmin: false },
 ];
 
+export const CorePreloadRoutes: readonly string[] = ["/", "/dashboard", "/spark", "/book", "/membership", "/checkout/monthly"];
+
 export function routePage(path: string, bundle?: EvidenceBundle): PageModel {
   if (path === "/join" || path === "/membership" || path === "/pricing") return createJoinPage();
   if (path === "/book") return createBookPage();

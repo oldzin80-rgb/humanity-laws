@@ -54,7 +54,7 @@ test("Podcast audit does not change book source, commerce, auth, or launchReady"
   const bundle: EvidenceBundle = { createdAt: new Date().toISOString(), workspaceRoot: ".", evidence: [] };
 
   assert.ok(manifest.source.sha256.length > 20);
-  assert.deepEqual(membership.actions.map((action) => action.href), ["/checkout/monthly", "/checkout/yearly"]);
+  assert.deepEqual(membership.actions.map((action) => action.href), ["/checkout/monthly", "/checkout/book", "/book/hardcover"]);
   assert.equal(login.pageId, "login");
   assert.equal(createReleaseReadinessReport(bundle).launchReady, false);
 });

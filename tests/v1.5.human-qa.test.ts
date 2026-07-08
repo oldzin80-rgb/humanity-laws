@@ -16,6 +16,7 @@ test("all expected visitor, member, and admin routes render accessible page mode
     assert.ok(page.accessibilitySummary.length > 0, `${path} needs an accessibility summary`);
     assert.ok(html.includes("<main"), `${path} should render a main landmark`);
     assert.ok(html.includes("Skip to content"), `${path} should include skip navigation`);
+    assert.ok(html.includes('data-final-experience-layer="Humanity Laws V1 Final Experience Layer"'), `${path} should carry the final experience layer`);
   }
 });
 
@@ -60,6 +61,20 @@ test("Craftsmanship Pass 01 keeps Dashboard calm and decision-light", () => {
   assert.ok(html.includes("recommendations optional, limited, and explainable"));
   assert.ok(html.includes("No pressure loops."));
   assert.ok(html.includes("reduce decisions"));
+  assert.ok(html.includes("Natural Continuity &amp; Flow Layer"));
+  assert.ok(html.includes("Performance &amp; Speed Guardian"));
+  assert.ok(html.includes("Humanity Laws V1 Final Experience Layer"));
+  assert.ok(html.includes("Next steps should render before integrations finish"));
+});
+
+test("Natural continuity and speed guardians are visible without adding pressure", () => {
+  const html = routeHtml("/spark");
+
+  assert.ok(html.includes('data-continuity-layer="Natural Continuity &amp; Flow Layer"'));
+  assert.ok(html.includes('data-speed-guardian="Performance &amp; Speed Guardian"'));
+  assert.ok(html.includes("This connects to the next room"));
+  assert.ok(html.includes("You can choose the next step, save this for later, or return to your journey."));
+  assert.doesNotMatch(html, /must continue|forced path|loading forever|wait for every integration/i);
 });
 
 test("Craftsmanship Pass 02 keeps Book source-preserving and reading-first", () => {
@@ -189,17 +204,40 @@ test("Community & Relationships stays privacy-first, safety-gated, and not a fak
   const page = routePage("/community");
   const html = renderPageModelToHtml(page);
 
-  assert.equal(page.title, "Community & Relationships");
-  assert.equal(page.subtitle, "A future relationship ecosystem for meaningful connection, shared growth, hospitality, service, and trust.");
-  assert.deepEqual(page.actions.map((action) => action.label), ["Visit The Table", "Open Council", "Return to Dashboard"]);
+  assert.equal(page.title, "Community");
+  assert.equal(page.subtitle, "A living place for connection, trust, and private member appreciation.");
+  assert.deepEqual(page.actions.map((action) => action.label), ["Visit The Table", "Review Launch Status", "Return to Dashboard"]);
   assert.ok(html.includes("Technology should help people connect more meaningfully"));
-  assert.ok(html.includes("Community Hub"));
+  assert.ok(html.includes("Founder’s Blessings"));
+  assert.ok(html.includes("may vary and are not guaranteed"));
+  assert.ok(html.includes("Founder final approval is required"));
+  assert.ok(html.includes("Money movement: Disabled"));
+  assert.ok(html.includes("Quiet Impact"));
+  assert.ok(html.includes("Communication: One-to-One"));
+  assert.ok(html.includes("Members are always free to share their own experiences"));
   assert.ok(html.includes("The Table Expansion"));
   assert.ok(html.includes("Meeting &amp; Dating"));
-  assert.ok(html.includes("Choice, safety, and dignity come first."));
   assert.ok(html.includes("No fake members, fake conversations, fake activity, or fake testimonials"));
   assert.ok(html.includes("Community features are not live yet"));
-  assert.doesNotMatch(html, /fake member joined|live dating is active|messages are live|public ranking/i);
+  assert.doesNotMatch(html, /fake member joined|live dating is active|messages are live|public ranking|casino|lottery|jackpot|giveaway|prize pool/i);
+});
+
+test("Human OS Wellness stays supportive, educational, and medically bounded", () => {
+  const page = routePage("/wellness");
+  const html = renderPageModelToHtml(page);
+
+  assert.equal(page.title, "Human OS Wellness");
+  assert.equal(page.subtitle, "A calm garden for sustainable habits across body, mind, relationships, purpose, recovery, and daily stewardship.");
+  assert.deepEqual(page.actions.map((action) => action.label), ["Start Spark", "Talk with Adam & Eve", "Save to Library"]);
+  assert.ok(html.includes("Daily check-in. One focus. Gentle progress."));
+  assert.ok(html.includes("Educational support only."));
+  assert.ok(html.includes("No diagnosis."));
+  assert.ok(html.includes("No prescription."));
+  assert.ok(html.includes("No shame-based language."));
+  assert.ok(html.includes("Different ability levels respected."));
+  assert.ok(html.includes("Health data requires explicit consent."));
+  assert.ok(html.includes("Encouragement, not medical authority."));
+  assert.doesNotMatch(html, /I can diagnose|I will prescribe|guaranteed health|medical authority over/i);
 });
 
 test("Adam and Eve reach conversation UI readiness with real input and output controls", () => {

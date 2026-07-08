@@ -239,6 +239,11 @@ export interface CompanionQualityIntelligence {
   memoryApplication: PresenceMemoryApplication;
   wonder: WonderMoment;
   improvementSummary: CompanionImprovementSummary;
+  highestStandard?: {
+    approved: boolean;
+    requiredRevisionNotes: string[];
+    internalOnly: true;
+  };
   internalOnly: true;
 }
 
@@ -339,6 +344,23 @@ export interface CompanionOrchestrationPlan {
   internalOnly: true;
 }
 
+export interface CompanionOperatingSystemRuntime {
+  mode: "Adam" | "Eve" | "Council";
+  activeLayers: readonly string[];
+  launchStandard: string;
+  qualityGates: readonly string[];
+  governingLayer: true;
+  promptIncludedInProviderPath: true;
+  preservedEngines: readonly [
+    "memory",
+    "communication",
+    "source",
+    "avatar_presence",
+    "quality_intelligence",
+    "safety_boundaries",
+  ];
+}
+
 export interface UnifiedCompanionRequest {
   memberId: string;
   companion: CompanionParticipant;
@@ -387,6 +409,41 @@ export interface AvatarPresenceMetadata {
   placeholderOnly: boolean;
   visibleParticipants: AvatarParticipant[];
   qualities: AvatarPresenceQualities;
+  premiumPresence?: {
+    mode: string;
+    emotionalTone: string;
+    eyeContact: string;
+    facialExpression: string;
+    headMotion: string;
+    handGesture: string;
+    posture: string;
+    blinkPattern: string;
+    mouthSync: string;
+    voiceSync: string;
+    pauseBehavior: string;
+    motionIntensity: string;
+    standard: "premium_avatar_presence";
+  };
+  qualityReport?: {
+    humanLikeMotion: boolean;
+    lipSyncAligned: boolean;
+    emotionMatchesVoice: boolean;
+    noRoboticStillness: boolean;
+    noOveracting: boolean;
+    mobileSafe: boolean;
+    accessibilityFallbackReady: boolean;
+    approvedForLaunch: boolean;
+    notes: string[];
+    providerActivationStillRequired: true;
+  };
+  maxAvatarGate?: {
+    realismScore: number;
+    approved: boolean;
+    minimumLaunchScore: number;
+    providerCapabilitiesRequired: readonly string[];
+    providerActivationStillRequired: true;
+    notes: string[];
+  };
   statusMessage: string;
   transparencyLabel: "AI_AVATAR_PLACEHOLDER" | "AI_AVATAR_PROVIDER_READY";
   councilMode: boolean;
@@ -435,6 +492,9 @@ export interface UnifiedCompanionResponse {
   message: string;
   companion: CompanionParticipant;
   channel: CompanionChannel;
+  responseOrigin?: "provider" | "demo_fallback" | "emergency_fallback";
+  providerName?: string;
+  model?: string;
   persisted: boolean;
   savedInsight: boolean;
   humanSovereigntyReminder: string;
@@ -453,6 +513,7 @@ export interface UnifiedCompanionResponse {
   immersivePresence?: ImmersivePresenceMetadata;
   internalQuality?: CompanionQualityIntelligence;
   orchestration?: CompanionOrchestrationPlan;
+  companionOS?: CompanionOperatingSystemRuntime;
   persistenceWarning?: string;
 }
 

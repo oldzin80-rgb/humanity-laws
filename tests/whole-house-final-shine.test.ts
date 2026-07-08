@@ -42,10 +42,24 @@ test("Whole House Final Shine gives every major page a clear purpose and one to 
     assert.ok(page.actions.length >= 1, `${path} should have at least one action`);
     assert.match(html, /You're in /, `${path} should show the room indicator`);
     assert.match(html, /What you can do now/, `${path} should show next-step guidance`);
+    assert.match(html, /data-continuity-layer="Natural Continuity &amp; Flow Layer"/, `${path} should carry the continuity layer`);
+    assert.match(html, /data-speed-guardian="Performance &amp; Speed Guardian"/, `${path} should carry the speed guardian`);
+    assert.match(html, /data-final-experience-layer="Humanity Laws V1 Final Experience Layer"/, `${path} should carry the final experience layer`);
+    assert.equal(countMatches(html, /data-hero="primary"/g), 1, `${path} should have exactly one primary hero`);
 
     const visibleNextSteps = countMatches(html, /class="next-card"/g);
     assert.ok(visibleNextSteps >= 1, `${path} should have at least one visible next step`);
     assert.ok(visibleNextSteps <= 3, `${path} should limit visible next steps to three`);
+  }
+});
+
+test("Whole House Final Shine preserves natural continuity and speed standards", () => {
+  for (const path of majorRooms) {
+    const html = htmlFor(path);
+
+    assert.match(html, /This connects to the next room/, `${path} should explain how rooms connect`);
+    assert.match(html, /return to your journey/i, `${path} should provide a calm return path`);
+    assert.doesNotMatch(html, /must continue|forced path|blocking animation|fake loading/i, `${path} should not pressure or slow the member`);
   }
 });
 
@@ -62,6 +76,7 @@ test("placeholder rooms are honest and make no fake live claims", () => {
   const podcast = htmlFor("/podcast");
   const social = htmlFor("/social-media-command-center");
   const community = htmlFor("/community");
+  const wellness = htmlFor("/wellness");
   const companionRooms = [htmlFor("/adam"), htmlFor("/eve"), htmlFor("/council")].join("\n");
 
   assert.match(podcast, /Podcast publishing is not live yet/);
@@ -70,9 +85,11 @@ test("placeholder rooms are honest and make no fake live claims", () => {
   assert.match(social, /No social outlet is live-connected yet/);
   assert.match(community, /Community features are not live yet/);
   assert.match(community, /No fake members, fake conversations, fake activity, or fake testimonials/);
+  assert.match(wellness, /Educational support only/);
+  assert.match(wellness, /Health data requires explicit consent/);
   assert.match(companionRooms, /Avatar presence coming soon/);
   assert.match(companionRooms, /Not a live video call/);
-  assert.doesNotMatch(podcast + social + community + companionRooms, /live video call is active|SMS is live|Adam is a real human|Eve is a real human|auto-posted|live dating is active/i);
+  assert.doesNotMatch(podcast + social + community + wellness + companionRooms, /live video call is active|SMS is live|Adam is a real human|Eve is a real human|auto-posted|live dating is active|guaranteed health/i);
 });
 
 test("Settings is a real protected room with account, membership, and security paths", () => {
@@ -105,7 +122,7 @@ test("membership and checkout routes preserve existing commerce paths", () => {
   const yearly = routePage("/checkout/yearly");
   const book = routePage("/checkout/book");
 
-  assert.deepEqual(membership.actions.map((action) => action.href), ["/checkout/monthly", "/checkout/yearly"]);
+  assert.deepEqual(membership.actions.map((action) => action.href), ["/checkout/monthly", "/checkout/book", "/book/hardcover"]);
   assert.equal(monthly.actions[0]?.label, "Continue to Stripe");
   assert.equal(yearly.actions[0]?.label, "Continue to Stripe");
   assert.equal(book.actions[0]?.label, "Continue to Stripe");

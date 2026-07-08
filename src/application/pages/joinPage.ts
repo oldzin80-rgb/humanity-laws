@@ -11,13 +11,20 @@ export function createJoinPage(): PageModel {
     accessibilitySummary: "Membership and pricing page",
     actions: [
       { label: "Join monthly — $7", href: "/checkout/monthly", kind: "PRIMARY" },
-      { label: "Join yearly — $70", href: "/checkout/yearly", kind: "SECONDARY" },
+      { label: "Digital book only", href: "/checkout/book", kind: "SECONDARY" },
+      { label: "Hardcover coming soon", href: "/book/hardcover", kind: "TERTIARY" },
     ],
     sections: [
       {
         eyebrow: "Membership",
         title: "A calm place to return every day.",
-        body: "Membership opens the Dashboard, Spark, Adam, Eve, Council, Founder updates, The Table, Wellness, and the Living Library.",
+        body: "Monthly membership is $7/month and includes digital book access, Dashboard, Spark, Adam, Eve, Council, Founder updates, The Table, Wellness, and the Living Library. The $70/year option remains available for members who prefer it.",
+      },
+      {
+        eyebrow: "Commerce",
+        title: "Three clear paths. No confusion.",
+        body: "Choose monthly membership for the full house, digital book only for reading access, or hardcover to see the honest fulfillment placeholder. Hardcover orders are not accepted until print-on-demand plumbing is verified.",
+        bullets: ["Monthly membership includes the digital book.", "Digital book purchase unlocks book access only.", "Hardcover remains separate and coming soon.", "No donations. No advertising."],
       },
       {
         eyebrow: "Trust",

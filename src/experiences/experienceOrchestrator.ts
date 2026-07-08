@@ -1,3 +1,9 @@
+import { createUniversalKnowledgeFoundation, type UniversalKnowledgeFoundation } from "./universalKnowledgeFoundation.js";
+import { createDiscoveryEngine, type DiscoveryEngine } from "./discoveryEngine.js";
+import { createNaturalContinuityFlowLayer, type NaturalContinuityFlowLayer } from "./naturalContinuityFlow.js";
+import { createPerformanceSpeedGuardian, type PerformanceSpeedGuardian } from "./performanceSpeedGuardian.js";
+import { createFinalExperienceLayer, type FinalExperienceLayer } from "./finalExperienceLayer.js";
+
 export type MemberJourneyStage =
   | "new_member"
   | "returning_member"
@@ -114,6 +120,11 @@ export interface ExperienceOrchestratorResult {
   crossSystemConnections: readonly CrossSystemConnection[];
   adamEvePolicy: AdamEveOrchestrationPolicy;
   founderStewardshipDashboard: FounderStewardshipDashboardModel;
+  universalKnowledgeFoundation: UniversalKnowledgeFoundation;
+  discoveryEngine: DiscoveryEngine;
+  naturalContinuityFlow: NaturalContinuityFlowLayer;
+  performanceSpeedGuardian: PerformanceSpeedGuardian;
+  finalExperienceLayer: FinalExperienceLayer;
   attentionManagement: readonly ["avoid_overwhelm", "space_recommendations", "respect_quiet_periods", "limit_visible_next_steps"];
   coreRules: readonly ["recommendations_are_optional", "user_autonomy_first", "no_manipulative_engagement", "no_dark_patterns", "privacy_by_design", "transparent_reasoning"];
   launchReady: false;
@@ -283,6 +294,11 @@ export function createExperienceOrchestrator(context: MemberExperienceContext = 
       visibleSignals: ["journey_patterns", "feature_engagement", "content_performance", "ecosystem_health", "areas_needing_improvement"],
       noIndividualSurveillance: true,
     },
+    universalKnowledgeFoundation: createUniversalKnowledgeFoundation(),
+    discoveryEngine: createDiscoveryEngine(),
+    naturalContinuityFlow: createNaturalContinuityFlowLayer(),
+    performanceSpeedGuardian: createPerformanceSpeedGuardian(),
+    finalExperienceLayer: createFinalExperienceLayer(),
     attentionManagement: ["avoid_overwhelm", "space_recommendations", "respect_quiet_periods", "limit_visible_next_steps"],
     coreRules: ["recommendations_are_optional", "user_autonomy_first", "no_manipulative_engagement", "no_dark_patterns", "privacy_by_design", "transparent_reasoning"],
     launchReady: false,

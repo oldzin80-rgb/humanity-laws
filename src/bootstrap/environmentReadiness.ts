@@ -41,15 +41,22 @@ const REQUIREMENTS: EnvironmentRequirement[] = [
   { key: "DEPLOYMENT_URL", objective: "Staging deployment URL is available for route verification.", validate: urlValidator("DEPLOYMENT_URL") },
   { key: "SUPABASE_URL", objective: "Supabase project URL is configured.", validate: urlValidator("SUPABASE_URL") },
   { key: "SUPABASE_ANON_KEY", objective: "Supabase anonymous key is configured.", secret: true },
+  { key: "NEXT_PUBLIC_SUPABASE_URL", objective: "Browser-facing Supabase project URL is configured for static auth pages.", validate: urlValidator("NEXT_PUBLIC_SUPABASE_URL") },
+  { key: "NEXT_PUBLIC_SUPABASE_ANON_KEY", objective: "Browser-facing Supabase anonymous key is configured for static auth pages.", secret: true },
   { key: "SUPABASE_SERVICE_ROLE_KEY", objective: "Supabase service role key is configured for trusted server operations.", secret: true },
   { key: "STRIPE_SECRET_KEY", objective: "Stripe server key is configured.", secret: true },
   { key: "STRIPE_WEBHOOK_SECRET", objective: "Stripe webhook verification secret is configured.", secret: true },
   { key: "STRIPE_MONTHLY_7_PRICE_ID", objective: "Monthly membership price is configured.", secret: false },
   { key: "STRIPE_YEARLY_70_PRICE_ID", objective: "Yearly membership price is configured.", secret: false },
   { key: "STRIPE_DIGITAL_BOOK_PRICE_ID", objective: "Digital book-only price is configured.", secret: false },
+  { key: "ADMIN_ALLOWLIST", objective: "Admin allowlist is configured for protected stewardship rooms." },
   { key: "EMAIL_PROVIDER", objective: "Email delivery provider is selected for account and support messages." },
   { key: "ERROR_LOGGING_DSN", objective: "Error reporting destination is configured.", secret: true },
   { key: "MONITORING_ENDPOINT", objective: "Monitoring endpoint or dashboard target is configured.", secret: true },
+  { key: "COMPANION_AI_PROVIDER", objective: "Optional Adam and Eve AI provider selector is configured when live provider responses are desired.", required: false },
+  { key: "OPENAI_API_KEY", objective: "Optional OpenAI-compatible provider key is configured for live Adam and Eve responses.", secret: true, required: false },
+  { key: "COMPANION_MODEL", objective: "Optional companion model is selected for live Adam and Eve responses.", required: false },
+  { key: "COMPANION_TIMEOUT_MS", objective: "Optional companion provider timeout is configured.", required: false },
 ];
 
 export function assessEnvironmentReadiness(
