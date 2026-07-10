@@ -7,3 +7,5 @@ logs/
 src/.DS_Store
 pnpm-lock.yaml
 pnpm-workspace.yaml
+.vercel
+.env*
