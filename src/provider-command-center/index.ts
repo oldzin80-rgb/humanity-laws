@@ -9,3 +9,4 @@ export * from "./commandCenter.js";
 export * from "./communicationsRuntime.js";
 export * from "./coreProviders.js";
 export * from "./analyticsGovernance.js";
+export * from "./socialPublishing.js";
