@@ -51,10 +51,10 @@ engine diagnoses; it never mutates a provider to resolve drift.
 ## Validation
 
 - TypeScript: PASS
-- Full suite: PASS — 233 passed, 0 failed, 0 skipped
+- Full suite: PASS — 234 passed, 0 failed, 0 skipped
 - Sprint 020 focused tests: PASS — 10
 - Smoke: PASS; `launchReady: false`
-- Secret scan: PASS — 253 tracked text files at implementation commit
+- Secret scan: PASS — 254 tracked text files at final clean-checkout validation
 - Automated provider calls: 0
 - Diff integrity: PASS
 
