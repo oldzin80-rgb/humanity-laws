@@ -11,3 +11,4 @@ export * from "./coreProviders.js";
 export * from "./analyticsGovernance.js";
 export * from "./socialPublishing.js";
 export * from "./paidMedia.js";
+export * from "./memberSupport.js";
