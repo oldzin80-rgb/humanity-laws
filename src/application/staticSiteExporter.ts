@@ -2,6 +2,7 @@ import { mkdir, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { renderPageModelToHtml } from "./components.js";
 import { LaunchRoutes, routePage } from "./router.js";
+import { createRobots, createSitemap } from "../provider-command-center/analyticsGovernance.js";
 
 export interface StaticSiteExportFile {
   routePath: string;
@@ -52,6 +53,9 @@ export async function exportStaticSite(outputDir = "dist"): Promise<StaticSiteEx
     ),
     "utf8",
   );
+  const publicPaths = LaunchRoutes.filter((route) => !route.requiresAuth && !route.requiresAdmin).map((route) => route.path);
+  await writeFile(path.join(outputDir, "sitemap.xml"), createSitemap("https://humanitylaws.com", publicPaths), "utf8");
+  await writeFile(path.join(outputDir, "robots.txt"), createRobots("https://humanitylaws.com"), "utf8");
 
   return {
     outputDir,
@@ -59,4 +63,3 @@ export async function exportStaticSite(outputDir = "dist"): Promise<StaticSiteEx
     files,
   };
 }
-
