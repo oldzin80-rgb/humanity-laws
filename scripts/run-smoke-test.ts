@@ -12,7 +12,7 @@ const spark = await runtime.spark.nextSpark(active.memberId);
 assert.equal(createSparkPage(spark).pageId, "spark");
 const council = await runtime.council.respond(active.memberId, "Help me begin well.");
 assert.ok(council.synthesis.length > 0);
-assert.equal(createHomePage().title, "A more human way to return to yourself.");
+assert.equal(createHomePage().title, "A calm home for daily human growth.");
 assert.equal(createJoinPage().pageId, "join");
 assert.equal(createDashboardPage(active).pageId, "dashboard");
 assert.equal(createCouncilPage(council.synthesis).pageId, "council");

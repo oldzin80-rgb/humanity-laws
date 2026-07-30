@@ -24,6 +24,7 @@ export * from "./pages/hardcoverPage.js";
 export * from "./pages/accountPage.js";
 export * from "./pages/adminPage.js";
 export * from "./pages/launchStatusPage.js";
+export * from "./pages/founderCommandCenterPage.js";
 export * from "./router.js";
 export * from "./famousExport.js";
 export * from "./staticSiteExporter.js";

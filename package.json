@@ -15,6 +15,7 @@
     "evidence:deployment": "tsx scripts/collect-deployment-evidence.ts",
     "launch:report": "tsx scripts/generate-launch-report.ts",
     "deployment:verify": "tsx scripts/verify-deployment.ts",
+    "secrets:scan": "tsx scripts/scan-secrets.ts",
     "verify:launch-v1": "tsx scripts/verify-launch-v1.ts",
     "verify:all": "npm run build && npm test && npm run smoke && npm run evidence && npm run evidence:build && npm run evidence:test && npm run evidence:smoke && npm run launch:report && npm run deployment:verify && npm run evidence:deployment && npm run verify:launch-v1"
   },

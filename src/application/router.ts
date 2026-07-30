@@ -22,6 +22,7 @@ import { createSignupPage } from "./pages/signupPage.js";
 import { createCheckoutPage } from "./pages/checkoutPage.js";
 import { createAdminPage } from "./pages/adminPage.js";
 import { createLaunchStatusPage } from "./pages/launchStatusPage.js";
+import { createFounderCommandCenterPage } from "./pages/founderCommandCenterPage.js";
 import { createReleaseReadinessReport, type EvidenceBundle } from "../core/index.js";
 
 export const LaunchRoutes: RouteDefinition[] = [
@@ -53,6 +54,7 @@ export const LaunchRoutes: RouteDefinition[] = [
   { path: "/settings", label: "Settings", pageId: "settings", requiresAuth: true, requiresAdmin: false },
   { path: "/book/hardcover", label: "Hardcover", pageId: "hardcover", requiresAuth: false, requiresAdmin: false },
   { path: "/admin", label: "Admin", pageId: "admin", requiresAuth: true, requiresAdmin: true },
+  { path: "/admin/providers", label: "Founder Command Center", pageId: "founder-command-center", requiresAuth: true, requiresAdmin: true },
   { path: "/launch-status", label: "Launch Status", pageId: "launch-status", requiresAuth: false, requiresAdmin: false },
 ];
 
@@ -82,6 +84,7 @@ export function routePage(path: string, bundle?: EvidenceBundle): PageModel {
   if (path === "/settings") return createSettingsPage();
   if (path === "/book/hardcover") return createHardcoverPage();
   if (path === "/admin") return createAdminPage();
+  if (path === "/admin/providers") return createFounderCommandCenterPage();
   if (path === "/launch-status") return createLaunchStatusPage(createReleaseReadinessReport(bundle ?? { createdAt: new Date().toISOString(), workspaceRoot: ".", evidence: [] }));
   return createHomePage();
 }
