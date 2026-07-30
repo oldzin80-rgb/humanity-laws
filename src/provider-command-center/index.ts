@@ -6,3 +6,4 @@ export * from "./externalEffectGuard.js";
 export * from "./runtime.js";
 export * from "./adapters.js";
 export * from "./commandCenter.js";
+export * from "./communicationsRuntime.js";
