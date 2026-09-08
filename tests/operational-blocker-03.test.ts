@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import crypto from "node:crypto";
 import test from "node:test";
 import { handleCheckoutRequest } from "../api/checkout.ts";
+import { handleBillingPortalRequest } from "../api/billing-portal.ts";
 import { handleMembershipStatusRequest } from "../api/membership-status.ts";
 import { handleStripeWebhookRequest } from "../api/stripe-webhook.ts";
 import { renderPageModelToHtml, routePage } from "../src/application/index.js";
@@ -63,7 +64,7 @@ test("Operational Blocker 03 checkout session creation calls Stripe and fails cl
   assert.ok(stripeBody.includes("metadata%5Bmember_id%5D=member_1"));
 });
 
-test("Operational Blocker 03 digital book checkout uses one-time payment mode", async () => {
+test("Operational Blocker 03 digital book checkout charges the book now and starts a 30-day membership trial", async () => {
   let stripeBody = "";
   globalThis.fetch = (async (_url, init) => {
     stripeBody = String(init?.body);
@@ -72,6 +73,7 @@ test("Operational Blocker 03 digital book checkout uses one-time payment mode", 
 
   const created = await createStripeCheckoutSession({
     secretKey: "sk_test",
+    monthlyPriceId: "price_monthly",
     digitalBookPriceId: "price_book",
     publicAppUrl: "https://humanity-laws.vercel.app",
     memberId: "member_1",
@@ -80,9 +82,32 @@ test("Operational Blocker 03 digital book checkout uses one-time payment mode", 
   });
 
   assert.equal(created.success, true);
-  assert.ok(stripeBody.includes("mode=payment"));
+  assert.ok(stripeBody.includes("mode=subscription"));
   assert.ok(stripeBody.includes("line_items%5B0%5D%5Bprice%5D=price_book"));
+  assert.ok(stripeBody.includes("line_items%5B1%5D%5Bprice%5D=price_monthly"));
+  assert.ok(stripeBody.includes("subscription_data%5Btrial_period_days%5D=30"));
   assert.ok(stripeBody.includes("metadata%5Bplan_id%5D=DIGITAL_BOOK"));
+});
+
+test("Operational Blocker 03 explicit book-only checkout has no recurring charge", async () => {
+  let stripeBody = "";
+  globalThis.fetch = (async (_url, init) => {
+    stripeBody = String(init?.body);
+    return jsonResponse(200, { id: "cs_book_only", url: "https://checkout.stripe.com/c/pay/cs_book_only" });
+  }) as typeof fetch;
+
+  const created = await createStripeCheckoutSession({
+    secretKey: "sk_test",
+    digitalBookPriceId: "price_book",
+    publicAppUrl: "https://humanitylaws.com",
+    memberId: "member_1",
+    planId: "DIGITAL_BOOK_ONLY",
+  });
+
+  assert.equal(created.success, true);
+  assert.ok(stripeBody.includes("mode=payment"));
+  assert.ok(stripeBody.includes("metadata%5Bplan_id%5D=DIGITAL_BOOK_ONLY"));
+  assert.ok(!stripeBody.includes("trial_period_days"));
 });
 
 test("Operational Blocker 03 checkout API requires Supabase auth and returns Stripe URL", async () => {
@@ -112,11 +137,12 @@ test("Operational Blocker 03 checkout API requires Supabase auth and returns Str
   assert.equal(result.body.checkoutUrl, "https://checkout.stripe.com/c/pay/cs_live");
 });
 
-test("Operational Blocker 03 checkout API starts digital book checkout separately from membership", async () => {
+test("Operational Blocker 03 checkout API starts digital book checkout with the disclosed membership trial", async () => {
   process.env.SUPABASE_URL = "https://project.supabase.co";
   process.env.SUPABASE_ANON_KEY = "anon";
   process.env.STRIPE_SECRET_KEY = "sk_test";
   process.env.STRIPE_DIGITAL_BOOK_PRICE_ID = "price_book";
+  process.env.STRIPE_MONTHLY_7_PRICE_ID = "price_monthly";
   process.env.PUBLIC_APP_URL = "https://humanity-laws.vercel.app";
 
   let stripeBody = "";
@@ -138,7 +164,8 @@ test("Operational Blocker 03 checkout API starts digital book checkout separatel
 
   assert.equal(result.status, 200);
   assert.equal(result.body.checkoutUrl, "https://checkout.stripe.com/c/pay/cs_book");
-  assert.ok(stripeBody.includes("mode=payment"));
+  assert.ok(stripeBody.includes("mode=subscription"));
+  assert.ok(stripeBody.includes("subscription_data%5Btrial_period_days%5D=30"));
 });
 
 test("Operational Blocker 03 checkout API does not send literal env var names as Stripe prices", async () => {
@@ -262,6 +289,80 @@ test("Operational Blocker 03 invalid webhook signature is rejected", () => {
     }),
     false,
   );
+});
+
+test("Operational Blocker 03 malformed webhook signature is rejected without throwing", () => {
+  assert.equal(
+    verifyStripeWebhookSignature({
+      payload: "{}",
+      signatureHeader: `t=${Math.floor(Date.now() / 1000)},v1=x`,
+      webhookSecret: "whsec_test",
+    }),
+    false,
+  );
+});
+
+test("Operational Blocker 03 billing portal resolves the authenticated member's Stripe customer", async () => {
+  process.env.SUPABASE_URL = "https://project.supabase.co";
+  process.env.SUPABASE_ANON_KEY = "anon";
+  process.env.SUPABASE_SERVICE_ROLE_KEY = "service";
+  process.env.STRIPE_SECRET_KEY = "sk_test";
+  process.env.PUBLIC_APP_URL = "https://www.humanitylaws.com";
+
+  let portalBody = "";
+  globalThis.fetch = (async (input, init) => {
+    const url = String(input);
+    if (url.includes("/auth/v1/user")) return jsonResponse(200, { id: "00000000-0000-4000-8000-000000000001", email: "member@example.com" });
+    if (url.includes("/rest/v1/memberships")) {
+      return jsonResponse(200, [{ membership_status: "ACTIVE", digital_book_access: true, stripe_customer_id: "cus_member" }]);
+    }
+    if (url.includes("/v1/billing_portal/sessions")) {
+      portalBody = String(init?.body);
+      return jsonResponse(200, { url: "https://billing.stripe.com/p/session/test" });
+    }
+    return jsonResponse(404, {});
+  }) as typeof fetch;
+
+  const result = await handleBillingPortalRequest({
+    method: "POST",
+    headers: { authorization: "Bearer access_token" },
+  } as ApiRequest);
+
+  assert.equal(result.status, 200);
+  assert.equal(result.body.portalUrl, "https://billing.stripe.com/p/session/test");
+  assert.ok(portalBody.includes("customer=cus_member"));
+  assert.ok(portalBody.includes("return_url=https%3A%2F%2Fwww.humanitylaws.com%2Fsettings"));
+});
+
+test("Operational Blocker 03 subscription cancellation removes membership but preserves purchased book access", async () => {
+  process.env.STRIPE_WEBHOOK_SECRET = "whsec_test";
+  process.env.SUPABASE_URL = "https://project.supabase.co";
+  process.env.SUPABASE_SERVICE_ROLE_KEY = "service";
+
+  let persistedBody = "";
+  globalThis.fetch = (async (input, init) => {
+    if (String(input).includes("/rest/v1/memberships") && init?.method === "POST") {
+      persistedBody = String(init.body);
+      return new Response(null, { status: 204 });
+    }
+    return jsonResponse(404, {});
+  }) as typeof fetch;
+
+  const payload = JSON.stringify({
+    type: "customer.subscription.deleted",
+    data: { object: { id: "sub_book", status: "canceled", customer: "cus_book", metadata: { member_id: "00000000-0000-4000-8000-000000000001", plan_id: "DIGITAL_BOOK" } } },
+  });
+  const result = await handleStripeWebhookRequest({
+    method: "POST",
+    headers: { "stripe-signature": stripeSignature(payload, "whsec_test") },
+    body: payload,
+  } as unknown as ApiRequest);
+
+  assert.equal(result.status, 200);
+  assert.equal(result.body.membershipStatus, "CANCELLED");
+  assert.equal(result.body.bookAccess, true);
+  assert.ok(persistedBody.includes('"membership_status":"CANCELLED"'));
+  assert.ok(persistedBody.includes('"digital_book_access":true'));
 });
 
 test("Operational Blocker 03 success route verifies Stripe session before dashboard unlock", async () => {

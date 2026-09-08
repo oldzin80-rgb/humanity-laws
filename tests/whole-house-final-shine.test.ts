@@ -125,7 +125,8 @@ test("membership and checkout routes preserve existing commerce paths", () => {
   assert.deepEqual(membership.actions.map((action) => action.href), ["/checkout/monthly", "/checkout/book", "/book/hardcover"]);
   assert.equal(monthly.actions[0]?.label, "Continue to Stripe");
   assert.equal(yearly.actions[0]?.label, "Continue to Stripe");
-  assert.equal(book.actions[0]?.label, "Continue to Stripe");
+  assert.equal(book.actions[0]?.label, "Agree — $7 now, then $7/month after 30 days");
+  assert.equal(book.actions[1]?.href, "/checkout/book-only");
 });
 
 test("Adam, Eve, and Council final shine behavior remains visible in the whole house", () => {

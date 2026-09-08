@@ -35,6 +35,7 @@ export const LaunchRoutes: RouteDefinition[] = [
   { path: "/checkout/monthly", label: "Monthly Checkout", pageId: "checkout-monthly", requiresAuth: true, requiresAdmin: false },
   { path: "/checkout/yearly", label: "Yearly Checkout", pageId: "checkout-yearly", requiresAuth: true, requiresAdmin: false },
   { path: "/checkout/book", label: "Digital Book Checkout", pageId: "checkout-book", requiresAuth: true, requiresAdmin: false },
+  { path: "/checkout/book-only", label: "Digital Book Only Checkout", pageId: "checkout-book-only", requiresAuth: true, requiresAdmin: false },
   { path: "/checkout/success", label: "Checkout Success", pageId: "checkout-success", requiresAuth: true, requiresAdmin: false },
   { path: "/checkout/cancel", label: "Checkout Cancel", pageId: "checkout-cancel", requiresAuth: false, requiresAdmin: false },
   { path: "/dashboard", label: "Dashboard", pageId: "dashboard", requiresAuth: true, requiresAdmin: false },
@@ -66,6 +67,7 @@ export function routePage(path: string, bundle?: EvidenceBundle): PageModel {
   if (path === "/checkout/monthly") return createCheckoutPage("monthly");
   if (path === "/checkout/yearly") return createCheckoutPage("yearly");
   if (path === "/checkout/book") return createCheckoutPage("book");
+  if (path === "/checkout/book-only") return createCheckoutPage("book-only");
   if (path === "/checkout/success") return createCheckoutPage("success");
   if (path === "/checkout/cancel") return createCheckoutPage("cancel");
   if (path === "/dashboard") return createDashboardPage("member");

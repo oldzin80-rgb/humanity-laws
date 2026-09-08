@@ -11,7 +11,7 @@ export function createJoinPage(): PageModel {
     accessibilitySummary: "Membership and pricing page",
     actions: [
       { label: "Join monthly — $7", href: "/checkout/monthly", kind: "PRIMARY" },
-      { label: "Digital book only", href: "/checkout/book", kind: "SECONDARY" },
+      { label: "Digital book + 30 days", href: "/checkout/book", kind: "SECONDARY" },
       { label: "Hardcover coming soon", href: "/book/hardcover", kind: "TERTIARY" },
     ],
     sections: [
@@ -23,8 +23,8 @@ export function createJoinPage(): PageModel {
       {
         eyebrow: "Commerce",
         title: "Three clear paths. No confusion.",
-        body: "Choose monthly membership for the full house, digital book only for reading access, or hardcover to see the honest fulfillment placeholder. Hardcover orders are not accepted until print-on-demand plumbing is verified.",
-        bullets: ["Monthly membership includes the digital book.", "Digital book purchase unlocks book access only.", "Hardcover remains separate and coming soon.", "No donations. No advertising."],
+        body: "Choose monthly membership for the full house, or buy the digital book for $7 with 30 days of membership included. The book path renews at $7/month after 30 days only when the buyer affirmatively chooses it; a $7 book-only option with no recurring charge is shown before Stripe. Hardcover orders are not accepted until print-on-demand plumbing is verified.",
+        bullets: ["Monthly membership includes the digital book.", "Digital book + trial is $7 now, then $7/month after 30 days unless canceled.", "A book-only, no-recurring-charge option is available before payment.", "Hardcover remains separate and coming soon.", "No donations. No advertising."],
       },
       {
         eyebrow: "Trust",

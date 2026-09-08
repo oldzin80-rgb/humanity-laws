@@ -48,7 +48,8 @@ test("live env configuration audit keeps Stripe price ids separated by product p
   assert.match(checkoutApi, /MONTHLY_7:\s*"STRIPE_MONTHLY_7_PRICE_ID"/);
   assert.match(checkoutApi, /YEARLY_70:\s*"STRIPE_YEARLY_70_PRICE_ID"/);
   assert.match(checkoutApi, /DIGITAL_BOOK:\s*"STRIPE_DIGITAL_BOOK_PRICE_ID"/);
-  assert.match(stripeRest, /params\.planId === "DIGITAL_BOOK" \? "payment" : "subscription"/);
+  assert.match(stripeRest, /params\.planId === "DIGITAL_BOOK_ONLY"/);
+  assert.match(stripeRest, /subscription_data\[trial_period_days\]/);
   assert.match(stripeRest, /metadata\[plan_id\]/);
 });
 

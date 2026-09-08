@@ -5,7 +5,7 @@ import { createStripeCheckoutSession } from "../src/server/stripeRest.js";
 import type { CommercePlanId } from "../src/member/index.js";
 
 function isPlanId(value: unknown): value is CommercePlanId {
-  return value === "MONTHLY_7" || value === "YEARLY_70" || value === "DIGITAL_BOOK";
+  return value === "MONTHLY_7" || value === "YEARLY_70" || value === "DIGITAL_BOOK" || value === "DIGITAL_BOOK_ONLY";
 }
 
 function envValue(name: string): string | undefined {
@@ -18,6 +18,7 @@ const planPriceEnv: Record<CommercePlanId, string> = {
   MONTHLY_7: "STRIPE_MONTHLY_7_PRICE_ID",
   YEARLY_70: "STRIPE_YEARLY_70_PRICE_ID",
   DIGITAL_BOOK: "STRIPE_DIGITAL_BOOK_PRICE_ID",
+  DIGITAL_BOOK_ONLY: "STRIPE_DIGITAL_BOOK_PRICE_ID",
 };
 
 export async function handleCheckoutRequest(req: ApiRequest): Promise<{ status: number; body: Record<string, unknown> }> {
@@ -37,7 +38,8 @@ export async function handleCheckoutRequest(req: ApiRequest): Promise<{ status: 
 
   const monthlyPriceId = body.planId === "MONTHLY_7" ? envValue(planPriceEnv.MONTHLY_7) : undefined;
   const yearlyPriceId = body.planId === "YEARLY_70" ? envValue(planPriceEnv.YEARLY_70) : undefined;
-  const digitalBookPriceId = body.planId === "DIGITAL_BOOK" ? envValue(planPriceEnv.DIGITAL_BOOK) : undefined;
+  const digitalBookPriceId = body.planId === "DIGITAL_BOOK" || body.planId === "DIGITAL_BOOK_ONLY" ? envValue(planPriceEnv.DIGITAL_BOOK) : undefined;
+  const bookTrialMonthlyPriceId = body.planId === "DIGITAL_BOOK" ? envValue(planPriceEnv.MONTHLY_7) : undefined;
   const selectedPriceId = body.planId === "MONTHLY_7" ? monthlyPriceId : body.planId === "YEARLY_70" ? yearlyPriceId : digitalBookPriceId;
   if (!selectedPriceId) {
     return {
@@ -48,10 +50,16 @@ export async function handleCheckoutRequest(req: ApiRequest): Promise<{ status: 
       },
     };
   }
+  if (body.planId === "DIGITAL_BOOK" && !bookTrialMonthlyPriceId) {
+    return {
+      status: 503,
+      body: { success: false, error: `${planPriceEnv.MONTHLY_7} is required for the digital-book membership trial.` },
+    };
+  }
 
   const checkout = await createStripeCheckoutSession({
     secretKey: envValue("STRIPE_SECRET_KEY"),
-    monthlyPriceId,
+    monthlyPriceId: monthlyPriceId ?? bookTrialMonthlyPriceId,
     yearlyPriceId,
     digitalBookPriceId,
     publicAppUrl: envValue("PUBLIC_APP_URL"),
