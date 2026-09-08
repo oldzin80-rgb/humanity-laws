@@ -10,13 +10,13 @@ export function createAccountPage(member: MemberProfile, session: AuthSession): 
     seoTitle: "Settings — Humanity Laws",
     accessibilitySummary: "Member settings page",
     actions: [
-      { label: "Open Dashboard", href: "/dashboard", kind: "PRIMARY" },
-      { label: "Membership", href: "/membership", kind: "SECONDARY" },
+      { label: "Manage or cancel billing", href: "#manage-billing", kind: "PRIMARY" },
+      { label: "Open Dashboard", href: "/dashboard", kind: "SECONDARY" },
       { label: "Launch Status", href: "/launch-status", kind: "TERTIARY" },
     ],
     sections: [
       { eyebrow: "Account", title: "You are signed in.", body: `${member.displayName} • ${member.email}.` },
-      { eyebrow: "Membership", title: "Your current access is visible.", body: `Membership status: ${member.membershipStatus}.` },
+      { eyebrow: "Membership", title: "Your current access is visible.", body: `Membership status: ${member.membershipStatus}. Open secure Stripe billing to update payment details or cancel without contacting support.` },
       { eyebrow: "Security", title: "Keep access clear.", body: `This session expires at ${session.expiresAt}. Sign out when you are done on a shared device.` },
       { title: "Preferences", body: "Notification, memory, export, and deletion controls should stay simple and member-controlled as live services are verified." },
     ],

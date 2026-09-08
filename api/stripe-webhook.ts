@@ -24,6 +24,33 @@ export async function handleStripeWebhookRequest(req: ApiRequest): Promise<{ sta
   const data = event.data && typeof event.data === "object" ? (event.data as Record<string, unknown>) : {};
   const object = data.object && typeof data.object === "object" ? (data.object as Record<string, unknown>) : {};
 
+  if (eventType === "customer.subscription.updated" || eventType === "customer.subscription.deleted") {
+    const metadata = object.metadata && typeof object.metadata === "object" ? (object.metadata as Record<string, unknown>) : {};
+    const memberId = typeof metadata.member_id === "string" ? metadata.member_id : undefined;
+    if (!memberId) return { status: 400, body: { success: false, error: "Subscription webhook did not include member_id." } };
+
+    const stripeStatus = typeof object.status === "string" ? object.status : "";
+    const permanentBookAccess = metadata.plan_id === "DIGITAL_BOOK";
+    const status =
+      eventType === "customer.subscription.deleted" || stripeStatus === "canceled" || stripeStatus === "unpaid" || stripeStatus === "incomplete_expired"
+        ? "CANCELLED"
+        : stripeStatus === "past_due" || stripeStatus === "incomplete"
+          ? "PAST_DUE"
+          : "ACTIVE";
+    const persisted = await persistMembershipStatus(
+      { supabaseUrl: process.env.SUPABASE_URL, serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY },
+      {
+        memberId,
+        status,
+        digitalBookAccess: permanentBookAccess,
+        stripeCustomerId: typeof object.customer === "string" ? object.customer : undefined,
+        stripeSubscriptionId: typeof object.id === "string" ? object.id : undefined,
+      },
+    );
+    if (!persisted.success) return { status: 500, body: { success: false, error: persisted.error ?? "Membership persistence failed." } };
+    return { status: 200, body: { success: true, membershipStatus: status, bookAccess: status === "ACTIVE" || permanentBookAccess } };
+  }
+
   if (eventType !== "checkout.session.completed") {
     return { status: 200, body: { success: true, ignored: true, eventType } };
   }
@@ -34,7 +61,7 @@ export async function handleStripeWebhookRequest(req: ApiRequest): Promise<{ sta
   const sessionStatus = typeof object.status === "string" ? object.status : "";
   const mode = typeof object.mode === "string" ? object.mode : "";
   const memberId = typeof metadata.member_id === "string" ? metadata.member_id : typeof object.client_reference_id === "string" ? object.client_reference_id : undefined;
-  const isDigitalBookOnly = metadata.plan_id === "DIGITAL_BOOK" || mode === "payment";
+  const isDigitalBookOnly = metadata.plan_id === "DIGITAL_BOOK_ONLY" || mode === "payment";
 
   if (!memberId) return { status: 400, body: { success: false, error: "Webhook did not include member_id." } };
   if (paymentStatus !== "paid" && sessionStatus !== "complete") {

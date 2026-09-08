@@ -28,7 +28,7 @@ export async function handleMembershipStatusRequest(req: ApiRequest): Promise<{ 
 
     const memberId = stripeSession.session.memberId ?? auth.user.id;
     if (memberId !== auth.user.id) return { status: 403, body: { success: false, error: "Stripe session does not belong to the authenticated member." } };
-    const isDigitalBookOnly = stripeSession.session.mode === "payment";
+    const isDigitalBookOnly = stripeSession.session.planId === "DIGITAL_BOOK_ONLY" || stripeSession.session.mode === "payment";
 
     const persisted = await persistMembershipStatus(
       {

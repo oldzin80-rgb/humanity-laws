@@ -53,9 +53,9 @@ test("Launch hardening presents three clear commerce paths without donations or 
   const html = renderPageModelToHtml(membership);
 
   assert.deepEqual(membership.actions.map((action) => action.href), ["/checkout/monthly", "/checkout/book", "/book/hardcover"]);
-  assert.deepEqual(membership.actions.map((action) => action.label), ["Join monthly — $7", "Digital book only", "Hardcover coming soon"]);
+  assert.deepEqual(membership.actions.map((action) => action.label), ["Join monthly — $7", "Digital book + 30 days", "Hardcover coming soon"]);
   assert.match(html, /Monthly membership is \$7\/month and includes digital book access/);
-  assert.match(html, /Digital book purchase unlocks book access only/);
+  assert.match(html, /Digital book \+ trial is \$7 now, then \$7\/month after 30 days unless canceled/);
   assert.match(html, /Hardcover remains separate and coming soon/);
   assert.match(html, /No donations\. No advertising\./);
 });
@@ -66,8 +66,9 @@ test("Launch hardening keeps digital book, membership, and hardcover boundaries 
   const hardcover = renderPageModelToHtml(routePage("/book/hardcover"));
 
   assert.match(monthly, /Monthly membership includes digital book access/);
-  assert.match(book, /Digital book purchase unlocks the book only/);
-  assert.match(book, /does not unlock Dashboard, Spark, Council, Wellness, or the full member room/);
+  assert.match(book, /You pay \$7 today for permanent digital book access and receive 30 days of full membership/);
+  assert.match(book, /Book only — no recurring charge/);
+  assert.match(renderPageModelToHtml(routePage("/checkout/book-only")), /no membership trial and no recurring charge/i);
   assert.match(hardcover, /No fake fulfillment/);
   assert.match(hardcover, /print-on-demand provider/);
   assert.doesNotMatch(hardcover, /Buy hardcover now|fulfilled today|shipping now/i);

@@ -107,13 +107,13 @@ export async function persistMembershipStatus(
 export async function getMembershipStatus(
   config: SupabaseMembershipConfig,
   memberId: string,
-): Promise<{ success: boolean; active: boolean; bookAccess: boolean; status?: string; error?: string }> {
+): Promise<{ success: boolean; active: boolean; bookAccess: boolean; status?: string; stripeCustomerId?: string; error?: string }> {
   if (!membershipPersistenceConfigured(config)) return { success: false, active: false, bookAccess: false, error: "Supabase service role persistence is not configured." };
 
   const table = config.tableName ?? defaultTable;
   const fetcher = config.fetchImpl ?? fetch;
   const response = await fetcher(
-    `${baseUrl(config.supabaseUrl)}/rest/v1/${table}?member_id=eq.${encodeURIComponent(memberId)}&select=membership_status,digital_book_access&limit=1`,
+    `${baseUrl(config.supabaseUrl)}/rest/v1/${table}?member_id=eq.${encodeURIComponent(memberId)}&select=membership_status,digital_book_access,stripe_customer_id&limit=1`,
     { headers: serviceHeaders(config) },
   );
   const json = (await response.json().catch(() => [])) as unknown;
@@ -123,6 +123,7 @@ export async function getMembershipStatus(
   const status = typeof first?.membership_status === "string" ? first.membership_status : "FREE";
   const active = status === "ACTIVE";
   const bookAccess = active || first?.digital_book_access === true;
+  const stripeCustomerId = typeof first?.stripe_customer_id === "string" ? first.stripe_customer_id : undefined;
 
-  return { success: true, active, bookAccess, status };
+  return { success: true, active, bookAccess, status, stripeCustomerId };
 }
